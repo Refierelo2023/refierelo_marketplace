@@ -1,0 +1,563 @@
+syntax = "proto3";
+
+package servicePackage;
+
+
+service Service
+{
+    rpc ladingConfig(landingConfigRequest) returns (landingConfigResponse) {};
+    rpc otp(otpRequest) returns (otpResponse) {};
+    rpc checkOtp(checkOtpRequest) returns (checkOtpResponse) {};
+    rpc PingPong(pingRequest) returns (pingResponse) {}; 
+    rpc referenteRegister(referenteRegisterRequest) returns (referenteRegisterResponse) {};
+    rpc getReferente(getReferenteRequest) returns (getReferenteResponse) {};
+    rpc getReferenteByEmail(getReferenteByEmailRequest) returns (getReferenteByEmailResponse) {};
+    rpc referenteUpdate(referenteUpdateRequest) returns (referenteUpdateResponse) {};
+    rpc refAppRecomendado(refAppRecomendadoRequest) returns (refAppRecomendadoResponse) {};
+    rpc asignarPuntos(asignarPuntosRequest) returns (asignarPuntosResponse) {};
+    rpc getMediosPagos(medioPagoRequest) returns (stream medioPagoResponse) {};
+    // rpc prueba(pruebaRequest) returns (pruebaResponse) {};
+    rpc getRecursos(recursosRequest) returns (stream recursosResponse) {};
+    rpc mensajeContactosRegister(mensajeContactosRequest) returns (mensajeContactosResponse) {};
+    rpc getSubproductos(subProductosRequest) returns (stream subProductosResponse) {};
+    rpc getSubproductoById(subProductoByIdRequest) returns (subProductoByIdResponse) {};
+    rpc saveRefSubproducto(saveRefSubproductoRequest) returns (saveRefSubproductoResponse) {};
+    rpc getProductoById(productoByIdRequest) returns (productoByIdResponse) {};
+    rpc getMensajeContactos(getMensajeContactosRequest) returns (getMensajeContactosResponse) {};
+    rpc getReferenciasSubpr(getReferenciasSubprRequest) returns (getReferenciasSubprResponse) {};
+    rpc saveRefEmpresa(saveRefEmpresaRequest) returns (saveRefEmpresaResponse) {};
+    rpc getReferenciasEmpresas(getReferenciasEmprRequest) returns (getReferenciasEmprResponse) {};
+    rpc getMetricas(getMetricasRequest) returns (getMetricasResponse) {};
+    rpc referenteLogin(referenteLoginRequest) returns (referenteLoginResponse) {};
+    rpc refCambiarClave(refCambiarClaveRequest) returns (refCambiarClaveResponse) {};
+    rpc getProductos(getProductosRequest) returns (getProductosResponse) {};
+    rpc registerVistaStories(registerVistaStoriesRequest) returns (registerVistaStoriesResponse) {};
+}
+
+message pingRequest
+{
+    string message = 1;
+}
+
+message pingResponse
+{
+    string message = 1;
+}
+
+message landingConfigRequest
+{
+    string flag = 1;
+}
+
+message landingConfigResponse
+{
+    string backgroundUrl = 1;
+    string welcomeMessage = 2;
+    string dynamicPort = 3;
+}
+
+message otpRequest
+{
+    string msisdn = 1;
+    bool login = 2;
+}
+
+message otpResponse
+{
+    string message = 1;
+}
+
+message checkOtpRequest
+{
+    string msisdn = 1;
+    string otp = 2;
+}
+
+message checkOtpResponse
+{
+    string message = 1;
+}
+
+message referenteRegisterRequest
+{
+    string msisdn = 1;
+    string apellidos = 2;
+    string nombres = 3;
+    string mail = 4;
+    string fechaNacimiento = 5;
+    string ciudad = 6;
+    string mediosPagos = 7;
+    string entidadFinanciera = 8;
+    string tipoCuenta = 9;
+    string clave = 10;
+    string sessionString = 11;
+    string date = 12;
+    string identificacion = 13;
+}
+
+message referenteRegisterResponse
+{
+    string message = 1;
+}
+
+// getReferente
+
+message getReferenteRequest
+{
+    string sessionString = 1;
+}
+
+message getReferenteResponse
+{
+    string apellidos = 1;
+    string nombres = 2;
+    string mail = 3;
+    string fechaNacimiento = 4;
+    string ciudad = 5;
+    string idMediosPagos = 6;
+    string entidadFinanciera = 7;
+    string puntos = 8;
+    string puntosFechaVencimiento = 9;
+    string msisdn = 10;
+    string codigoReferente = 11;
+    int32 idreferente = 12;
+    string msisdnRecomendado = 13;
+    string idTipoCuentaReferente = 14;
+    string sessionString = 15;
+    string identificacion = 16;
+    int32 puntosEnProceso = 17;
+}
+
+// getReferenteByEmail
+
+message getReferenteByEmailRequest
+{
+    string mail = 1;
+}
+
+message getReferenteByEmailResponse
+{
+    string apellidos = 1;
+    string nombres = 2;
+    string mail = 3;
+    string fechaNacimiento = 4;
+    string ciudad = 5;
+    string idMediosPagos = 6;
+    string entidadFinanciera = 7;
+    string puntos = 8;
+    string puntosFechaVencimiento = 9;
+    string msisdn = 10;
+    string codigoReferente = 11;
+    int32 idreferente = 12;
+    string msisdnRecomendado = 13;
+    string idTipoCuentaReferente = 14;
+    string sessionString = 15;
+    string identificacion = 16;
+    int32 puntosEnProceso = 17;
+}
+
+// referenteUpdate
+
+message referenteUpdateRequest
+{
+    string sessionString = 1;
+    string apellidos = 2;
+    string nombres = 3;
+    string msisdn = 5;
+    string mail = 6;
+    string fechaNacimiento = 7;
+    string ciudad = 8;
+    string idMediosPagos = 9;
+    string entidadFinanciera = 10;
+    string clave = 11;
+    string msisdnRecomendado = 12;
+    string idreferente = 13;
+    string date = 14;
+    string identificacion = 15;
+}
+
+message referenteUpdateResponse
+{
+    string message = 1;
+    string puntos = 2;
+}
+
+// refAppRecomendado
+
+message refAppRecomendadoRequest
+{
+    string sessionString = 1;
+    string idreferente = 2;
+    string msisdnRecomendado = 3;
+    string date = 4;
+}
+
+message refAppRecomendadoResponse
+{
+    string message = 1;
+    string puntos = 8;
+}
+
+// refAppRecomendado
+
+message asignarPuntosRequest
+{
+    string sessionString = 1;
+    string configCodigo = 2;
+    string date = 3;
+    int32 idRecurso = 4;
+}
+
+message asignarPuntosResponse
+{
+    string message = 1;
+    string puntos = 2;
+}
+
+// medio pago
+
+message medioPagoRequest
+{
+    string sessionString = 1;
+}
+
+message medioPagoResponse
+{
+    string idMedioPago = 1;
+    string medioPago = 2;
+}
+
+//PRUEBA
+
+message pruebaRequest
+{
+    string message = 1;
+}
+
+message pruebaResponse
+{
+    string message = 1;
+}
+
+// PRUEBA
+
+
+// RECURSOS
+message recursosRequest
+{
+    int32 idComponente = 1;
+    string sessionString = 2;
+    int32 idreferente = 3;
+}
+
+message recursosResponse
+{
+    int32 idRecurso = 1;
+    int32 idComponente = 2;
+    int32 estado = 3;
+    string path = 4;
+    int32 cantidad = 5;
+    string configCodigo = 6;
+    string tipoRecurso = 7;
+    bool hideOnShared = 8;
+    int32 compartido = 9;
+}
+// RECURSOS
+
+// MENSAJE CONTACTOS
+message mensajeContactosRequest
+{
+    string sessionString = 1;
+    string nombreContacto = 2;
+    string numeroTelefono = 3;
+}
+
+message mensajeContactosResponse
+{
+    string mensaje = 1;
+}
+// MENSAJE CONTACTOS
+
+// SUB PRODUCTOS
+message subProductosRequest
+{
+    string sessionString = 1;
+    string idProducto = 2;
+}
+
+message subProductosResponse
+{
+    int32 idSubproducto = 1;
+    int32 idProducto = 2;
+    string nombreSubpr = 3;
+    int32 idConfigPuntos = 4;
+    string pathImagen = 5;
+    string configCodigo = 6;
+    int32 cantidad = 7;
+    int32 amarillo = 8;
+}
+// SUB PRODUCTOS
+
+// SUB PRODUCTOS BY ID
+message subProductoByIdRequest
+{
+    string sessionString = 1;
+    string idSubproducto = 2;
+}
+
+message subProductoByIdResponse
+{
+    int32 idSubproducto = 1;
+    int32 idProducto = 2;
+    string nombreSubpr = 3;
+    int32 idConfigPuntos = 4;
+    string pathImagen = 5;
+    string configCodigo = 6;
+    int32 cantidad = 7;
+}
+// SUB PRODUCTOS BY ID
+
+// save referencia SUBPRODUCTO
+message saveRefSubproductoRequest
+{
+    string sessionString = 1;
+    string idSubproducto = 2;
+    string nombreApellido = 3;
+    string numeroTelefono = 4;
+}
+
+message saveRefSubproductoResponse
+{
+    string mensaje = 1;
+    string puntos = 2;
+}
+// save referencia SUBPRODUCTO
+
+// PRODUCTO BY ID
+message productoByIdRequest
+{
+    string sessionString = 1;
+    int32 idProducto = 2;
+}
+
+message productoByIdResponse
+{
+    int32 idProducto = 1;
+    string nombreProducto = 2;
+    string imagenProducto = 3;
+    repeated string aliados = 4;
+}
+// PRODUCTO BY ID
+
+
+// lista mensajes contactos
+message getMensajeContactosRequest
+{
+    string sessionString = 1;
+    // int32 page_size = 2;
+    string pageKey = 2;
+    string term = 3;
+}
+
+message mensajeContacto {
+    int32 idMensContacto = 1;
+    string nombreContacto = 2;
+    string numeroTelefono = 3;
+    int32 fechaHoraRegistro = 4;
+    int32 fechaHoraEnviado = 5;
+    int32 estado = 6;
+    int32 idreferente = 7;
+    int32 puntosGanados = 8;
+}
+
+message getMensajeContactosResponse
+{
+    repeated mensajeContacto data = 1;
+    string next_page_token = 2;
+    int32 sizePage = 3;
+    bool more = 4;
+    int32 puntosGanados = 5;
+}
+// lista mensajes contactos
+
+
+
+// lista referenciasSubproductos
+message getReferenciasSubprRequest
+{
+    string sessionString = 1;
+    string pageKey = 2;
+    string term = 3;
+}
+
+message referenciaSubproducto {
+    int32 idReferencia = 1;
+    int32 idSubproducto = 2;
+    int32 fechaHoraRegistro = 3;
+    int32 estadoReferencia = 4;
+    string numeroTelefono = 5;
+    string nombreApellido = 6;
+    int32 idreferente = 7;
+    double monto = 8;
+    string nombreEntidad = 9;
+    int32 fechaCierre = 10;
+    string observaciones = 11;
+    int32 puntosGanados = 12;
+    string nombreSubpr = 13;
+    string nombreProducto = 14;
+}
+
+message getReferenciasSubprResponse
+{
+    repeated referenciaSubproducto data = 1;
+    string next_page_token = 2;
+    int32 sizePage = 3;
+    bool more = 4;
+    int32 puntosGanados = 5;
+}
+// lista referenciasSubproductos
+
+
+
+// save referencia EMPRESA
+message saveRefEmpresaRequest
+{
+    string sessionString = 1;
+    string nombreEmpresa = 2;
+    string identificacionEmpresa = 3;
+    string nombreContacto = 4;
+    string telefonoEmpresa = 5;
+    string estadoRefEmpresa = 6;
+}
+
+message saveRefEmpresaResponse
+{
+    string mensaje = 1;
+    int32 puntosGanados = 2;
+}
+// save referencia SUBPRODUCTO
+
+
+
+// lista referenciasEmpresas
+message getReferenciasEmprRequest
+{
+    string sessionString = 1;
+    string pageKey = 2;
+    string term = 3;
+}
+
+message referenciaEmpresa {
+    int32 idRefEmpresa = 1;
+    string nombreEmpresa = 2;
+    string identificacionEmpresa = 3;
+    string nombreContacto = 4;
+    string telefonoEmpresa = 5;
+    int32 estadoRefEmpresa = 6;
+    int32 puntosGanados = 7;
+    string fechaHoraRegistro = 8;
+    string fechaModificado = 9;
+    int32 idreferente = 10;
+    string fechaCierre = 11;
+}
+
+message getReferenciasEmprResponse
+{
+    repeated referenciaEmpresa data = 1;
+    string next_page_token = 2;
+    int32 sizePage = 3;
+    bool more = 4;
+    int32 puntosGanados = 5;
+}
+// lista referenciasEmpresas
+
+
+// get metricas
+message getMetricasRequest
+{
+    string sessionString = 1;
+}
+
+message getMetricasResponse
+{
+    string totalReferidos = 1;
+    string referidosEnProceso = 2;
+    string referidosAnulados = 3;
+    string referidosConvertidos = 4;
+    string tasaConversion = 5;
+}
+// lista 
+
+
+// referente LOGIN
+message referenteLoginRequest
+{
+    string usuario = 1;
+    string idTipoCuentaReferente = 2;
+    string clave = 3;
+    string sessionString = 4;
+}
+
+message referenteLoginResponse
+{
+    string message = 1;
+}
+
+// referente LOGIN
+
+
+// referente cambiar clave
+message refCambiarClaveRequest
+{
+    string msisdn = 1;
+    string otp = 2;
+    string clave = 3;
+    string sessionString = 4;
+}
+
+message refCambiarClaveResponse
+{
+    string message = 1;
+}
+
+// referente cambiar clave
+
+
+// get PRODUCTOS
+message getProductosRequest
+{
+    string sessionString = 1;
+}
+
+message producto{
+    int32 idProducto = 1;
+    string nombreProducto = 2;
+    string imagenProducto = 3;
+    int32 estadoProducto = 4;
+}
+
+message getProductosResponse
+{
+    repeated producto productos = 1;
+
+    string textoNegrita = 2;
+    string texto = 3;
+    string textoColor = 4;
+    string fecha = 5;
+    bool storiesVistas = 6;
+}
+
+// get PRODUCTOS
+
+// registrar visualizacion stories
+message registerVistaStoriesRequest
+{
+    string sessionString = 1;
+}
+
+message registerVistaStoriesResponse
+{
+    int32 puntosGanados = 1;
+}
+
+// registrar visualizacion stories

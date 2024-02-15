@@ -1,0 +1,5 @@
+version: "Apple Swift version 5.3.2 (swiftlang-1200.0.45 clang-1200.0.32.28)"
+options: "bae308e5503a988f1f3ac18d48aeb202"
+build_time: [1701795017, 477151000]
+inputs:
+  "/Users/miguelr/.pub-cache/hosted/pub.dev/share_plus-7.2.1/macos/Classes/SharePlusMacosPlugin.swift": [1699836679, 279044671]

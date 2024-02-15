@@ -1,0 +1,7 @@
+version: "Apple Swift version 5.3.2 (swiftlang-1200.0.45 clang-1200.0.32.28)"
+options: "fe5e6582475735f9afdf0e5bc382d8bf"
+build_time: [1701795052, 840909000]
+inputs:
+  "/Users/miguelr/Desktop/app/referido_app/refierelo_marketplace/macos/Runner/MainFlutterWindow.swift": [1700586499, 643804993]
+  "/Users/miguelr/Desktop/app/referido_app/refierelo_marketplace/macos/Runner/AppDelegate.swift": [1661879081, 0]
+  "/Users/miguelr/Desktop/app/referido_app/refierelo_marketplace/macos/Flutter/GeneratedPluginRegistrant.swift": [1701794994, 196627238]
