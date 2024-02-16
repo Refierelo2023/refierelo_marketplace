@@ -17,7 +17,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../Register/components/components.dart';
 
 class SectionShare extends StatefulWidget {
-  const SectionShare({required this.callback, required this.image, Key? key}) : super(key: key);
+  const SectionShare({required this.callback, required this.image, super.key});
 
   final recursosResponse image;
 

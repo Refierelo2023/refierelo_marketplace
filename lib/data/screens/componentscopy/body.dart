@@ -95,7 +95,7 @@ class Body extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const RegisterScreen()),
+                                             RegisterScreen()),
                                   );
                                 },
                                 title: 'Registrarse'),

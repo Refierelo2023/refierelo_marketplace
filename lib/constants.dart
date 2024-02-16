@@ -8,8 +8,8 @@ const kLightBlue = Color(0xff00DFEE);
 
 // String host = '192.168.43.255';
 
-String host = '18.188.244.114';
-int port = 7500;
+String host = '5.189.161.131';
+int port = 5000;
 
 // List<MedioPago> mediosPagos = [
 //     MedioPago(id: '1', nombre: 'Daviplata'),

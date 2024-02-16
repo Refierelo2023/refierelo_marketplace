@@ -249,7 +249,7 @@ class _OfertasScreenState extends State<OfertasScreen> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
+                      SizedBox(
                         width: size.width * 0.25,
                         height: size.height * 0.25,
                         child: Image.asset('assets/images/ofertas/1.png', fit: BoxFit.cover,),
@@ -261,7 +261,7 @@ class _OfertasScreenState extends State<OfertasScreen> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
+                      SizedBox(
                         width: size.width * 0.25,
                         height: size.height * 0.25,
                         child: Image.asset('assets/images/ofertas/2.png', fit: BoxFit.cover,),

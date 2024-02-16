@@ -143,32 +143,26 @@ class WidgetDisplayMenuStoryState extends State<WidgetDisplayMenuStory> {
     });
   }
 
- Future<void> pickImage(BuildContext context) async {
+Future<void> pickImage(BuildContext context) async {
   final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
 
   if (pickedFile != null) {
     // Set the selectedImagePath
     selectedImagePath = pickedFile.path;
 
-    // Store the context before the asynchronous call
-    BuildContext currentContext = context;
-
-    // Navigate to WidgetsStoryEditImage with selected image
-    _navigateToStoryEditImage(currentContext);
+    // Use `context` directly within the asynchronous call
+    Future.delayed(Duration.zero, () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WidgetsStoryEditImage(
+            selectedImage: File(selectedImagePath!),
+          ),
+        ),
+      );
+    });
   }
 }
-
-void _navigateToStoryEditImage(BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => WidgetsStoryEditImage(
-        selectedImage: File(selectedImagePath!),
-      ),
-    ),
-  );
-}
-
 
 
   Widget buildContainer({

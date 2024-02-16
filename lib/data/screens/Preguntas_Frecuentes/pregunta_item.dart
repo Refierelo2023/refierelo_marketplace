@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class PreguntaItem extends StatefulWidget {
   final String title;
   final String content;
-  const PreguntaItem({Key? key, required this.title, required this.content}) : super(key: key);
+  const PreguntaItem({super.key, required this.title, required this.content});
 
   @override
   State<PreguntaItem> createState() => _PreguntaItemState();

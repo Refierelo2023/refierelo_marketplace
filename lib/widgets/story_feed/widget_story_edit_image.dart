@@ -74,14 +74,15 @@ Future<void> uploadStoryAndNavigate(BuildContext context) async {
     // Verifica si la solicitud fue exitosa (código de estado 200)
     if (response.statusCode == 200) {
       // Muestra la pantalla de edición solo si la carga al servidor fue exitosa
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => WidgetsStoryEditImage(
-            selectedImage: File(selectedImagePath!),
+      Future.delayed(Duration.zero, () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => WidgetsStoryEditImage(
+              selectedImage: File(selectedImagePath!),
+            ),
           ),
-        ),
-      );
+        );
+      });
     } else {
       // Maneja el caso en que la carga al servidor no fue exitosa
       print("Error en la carga al servidor: ${response.statusCode}");
@@ -90,6 +91,7 @@ Future<void> uploadStoryAndNavigate(BuildContext context) async {
     print("Error: $error");
   }
 }
+
 
 
   @override

@@ -5,36 +5,44 @@ import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
+  RegisterScreen({super.key});
 
-  @override
+    final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+
+
+    @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldMessengerKey,
       appBar: const CustomAppbar(title: 'Registrarse'),
       body: Column(
         children: [
           GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const InsertNumberScreen()),
-                );
-              },
-              child: cardReferente(context)),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const InsertNumberScreen(),
+                ),
+              );
+            },
+            child: cardReferente(context),
+          ),
           GestureDetector(
-              onTap: () async {
-                final Uri url = Uri.parse('https://www.refierelo.com/');
+            onTap: () async {
+              final Uri url = Uri.parse('https://www.refierelo.com/');
 
-                if (await canLaunchUrl(url)) {
-                  await launchUrl(url);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('No puedo abrir el link'),
-                  ));
-                }
-              },
-              child: cardComercio(context))
+              if (await canLaunchUrl(url)) {
+                await launchUrl(url);
+              } else {
+                // Utiliza el GlobalKey de ScaffoldMessengerState para obtener el ScaffoldMessenger
+                scaffoldMessengerKey.currentState?.showSnackBar(const SnackBar(
+                  content: Text('No puedo abrir el link'),
+                ));
+              }
+            },
+            child: cardComercio(context),
+          ),
         ],
       ),
       backgroundColor: Colors.white,

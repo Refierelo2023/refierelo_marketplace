@@ -25,7 +25,7 @@ import '../Register/components/components.dart';
 
 class ShareScreen extends StatefulWidget {
   final bool showAppbar;
-  const ShareScreen({Key? key, required this.showAppbar}) : super(key: key);
+  const ShareScreen({super.key, required this.showAppbar});
 
   @override
   State<ShareScreen> createState() => _ShareScreenState();

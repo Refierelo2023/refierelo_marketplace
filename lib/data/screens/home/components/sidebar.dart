@@ -264,7 +264,7 @@ class _SidebarState extends State<Sidebar> {
 }
 
 class DisplaySidebarVertical extends StatefulWidget {
-  const DisplaySidebarVertical({Key? key}) : super(key: key);
+  const DisplaySidebarVertical({super.key});
 
   @override
   DisplaySidebarVerticalState createState() => DisplaySidebarVerticalState();

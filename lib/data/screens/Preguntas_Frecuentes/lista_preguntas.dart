@@ -3,7 +3,7 @@ import 'package:refierelo_marketplace/models/pregunta_frecuente.dart';
 
 class ListaPreguntas extends StatefulWidget {
   final List<PreguntaFrecuente> lista;
-  const ListaPreguntas({Key? key, required this.lista}) : super(key: key);
+  const ListaPreguntas({super.key, required this.lista});
 
   @override
   State<ListaPreguntas> createState() => _ListaPreguntasState();

@@ -11,7 +11,7 @@ import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 class CodeScreen extends StatefulWidget {
   final String msisdn;
   
-  const CodeScreen({Key? key, required this.msisdn}) : super(key: key);
+  const CodeScreen({super.key, required this.msisdn});
 
   @override
   State<CodeScreen> createState() => _CodeScreenState();

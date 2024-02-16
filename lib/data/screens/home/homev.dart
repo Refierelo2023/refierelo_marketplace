@@ -3,9 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:grpc/grpc.dart';
-import 'package:grpc/grpc_connection_interface.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:refierelo_marketplace/constants.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/premio_diario_dialog.dart';
 import 'package:refierelo_marketplace/data/screens/Ofertas/ofertas_screen.dart';
 import 'package:refierelo_marketplace/data/screens/Stories/stories_screen.dart';
@@ -53,68 +52,88 @@ class HomevState extends State<Homev> {
 
 //Carga del modal
   @override
-  void initState() {
-    super.initState();
-    _showDialog();
-    getRecursos();
-    getProductos().then((value) {
-      validateDatetimeModal();
-    });
-  }
+void initState() {
+  super.initState();
+  _showDialog();
+  getRecursos();
+  getProductos().then((value) {
+    validateDatetimeModal();
+  });
+}
+ Future<void> validateDatetimeModal() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  Future<void> validateDatetimeModal() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  // Get last access
+  final int? lastAccess = prefs.getInt('lastAccess');
 
-    // Get last access
-    final int? lastAccess = prefs.getInt('lastAccess');
+  if (lastAccess != null) {
+    // Get last access as DateTime
+    final DateTime lastAccessTime = DateTime.fromMillisecondsSinceEpoch(lastAccess);
 
-    if (lastAccess != null) {
-      // Get last access as DateTime
-      final DateTime lastAccessTime = DateTime.parse(DateFormat('yyyy-MM-dd')
-          .format(DateTime.fromMillisecondsSinceEpoch(lastAccess)));
+    // Imprime el valor de fecha antes de parsear
+    print('Valor de fecha antes de parsear: $fecha');
 
-      // Check if he opened the app
-      final notOpened = DateTime.parse(fecha).isAfter(lastAccessTime);
+    if (fecha.isNotEmpty) {
+      try {
+        final DateTime parsedFecha = DateTime.parse(fecha);
+        final notOpened = parsedFecha.isAfter(lastAccessTime);
 
-      if (notOpened) {
-        showDialog(
+        if (notOpened) {
+          showDialog(
             context: context,
             barrierDismissible: false,
             builder: (_) => PremioDiarioDialog(
-                  fecha: fecha,
-                  texto: texto,
-                  textoColor: textoColor,
-                  textoNegrita: textoNegrita,
-                ));
+              fecha: fecha,
+              texto: texto,
+              textoColor: textoColor,
+              textoNegrita: textoNegrita,
+            ),
+          );
+        }
+      } catch (e) {
+        print('Error al parsear la fecha: $e');
+        print('Valor de fecha que causó el error: $fecha');
+        // Maneja el error de formato de fecha aquí
       }
+    } else {
+      print('El valor de fecha es nulo o está vacío.');
     }
+  } else {
+    print('El valor de lastAccess es nulo.');
+  }
 
+  // Verifica si fecha es nulo o vacío antes de intentar parsearlo
+  if (fecha.isNotEmpty) {
     prefs.setInt('lastAccess', DateTime.parse(fecha).millisecondsSinceEpoch);
   }
+}
 
   Future<void> getProductos() async {
-    try {
-      var channel = getChannel();
-      var response = await ServiceClient(channel).getProductos(
-          getProductosRequest(
-              sessionString: await SessionManager().get('sessionString')));
+  try {
+    var channel = getChannel();
+    var response = await ServiceClient(channel).getProductos(
+        getProductosRequest(
+            sessionString: await SessionManager().get('sessionString')));
 
-      setState(() {
-        imgLists = response.productos;
-        textoNegrita = response.textoNegrita;
-        texto = response.texto;
-        textoColor = response.textoColor;
-        fecha = response.fecha;
-        storiesVistas = response.storiesVistas;
-      });
+    setState(() {
+      imgLists = response.productos;
+      textoNegrita = response.textoNegrita;
+      texto = response.texto;
+      textoColor = response.textoColor;
+      fecha = response.fecha;
+      storiesVistas = response.storiesVistas;
+    });
 
-      channel.shutdown();
-    } on GrpcError catch (e) {
-      toast(e.message ?? 'Hubo un error', Colors.red);
-    } on Exception {
-      toast('Hubo un error', Colors.red);
-    }
+    channel.shutdown();
+  } on GrpcError catch (e) {
+    print('Error gRPC: $e');
+    toast(e.message ?? 'Hubo un error', Colors.red);
+  } catch (e) {
+    print('Error inesperado: $e');
+    toast('Hubo un error', Colors.red);
   }
+}
+
 
   Future<void> getRecursos() async {
     List<StoryModel> recursos = [];
@@ -150,24 +169,24 @@ class HomevState extends State<Homev> {
     });
   }
 
-//get Referente information
-// Future<String> getConfig() async {
-//   String sessionSecret = await SessionManager().get("sessionString");
+// get Referente information
+Future<String> getConfig() async {
+  String sessionSecret = await SessionManager().get("sessionString");
 
-//   final channel = ClientChannel(
-//     // '18.188.244.114',
-//     host,
-//     port: 7500,
-//     options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
-//   );
+  final channel = ClientChannel(
+    // '18.188.244.114',
+    host,
+    port: port,
+    options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
+  );
 
-//     //Guardando el mensaje en la sesión
-//     //await SessionManager().set("msg", welcomMsg);
-//     //
+    //Guardando el mensaje en la sesión
+    //await SessionManager().set("msg", welcomMsg);
+    //
 
-//     await channel.shutdown();
-//     return "data";
-//   }
+    await channel.shutdown();
+    return "data";
+  }
 
   _showDialog() async {
     final prefs = await SharedPreferences.getInstance();

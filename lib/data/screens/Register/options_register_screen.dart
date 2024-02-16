@@ -19,8 +19,7 @@ import 'package:refierelo_marketplace/constants.dart';
 
 class OptionsRegisterScreen extends StatefulWidget {
   final String msisdn;
-  const OptionsRegisterScreen({Key? key, required this.msisdn})
-      : super(key: key);
+  const OptionsRegisterScreen({super.key, required this.msisdn});
 
   @override
   State<OptionsRegisterScreen> createState() => _OptionsRegisterScreenState();
