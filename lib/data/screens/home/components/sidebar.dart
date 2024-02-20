@@ -1,10 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_session_manager/flutter_session_manager.dart';
-import 'package:refierelo_marketplace/data/screens/Mi_Actividad/components/comparte_y_gana_tab.dart';
 import 'package:refierelo_marketplace/data/screens/Preguntas_Frecuentes/preguntas_frecuentes.dart';
-import 'package:refierelo_marketplace/data/screens/componentscopy/body.dart';
-import 'package:refierelo_marketplace/data/screens/main.dart';
 import 'package:refierelo_marketplace/data/screens/refiere_una_empresa/refiere_empresa_screen.dart';
 import 'package:refierelo_marketplace/data/screens/screens_profile.dart/profile_screens.dart';
 import 'package:refierelo_marketplace/data/screens/sugerencias/sugerencias_screen.dart';
@@ -234,25 +230,25 @@ class _SidebarState extends State<Sidebar> {
                           color: Colors.white),
                     ),
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.person_rounded),
-                    title: const Text(
-                      'Salir',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
-                    ),
-                    onTap: (() async {
-                      await SessionManager().destroy();
-                      Navigator.pushAndRemoveUntil(
-                          navigatorKey.currentContext!,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => Body(),
-                          ),
-                          (route) => false);
-                    }),
-                  ),
+                  // ListTile(
+                  //   leading: const Icon(Icons.person_rounded),
+                  //   title: const Text(
+                  //     'Salir',
+                  //     style: TextStyle(
+                  //         fontSize: 14,
+                  //         fontWeight: FontWeight.w500,
+                  //         color: Colors.white),
+                  //   ),
+                  //   onTap: (() async {
+                  //     await SessionManager().destroy();
+                  //     Navigator.pushAndRemoveUntil(
+                  //         navigatorKey.currentContext!,
+                  //         MaterialPageRoute(
+                  //           builder: (BuildContext context) => Body(),
+                  //         ),
+                  //         (route) => false);
+                  //   }),
+                  // ),
                 ],
               ),
             ),
@@ -277,7 +273,7 @@ class DisplaySidebarVerticalState extends State<DisplaySidebarVertical> {
   @override
   void initState() {
     super.initState();
-    isButtonSelectedList = List.generate(5, (index) => false);
+    isButtonSelectedList = List.generate(6, (index) => false);
   }
 
   void selectOnly(int index) {
@@ -343,13 +339,20 @@ class DisplaySidebarVerticalState extends State<DisplaySidebarVertical> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const ComparteYGanaTab(),
+                builder: (context) => const PreguntasFrecuentesScreen(),
               ),
-            );
-
+            );  
+          }
+          else if (title == "Preguntas frecuentes") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const PreguntasFrecuentesScreen(),
+              ),
+            );            
             selectOnly(index);
             toggleVisibility();
-          }            
+          }             
         },
         child: Ink(
           decoration: BoxDecoration(
@@ -454,7 +457,12 @@ class DisplaySidebarVerticalState extends State<DisplaySidebarVertical> {
                 buildContainer(
                     index: 4,
                     title: 'Sugerencias',
-                    icon: Icons.lightbulb_outline_sharp),
+                    icon: Icons.lightbulb_outline_sharp
+                ),
+                buildContainer(
+                    index: 5,
+                    title: 'Preguntas frecuentes',
+                    icon: Icons.question_mark_rounded),
               ],
             ),
           ),

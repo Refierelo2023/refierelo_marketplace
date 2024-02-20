@@ -104,8 +104,7 @@ class _DialogTwoState extends State<DialogTwo> {
                       // ),
                       SizedBox(width: size.width*0.92, 
                       child: CustomInput(
-                        placeholder: '', 
-                        title: const CustomFontAileronRegular(text: ''), 
+                        placeholder: '',                        
                         controller: nombreApellido, rounded: false, colorTitle: Colors.white, alignTitle: Alignment.center, validator: ValidationBuilder().required().build(), showTitle: false,),),
                       SizedBox(height: size.height * 0.01),
                       RichText(
@@ -124,8 +123,7 @@ class _DialogTwoState extends State<DialogTwo> {
                       SizedBox(height: size.height * 0.01),
                       SizedBox(width: size.width*0.92, 
                       child: CustomInput(
-                        placeholder: '', 
-                        title: const CustomFontAileronRegular(text: ''),
+                        placeholder: '',                        
                         controller: numeroTelefono, rounded: false, colorTitle: Colors.white, alignTitle: Alignment.center, validator: ValidationBuilder().required().build(), showTitle: false, tipo: TextInputType.number,),),
                       SizedBox(height: size.height * 0.01),
                       GestureDetector(

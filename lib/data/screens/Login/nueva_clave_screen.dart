@@ -66,15 +66,13 @@ class _NuevaClaveScreenState extends State<NuevaClaveScreen> {
                   height: size.height * 0.02,
                 ),
                 CustomInput(
-                  placeholder: '', 
-                  title: const CustomFontAileronRegular(text:  'Nueva clave de 4 dígitos'),
+                  placeholder: 'Nueva clave (4 dígitos)',                 
                   controller: nuevaClave, rounded: false, colorTitle: Colors.white, alignTitle: Alignment.center, validator: ValidationBuilder().required().build(), ocultarTexto: true),
                 SizedBox(
                   height: size.height * 0.02,
                 ),
                 CustomInput(
-                  placeholder: '', 
-                  title: const CustomFontAileronRegular(text: 'Confirmar clave'),
+                  placeholder: 'Confirmala',                  
                   controller: nuevaClaveConfirm, rounded: false, colorTitle: Colors.white, alignTitle: Alignment.center, validator: ValidationBuilder().required().build(), ocultarTexto: true),
                 SizedBox(
                   height: size.height * 0.02,

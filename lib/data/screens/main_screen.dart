@@ -4,12 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/reward_dialog.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/welcome_dialog.dart';
 import 'package:refierelo_marketplace/data/screens/Mi_Actividad/mi_actividad.dart';
+import 'package:refierelo_marketplace/data/screens/Register/options_register_screen.dart';
 import 'package:refierelo_marketplace/data/screens/home/components/sidebar.dart';
 import 'package:refierelo_marketplace/data/screens/home/homev.dart';
 import 'package:refierelo_marketplace/data/screens/screens_profile.dart/profile_screens.dart';
 import 'package:refierelo_marketplace/data/screens/display_refiere_aqui/display_refiere_aqui.dart';
 import 'package:refierelo_marketplace/data/screens/screens_profile.dart/screens_buy_points.dart';
-import 'package:refierelo_marketplace/data/screens/search_screens/search_screens.dart';
 import 'package:refierelo_marketplace/providers/referente_provider.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:refierelo_marketplace/widgets/widgets_botton_referir.dart';
@@ -26,7 +26,7 @@ class _MainScreenState extends State<MainScreen> {
 
   static final List<Widget> _listOptions = <Widget>[
     Homev(setTab: (index) {}),
-    const SearchScreens(),
+    const OptionsRegisterScreen(msisdn: ""),
     const WidgetDisplayReferir(),
     const MiActividadScreen(),
     const ProfileScreens(),
@@ -165,8 +165,7 @@ class MainScreenTop extends StatelessWidget implements PreferredSizeWidget {
               Padding(
                 padding: EdgeInsets.only(left: 8),
                 child: badge_package.Badge(
-                  badgeContent: Text(
-                    "9",
+                  badgeContent: Text( "9",
                     style: TextStyle(color: Colors.white, fontSize: 10),
                   ),
                   showBadge: true,
@@ -216,21 +215,20 @@ class MainScreenTop extends StatelessWidget implements PreferredSizeWidget {
                   setTab(1);
                   setTab(2);
                   showDialog(
-                                          context: context,
-                                          barrierDismissible: false,
-                                          builder: (_) => const WelcomeDialog())
-                                      .then((puntos) {
-                                    if (puntos != null) {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return RewardDialog(
-                                              puntos: puntos.toString(),
-                                            );
-                                          });
-                                    }
-                                  });
-                   // Adjust the index accordingly
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (_) => const WelcomeDialog()).then((puntos) {
+                    if (puntos != null) {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return RewardDialog(
+                              puntos: puntos.toString(),
+                            );
+                          });
+                    }
+                  });
+                  // Adjust the index accordingly
                   Navigator.push(
                     context,
                     MaterialPageRoute(

@@ -6,7 +6,8 @@ ClientChannel getChannel(){
   return ClientChannel(
       //'18.188.244.114',
       host,
-      port: port,
-      options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
+      port: getPort(),
+      options: const ChannelOptions(credentials: ChannelCredentials.insecure()
+      ),
     );
 }

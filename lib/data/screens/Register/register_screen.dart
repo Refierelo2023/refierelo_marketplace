@@ -1,49 +1,59 @@
 import 'package:flutter/material.dart';
-import 'package:refierelo_marketplace/data/screens/Options/components/custom_appbar.dart';
 import 'package:refierelo_marketplace/data/screens/otp/insert_number_screen.dart';
+import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens.dart';
+import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_type_company.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
 
-    final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
 
-
-    @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldMessengerKey,
-      appBar: const CustomAppbar(title: 'Registrarse'),
-      body: Column(
-        children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const InsertNumberScreen(),
-                ),
-              );
-            },
-            child: cardReferente(context),
-          ),
-          GestureDetector(
-            onTap: () async {
-              final Uri url = Uri.parse('https://www.refierelo.com/');
-
-              if (await canLaunchUrl(url)) {
-                await launchUrl(url);
-              } else {
-                // Utiliza el GlobalKey de ScaffoldMessengerState para obtener el ScaffoldMessenger
-                scaffoldMessengerKey.currentState?.showSnackBar(const SnackBar(
-                  content: Text('No puedo abrir el link'),
-                ));
-              }
-            },
-            child: cardComercio(context),
-          ),
-        ],
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) => const LoginTypeCompany(),
+              ),
+            );
+          },
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: Column(
+          children: [          
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const InsertNumberScreen(),
+                  ),
+                );
+              },
+              child: cardReferente(context),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreens(),
+                  ),
+                );
+              },
+              child: cardComercio(context),
+            ),
+          ],
+        ),
       ),
       backgroundColor: Colors.white,
     );
@@ -51,51 +61,76 @@ class RegisterScreen extends StatelessWidget {
 
   Container cardComercio(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.height * 0.03,
-          horizontal: MediaQuery.of(context).size.width * 0.02),
+      margin: EdgeInsets.only(
+          left: MediaQuery.of(context).size.width * 0.04,
+          right: MediaQuery.of(context).size.width * 0.04,
+          top: MediaQuery.of(context).size.height * 0.02),
       decoration: BoxDecoration(
           gradient: const LinearGradient(
-              colors: [Color(0xff003366), Color(0xff02B5E7)]),
-          borderRadius: BorderRadius.circular(10)),
-      child: const Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image(
-                image: AssetImage('assets/images/register/comercio.png'),
-                width: 150,
-                height: 180,
-                fit: BoxFit.contain,
-              ),
-            ],
-          ),
-          Column(mainAxisSize: MainAxisSize.min, children: [
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: SizedBox(
-                width: 150,
-                height: 40,
-                child: CustomFontAileronRegular(
-                  text: "Tengo un negocio"
-                  ),                 
-              ),
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [Color(0xff02b5e7), Color(0xff003366)]),
+          borderRadius: BorderRadius.circular(15)),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10, right: 10, top: 15),
+        child: Row(          
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image(
+                  image: AssetImage('assets/images/option_register/comercio.png'),
+                  width: 140,
+                  height: 170,
+                  fit: BoxFit.contain,
+                ),
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: SizedBox(
-                width: 150,
-                height: 60,
-                child: CustomFontAileronRegular(
-                  text: 'Registrate, Impulsa tu negocio y promociona tus productos con todos nuestros referentes.',
+            Column(
+             children: [
+              const SizedBox(                
+                height: 40,
+                child: CustomFontAileronSemiBoldWhite(
+                  text: "Tengo un negocio",
+                  textAlign: TextAlign.justify,
                 ),
               ),
-            ),
-          ])
-        ],
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                    text: 'Crea tu comunidad,\n',
+                    style: const CustomFontAileronRegularWhite(
+                      text: " ",
+                    ).getTextStyle(context).copyWith(height: 1.5),
+                    children: [
+                      TextSpan(
+                          text: 'impulsa tu negocio\n',
+                          style: const CustomFontAileronSemiBoldTur(
+                            text: " ",
+                            textAlign: TextAlign.left,
+                          ).getTextStyle(context).copyWith(height: 1.5)),
+                      TextSpan(
+                          text: 'y promociona tus productos \n',
+                          style: const CustomFontAileronRegularWhite(text: " ")
+                              .getTextStyle(context)
+                              .copyWith(height: 1.5)),
+                      TextSpan(
+                          text: 'con nuestros Referentes.\n ',
+                          style: const CustomFontAileronRegularWhite(text: " ")
+                              .getTextStyle(context)
+                              .copyWith(height: 1.5)),
+                      TextSpan(
+                          text: '',
+                          style: const CustomFontAileronRegularWhite(text: " ")
+                              .getTextStyle(context)
+                              .copyWith(height: 1.5)
+                          ),
+                    ]),
+              ),
+            ])
+          ],
+        ),
       ),
     );
   }
@@ -103,49 +138,66 @@ class RegisterScreen extends StatelessWidget {
   Container cardReferente(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-          left: MediaQuery.of(context).size.width * 0.02,
-          right: MediaQuery.of(context).size.width * 0.02,
+          left: MediaQuery.of(context).size.width * 0.04,
+          right: MediaQuery.of(context).size.width * 0.04,
           top: MediaQuery.of(context).size.height * 0.02),
       decoration: BoxDecoration(
           gradient: const LinearGradient(
-              colors: [Color(0xff003366), Color(0xff02B5E7)]),
-          borderRadius: BorderRadius.circular(10)),
-      child: const Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Image(
-                alignment: Alignment.bottomCenter,
-                image: AssetImage('assets/images/superheroe_mitad.png'),
-                // image: AssetImage('assets/images/register/personaje.png'),
-                width: 150,
-                height: 180,
-                fit: BoxFit.contain,
-              ),
-          
-          Column(mainAxisSize: MainAxisSize.min, children: [
-            Padding(
-              padding: EdgeInsets.only(bottom: 10),
-              child: SizedBox(
-                width: 150,
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [Color(0xff02b5e7), Color(0xff003366)]),
+          borderRadius: BorderRadius.circular(15)),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const Image(
+              alignment: Alignment.bottomCenter,
+              image: AssetImage('assets/images/otp/superreferente.png'),
+              // image: AssetImage('assets/images/register/personaje.png'),
+              width: 140,
+              height: 180,
+              fit: BoxFit.contain,
+            ),
+            Column(              
+              children: [
+              const SizedBox(                
                 height: 40,
-                child: CustomFontAileronRegular(
-                  text: '¡ Quiero ser Referente Registrate !'
+                child: CustomFontAileronSemiBoldWhite(
+                  text: 'Quiero ser Referente',
+                  textAlign: TextAlign.justify,
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 10),
-              child: SizedBox(
-                width: 150,
-                height: 50,
-                child: CustomFontAileronRegular(
-                  text: 'Refiere familiares, amigos y conocidos y gana recompensas por ello.',
-                ),
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                    text: 'Gana miles de recompensas\n',
+                    style: const CustomFontAileronSemiBoldTur(
+                      text: " ",
+                    ).getTextStyle(context).copyWith(height: 1.5),
+                    children: [
+                      TextSpan(
+                          text: 'compartiendo contenido y\n',
+                          style: const CustomFontAileronRegularWhite(
+                            text: " ",
+                            textAlign: TextAlign.left,
+                          ).getTextStyle(context).copyWith(height: 1.5)),
+                      TextSpan(
+                          text: 'refiriendo familiares, amigos \n',
+                          style: const CustomFontAileronRegularWhite(text: " ")
+                              .getTextStyle(context)
+                              .copyWith(height: 1.5)),
+                      TextSpan(
+                          text: 'y conocidos ',
+                          style: const CustomFontAileronRegularWhite(text: " ")
+                              .getTextStyle(context)
+                              .copyWith(height: 1.5)),
+                    ]),
               ),
-            ),
-            
-          ])
-        ],
+            ])
+          ],
+        ),
       ),
     );
   }

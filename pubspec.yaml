@@ -35,7 +35,6 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  grpc: ^3.2.4
   story: ^1.1.0  
   intl: ^0.19.0
   share_plus: ^7.2.1
@@ -44,8 +43,7 @@ dependencies:
   cached_network_image: ^3.3.0
   rect_getter: ^1.1.0
   flutter_screenutil: ^5.9.0
-  font_awesome_flutter: ^10.6.0
-  # simple_circular_progress_bar: ^1.0.2 
+  font_awesome_flutter: ^10.6.0 
   http: ^1.1.2
   sliver_tools: ^0.2.12
   percent_indicator: ^4.2.3
@@ -69,6 +67,7 @@ dependencies:
   video_player: 2.8.1
   url_launcher: 6.1.4
   simple_circular_progress_bar: 1.0.1
+  grpc: 3.2.4
   # image_downloader: 0.31.0
   
 
@@ -205,6 +204,16 @@ flutter:
     - assets/images/mi_actividad/5.png
     - assets/images/comparte_y_gana/bannercomparteygana.png
     - assets/images/recompensas_tab/refresh.png
+    - assets/images/otp/colombia.png
+    - assets/images/otp/superreferente.png
+    - assets/images/option_register/background1.png
+    - assets/images/preguntas_frecuentes/buscar.png
+    - assets/images/preguntas_frecuentes/icono_preguntas.png
+    - assets/images/option_register/comercio.png
+    - assets/images/option_login_screens/fondo.png
+    - assets/images/option_login_screens/facebook_blanco.png
+    - assets/images/option_login_screens/google.png
+    - assets/images/option_login_screens/formulario.png
   
     
 

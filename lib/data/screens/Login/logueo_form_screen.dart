@@ -73,8 +73,7 @@ class _LogueoFormScreenState extends State<LogueoFormScreen> {
                   height: size.height * 0.02,
                 ),
                 CustomInput(
-                  placeholder: '', 
-                  title: const CustomFontAileronRegular(text: 'Clave de 4 dígitos'),
+                  placeholder: 'Clave 4 dígitos',                  
                   controller: clave, rounded: false, colorTitle: Colors.white, alignTitle: Alignment.center, validator: ValidationBuilder().required().build(), ocultarTexto: true),
                 SizedBox(
                   height: size.height * 0.02,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:refierelo_marketplace/data/screens/popup_customer_money/login_pop_customer_money.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/registration_costumer_nps.dart';
+import 'package:refierelo_marketplace/data/screens/screens_login.dart/widget_button.dart';
 
 class QuestionTwoNps extends StatefulWidget {
   const QuestionTwoNps({super.key});
@@ -11,64 +13,10 @@ class QuestionTwoNps extends StatefulWidget {
 
 class QuestionTwoNpsState extends State<QuestionTwoNps> {
   final TextEditingController _textFieldController1 = TextEditingController();
-  final TextEditingController _textFieldController2 = TextEditingController();  
+  final TextEditingController _textFieldController2 = TextEditingController();
   final TextEditingController _textFieldControllerQuestion =
       TextEditingController();
   bool isEditable = false;
-
-  Widget _buildButton(BuildContext context) {
-    double buttonWidth = MediaQuery.of(context).size.width * 0.25;
-    double buttonPaddingHorizontalPercentage = 0.020;
-
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          isEditable = !isEditable;
-        });
-      },
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: FractionallySizedBox(
-          widthFactor: 0.6,
-          child: Container(
-            constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width,
-            ),
-            padding: EdgeInsets.symmetric(
-              vertical: MediaQuery.of(context).size.width *
-                  buttonPaddingHorizontalPercentage,
-              horizontal: MediaQuery.of(context).size.width *
-                  buttonPaddingHorizontalPercentage,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              gradient: const LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [
-                  Color(0xFF003366),
-                  Color(0xFF02b5e7),
-                ],
-              ),
-            ),
-            child: SizedBox(
-              width: buttonWidth,
-              child: Text(
-                isEditable ? 'Guardar' : 'Editar Encuesta',
-                style: const TextStyle(
-                  fontFamily: 'Aileron',
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget _buildEditableTextField(
       String labelText, TextEditingController controller, int tabIndex) {
@@ -174,6 +122,7 @@ class QuestionTwoNpsState extends State<QuestionTwoNps> {
             ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -193,7 +142,8 @@ class QuestionTwoNpsState extends State<QuestionTwoNps> {
                       width: 45, // Ancho del contorno
                       height: 40, // Alto del contorno
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15), // Ajusta según sea necesario
+                        borderRadius: BorderRadius.circular(
+                            15), // Ajusta según sea necesario
                         color: Colors.white.withOpacity(0.5),
                       ),
                       child: GestureDetector(
@@ -229,12 +179,37 @@ class QuestionTwoNpsState extends State<QuestionTwoNps> {
             const SizedBox(height: 10),
             _buildEditableTextField(
                 '🤑 Referir a un amigo', _textFieldController2, 6),
-            const SizedBox(height: 10),            
+            const SizedBox(height: 10),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [               
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
                 const SizedBox(height: 10),
-                _buildButton(context),
+                Stack(
+                  children: [
+                    WidgetButton(
+                      press: () {
+                        setState(() {
+                          isEditable = !isEditable;
+                        });
+                      },
+                      title: isEditable ? 'Guardar' : 'Editar Encuesta',
+                    ),
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      child: GestureDetector(
+                        onTap: () {
+                          LoginPopCustomerMoney.showLoginPop(context);
+                        },
+                        child: Container(
+                          width: 230,
+                          height: 70,
+                          color: Colors.transparent,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 10),
               ],
             ),

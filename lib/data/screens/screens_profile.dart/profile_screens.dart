@@ -249,9 +249,7 @@ class ProfileScreensState extends State<ProfileScreens>
                       ]),
                     ),
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   // Botón "Editar Perfil" y "Compartir"
                   Row(
                     children: [

@@ -5,6 +5,7 @@ import 'package:refierelo_marketplace/data/screens/Register/components/component
 import 'package:refierelo_marketplace/data/screens/Register/options_register_screen.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
 import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart';
+import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_type_company.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 
 class CodeScreen extends StatefulWidget {
@@ -43,20 +44,26 @@ class _CodeScreenState extends State<CodeScreen> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F6F9),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFF5F6F9),
+        // toolbarHeight: 30,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) => const MyApp(),
+              ),
+            );
+          },
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: size.width,
-                height: size.height * 0.1,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [Color(0xff02B5E7), Color(0xff003366)]),
-                ),
-                child: Image.asset('assets/images/otp/banner.png'),
-              ),
+            children: [              
               SizedBox(height: size.height * 0.04),
               const Text('Ingresa el código enviado a tu celular',
                   style: TextStyle(

@@ -49,10 +49,11 @@ class _PreguntaItemState extends State<PreguntaItem> {
                       horizontal: size.width * 0.02,
                       vertical: size.height * 0.02),
                   child: Text(
-                      widget.content,
-                      style: const TextStyle(color: Colors.white)),
-                )
-              : Container()
+                    widget.content,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              )
+          : Container()
         ],
       ),
     );

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens_setup_account.dart';
+import 'package:refierelo_marketplace/data/screens/screens_login.dart/widget_button.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
-// import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http;
 
 class UserDataModel {
   String nombreComercial;
@@ -31,11 +32,11 @@ class UserDataModel {
 class UserDataProvider extends ChangeNotifier {
   UserDataModel userData = UserDataModel(
       nombreComercial: '',
-      identificacion:'',
+      identificacion: '',
       presentacion: '',
       pais: '',
       ciudad: '',
-      direccion:'',
+      direccion: '',
       celular: '',
       web: '',
       instagram: '');
@@ -87,115 +88,37 @@ class LoginScreensDataState extends State<LoginScreensData> {
   Color borderColor4 =
       Colors.transparent; // Color inicial del borde del contenedor 4
 
-  Widget _buildButton(BuildContext context) {
-    double buttonWidth = MediaQuery.of(context).size.width * 0.25;
-    double buttonPaddingHorizontalPercentage = 0.025;
-
-    return GestureDetector(
-      onTap: () {
-        Provider.of<UserDataProvider>(context, listen: false).updateUserData(
-          UserDataModel(
-            nombreComercial: nombreComercialController.text,
-            identificacion: identificacionController.text,
-            presentacion: presentacionController.text,            
-            pais: paisController.text,
-            ciudad: ciudadController.text,
-            direccion: direccionController.text,
-            celular: celularController.text,
-            web: webController.text,
-            instagram: instagramController.text,
-          ),
-        );
-        // Imprimir valores antes de enviar el webhook
-        // print('Nombre Comercial: ${nombreComercialController.text}');
-        // print('Presentación: ${presentacionController.text}');
-        // print('País: ${paisController.text}');
-        // print('Ciudad: ${ciudadController.text}');
-        // print('Dirección: ${direccionController.text}');
-        // print('Celular: ${celularController.text}');
-        // enviarWebhook();
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => const LoginScreensSetupAccount(),
-          ),
-        );
-      },
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: FractionallySizedBox(
-          widthFactor: 0.6,
-          child: Container(
-            constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width,
-            ),
-            padding: EdgeInsets.symmetric(
-              vertical: MediaQuery.of(context).size.width *
-                  buttonPaddingHorizontalPercentage,
-              horizontal: MediaQuery.of(context).size.width *
-                  buttonPaddingHorizontalPercentage,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              gradient: const LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [
-                  Color(0xFF003366),
-                  Color(0xFF02b5e7),
-                ],
-              ),
-            ),
-            child: SizedBox(
-              width: buttonWidth,
-              child: const Text(
-                'Guardar',
-                style: TextStyle(
-                  fontFamily: 'Aileron',
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
-  // void dispose() {
-  //   // liberar los recursos de los controladores cuando el widget se elimine
-  //   nombreComercialController.dispose();
-  //   presentacionController.dispose();
-  //   paisController.dispose();
-  //   ciudadController.dispose();
-  //   direccionController.dispose();
-  //   celularController.dispose();
-  //   // Libera otros controladores aquí si los tienes
-  //   super.dispose();
-  // }
-  // Future<void> enviarWebhook() async {
-  //   final url = Uri.parse("http://5.189.161.131:5000/webhook");
-  //   final data = {
-  //     'nombreComercial': nombreComercialController.text,
-  //     'presentacion': presentacionController.text,
-  //     'pais': paisController.text,
-  //     'ciudad': ciudadController.text,
-  //     'Dirección (opcional)': direccionController.text,
-  //     'celular': celularController.text,
-  //     // ... otras propiedades del formulario
-  //   };
+  void dispose() {
+    // liberar los recursos de los controladores cuando el widget se elimine
+    nombreComercialController.dispose();
+    presentacionController.dispose();
+    paisController.dispose();
+    ciudadController.dispose();
+    direccionController.dispose();
+    celularController.dispose();
+    // Libera otros controladores aquí si los tienes
+    super.dispose();
+  }
+  Future<void> enviarWebhook() async {
+    final url = Uri.parse("http://5.189.161.131:5000/webhook");
+    final data = {
+      'nombreComercial': nombreComercialController.text,
+      'presentacion': presentacionController.text,
+      'pais': paisController.text,
+      'ciudad': ciudadController.text,
+      'Dirección (opcional)': direccionController.text,
+      'celular': celularController.text,
+      // ... otras propiedades del formulario
+    };
 
-  //   final respuesta = await http.post(url, body: data);
-  //   if (respuesta.statusCode == 200) {
-  //     print('Webhook enviado con éxito');
-  //   } else {
-  //     print('Error al enviar el webhook: ${respuesta.statusCode}');
-  //   }
-  // }
+    final respuesta = await http.post(url, body: data);
+    if (respuesta.statusCode == 200) {
+      print('Webhook enviado con éxito');
+    } else {
+      print('Error al enviar el webhook: ${respuesta.statusCode}');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -595,10 +518,43 @@ class LoginScreensDataState extends State<LoginScreensData> {
                 children: [
                   const SizedBox(height: 20),
                   // Botón Guardar
-                  _buildButton(context),
-                  const SizedBox(height: 10),
+                  WidgetButton(
+                      press: () {
+                        Provider.of<UserDataProvider>(context, listen: false)
+                            .updateUserData(
+                          UserDataModel(
+                            nombreComercial: nombreComercialController.text,
+                            identificacion: identificacionController.text,
+                            presentacion: presentacionController.text,
+                            pais: paisController.text,
+                            ciudad: ciudadController.text,
+                            direccion: direccionController.text,
+                            celular: celularController.text,
+                            web: webController.text,
+                            instagram: instagramController.text,
+                          ),
+                        );
+                        // Imprimir valores antes de enviar el webhook
+                        // print('Nombre Comercial: ${nombreComercialController.text}');
+                        // print('Presentación: ${presentacionController.text}');
+                        // print('País: ${paisController.text}');
+                        // print('Ciudad: ${ciudadController.text}');
+                        // print('Dirección: ${direccionController.text}');
+                        // print('Celular: ${celularController.text}');
+                        // enviarWebhook();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const LoginScreensSetupAccount(),
+                          ),
+                        );                        
+                      },
+                      title: "Guardar")                      
                 ],
+                
               ),
+              const SizedBox(height: 10),
             ],
           ),
         ),

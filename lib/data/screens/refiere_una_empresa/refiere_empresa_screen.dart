@@ -291,8 +291,7 @@ class _RefiereEmpresaScreenState extends State<RefiereEmpresaScreen> {
                         ),
                         const Expanded(
                           child: CustomFontAileronRegularWhite(
-                            text:
-                                'Estoy autorizado por mi referido para el tratamiento de datos',
+                            text:'Estoy autorizado por mi referido para el tratamiento de datos',
                           ),
                         ),
                       ],
@@ -304,8 +303,7 @@ class _RefiereEmpresaScreenState extends State<RefiereEmpresaScreen> {
                     child: const Column(
                       children: [
                         CustomFontAileronRegularWhite(
-                          text:
-                              'Recibiras tus puntos una vez nuestros ejecutivos contacten a la empresa y/o emprendimiento y confirmen que fueron referidos por ti',
+                          text:'Recibiras tus puntos una vez nuestros ejecutivos contacten a la empresa y/o emprendimiento y confirmen que fueron referidos por ti',
                           textAlign: TextAlign.justify,
                         )
                       ],

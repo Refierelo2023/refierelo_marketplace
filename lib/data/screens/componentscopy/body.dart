@@ -15,14 +15,14 @@ class Body extends StatelessWidget {
   var bgimg = "";
   var welcomMsg = "¡Bienvenido!";
 
-  Body({super.key});
+  // Body({super.key});
 
   Future<String> getConfig() async {
     try {
       final channel = ClientChannel(
         // '18.188.244.114',
         host,
-        port: port,
+        port: getPort(),
         options:
             const ChannelOptions(credentials: ChannelCredentials.insecure()),
       );
@@ -50,7 +50,7 @@ class Body extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return FutureBuilder<String>(
-        future: getConfig(),
+        // future: getConfig(),
         builder: (context, AsyncSnapshot<String> snapshot) {
           if (snapshot.connectionState == asc.ConnectionState.waiting) {
             return const Center(
@@ -75,7 +75,7 @@ class Body extends StatelessWidget {
                               width: size.width * 0.4,
                               child: const Image(
                                 image:
-                                    AssetImage('assets/images/logo_letra.png'),
+                                    AssetImage('assets/images/logo2.png'),
                                 fit: BoxFit.contain,
                               ),
                             ),
@@ -108,16 +108,14 @@ class Body extends StatelessWidget {
                                   Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            const BottomNavigationCustom(),
+                                        builder: (BuildContext context) => const BottomNavigationCustom(),
                                       ),
                                       (route) => false);
                                 } else {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            const OptionsLoginScreen()),
+                                        builder: (context) =>const OptionsLoginScreen()),
                                   );
                                 }
                               },
@@ -129,6 +127,6 @@ class Body extends StatelessWidget {
             }
           }
           return const Center(child: CircularProgressIndicator());
-        });
+        }, future: null,);
   }
 }

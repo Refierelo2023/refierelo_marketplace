@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class SearchBox extends StatelessWidget {
   final TextEditingController controller;
+  final Function(String)? onTextChanged;
 
-  const SearchBox({super.key, required this.controller});
+  const SearchBox({super.key, required this.controller, this.onTextChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,7 @@ class SearchBox extends StatelessWidget {
       child: TextField(
         controller: controller,
         textAlignVertical: TextAlignVertical.center,
+        onChanged: onTextChanged != null ? (text) => onTextChanged!(text) : null,
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),

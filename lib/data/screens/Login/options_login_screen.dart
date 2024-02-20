@@ -7,9 +7,11 @@ import 'package:refierelo_marketplace/app/helper/helpers/helpers.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/dialog_register.dart';
 import 'package:refierelo_marketplace/data/screens/Login/logueo_form_screen.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/components.dart';
+import 'package:refierelo_marketplace/data/screens/componentscopy/body.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/bottom_navigation_custom.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
+import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:refierelo_marketplace/constants.dart';
 
@@ -126,54 +128,57 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
 
     return Container(
       decoration: const BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage(
-            'assets/images/login/fondo_options_login.png',
-          ),
+        image: DecorationImage(          
+            image: AssetImage('assets/images/option_login_screens/fondo.png',            
+          ),     
         fit: BoxFit.cover),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
+         appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        toolbarHeight: 30,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          color: const Color(0xFFffffff),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) => Body(),
+              ),
+            );
+          },
+        ),
+      ),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: size.height * 0.22),
-                Image.asset(
-                  'assets/images/superheroe_mitad.png',
+                SizedBox(height: size.height * 0.10),
+                Image.asset('assets/images/otp/superreferente.png',
                   width: size.width * 0.52,
                 ),
-                SizedBox(
-                  width: size.width * 0.70,
-                  child: const Text(
-                    'Te estábamos extrañando',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+                const SizedBox(
+                  // width: size.width * 0.70,
+                  child: CustomFontAileronSemiBoldWhite(
+                    text: '¡ Te estábamos extrañando !',
+                    fontSize: 0.045,
                   ),
                 ),
-                SizedBox(
-                  height: size.height * 0.02,
+                SizedBox(height: size.height * 0.07,
                 ),
-                SizedBox(
-                  width: size.width * 0.70,
-                  child: const Text(
-                    '¿Cómo deseas continuar?',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
+                const SizedBox(
+                  // width: size.width * 0.70,
+                  child: CustomFontAileronRegularWhite(
+                    text: '¿Cómo deseas continuar?',
+                  ),  
                 ),
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
+                SizedBox(height: size.height * 0.02),
                 btnForm(size, context),
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
+                SizedBox(height: size.height * 0.02),
                 btnFacebook(size),
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
+                SizedBox(height: size.height * 0.02),
                 btnGoogle(size)
               ],
             ),
@@ -201,22 +206,30 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
               MaterialPageRoute(builder: (context) => const LogueoFormScreen()),
             );
           },
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Image.asset(
-              //   'assets/images/register/formulario.png',
-              //   width: size.width * 0.04,
-              //   height: size.height * 0.04,
-              // ),
-              Icon(Icons.lock),
-              Text(
-                'Continuar con usuario y clave',
-                style: TextStyle(
-                fontSize: 16,
-                color: Colors.white,
-              fontWeight: FontWeight.bold),
-            )
+              Expanded(
+                flex: 3,
+                child: Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: Image.asset(
+                      'assets/images/option_login_screens/formulario.png',
+                      // width: size.width * 0.04,
+                      height: size.height * 0.044,
+                      fit: BoxFit.fitHeight,
+                  ),
+                ),
+              ),                  
+              const Expanded(
+                flex: 7,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 2),
+                  child: CustomFontAileronRegularWhite(
+                    text: 'Continuar con usuario y clave',
+                  ),
+                ),
+              ),              
           ],
         )
       ),
@@ -241,18 +254,25 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
             );
           },
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/images/login/facebook_blanco.png',
-                  // width: size.width * 0.04,
-                  height: size.height * 0.03,
-                  fit: BoxFit.fitHeight),
-              const Text(
-                'Continuar con Facebook',
-               style: TextStyle(
-               fontSize: 16,
-              color: Colors.white,
-              fontWeight: FontWeight.bold),
+              Expanded(
+                flex: 3,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: Image.asset('assets/images/option_login_screens/facebook_blanco.png',
+                      height: size.height * 0.05,
+                      fit: BoxFit.fitHeight),
+                ),
+              ),
+              const Expanded(
+                flex: 7,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 2),
+                child: CustomFontAileronRegularWhite(
+                  text: 'Continuar con Facebook',
+                ),
+              ),
             ),
           ],
         )
@@ -277,19 +297,26 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
             );
           },
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/images/register/google.png',
-                // width: size.width * 0.04,
-                height: size.height * 0.025,
+              Expanded(
+                flex: 3,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 0),
+                  child: Image.asset('assets/images/option_login_screens/google.png',
+                    // width: size.width * 0.04,
+                    height: size.height * 0.045,
+                  ),
+                ),
               ),
-              const Text(
-                'Continuar con Google',
-                style: TextStyle(
-                fontSize: 16,
-              color: Color(0xffC0C0C0),
-              fontWeight: FontWeight.bold),
+              const Expanded(
+                flex: 7,
+                child: Padding(
+                padding: EdgeInsets.only(left: 2),
+                child: CustomFontAileronRegular(
+                  text:'Continuar con Google',
+                ),
+              ),
             ),
           ],
         )

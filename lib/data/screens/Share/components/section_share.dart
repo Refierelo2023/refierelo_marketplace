@@ -10,7 +10,6 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:provider/provider.dart';
-import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/providers/referente_provider.dart';
 import 'package:share_plus/share_plus.dart';

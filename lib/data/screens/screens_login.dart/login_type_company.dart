@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens_categories.dart';
+import 'package:refierelo_marketplace/data/screens/screens_login.dart/widget_button.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:refierelo_marketplace/widgets/widget_botton_select.dart';
 
@@ -98,8 +99,15 @@ class LoginTypeCompanyState extends State<LoginTypeCompany> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 10),
-        child: _buildButton(context),
-      ),
+        child: WidgetButton(
+          press: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreensCategories()), // Ir a LoginScreensCategories
+        );
+      }, 
+      title: "Continuar")
+    ),
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -199,58 +207,5 @@ class LoginTypeCompanyState extends State<LoginTypeCompany> {
         ),
       ),
     );
-  }
-
-  Widget _buildButton(BuildContext context) {
-    double buttonWidth = MediaQuery.of(context).size.width * 0.25;
-    double buttonPaddingHorizontalPercentage = 0.025;
-
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginScreensCategories()), // Ir a LoginScreensCategories
-        );
-      },
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: FractionallySizedBox(
-          widthFactor: 0.6,
-          child: Container(
-            constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width,
-            ),
-            padding: EdgeInsets.symmetric(
-              vertical: MediaQuery.of(context).size.width * buttonPaddingHorizontalPercentage,
-              horizontal: MediaQuery.of(context).size.width * buttonPaddingHorizontalPercentage,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              gradient: const LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [
-                  Color(0xFF003366),
-                  Color(0xFF02b5e7),
-                ],
-              ),
-            ),
-            child: SizedBox(
-              width: buttonWidth,
-              child: const Text(
-                'Continuar',
-                style: TextStyle(
-                  fontFamily: 'Aileron',
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  } 
 }

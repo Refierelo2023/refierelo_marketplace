@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:refierelo_marketplace/data/screens/componentscopy/body.dart';
+import 'package:refierelo_marketplace/data/screens/main.dart';
 
 
 class WelcomeScreen extends StatelessWidget{
@@ -8,6 +8,6 @@ class WelcomeScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context)
   {
-    return Scaffold(body: Body());
+    return const Scaffold(body: MyApp());// se cambia temporalmente para evitar error AQUÍ ESTABA Body
   }
 }

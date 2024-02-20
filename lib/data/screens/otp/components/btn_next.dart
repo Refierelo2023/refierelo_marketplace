@@ -7,22 +7,23 @@ class BtnNext extends StatelessWidget {
   const BtnNext({super.key, required this.press, required this.title});
 
   @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+  Widget build(BuildContext context) {   
 
     return Center(
-      child: Container(
-        width: size.width * 0.7,
-        decoration: BoxDecoration(
-            gradient: const LinearGradient(
-                colors: [Color(0xff0096C2), Color(0xff00DFEE)]),
-            borderRadius: BorderRadius.circular(30)),
-        child: TextButton(
-            style: TextButton.styleFrom(
-                foregroundColor: Colors.white, padding: const EdgeInsets.all(16.0),
-                textStyle: const TextStyle(fontSize: 18)),
-            onPressed: press,
-            child: Text(title)),
+      child: FractionallySizedBox(
+        widthFactor: 0.6,
+        child: Container(          
+          decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                  colors: [Color(0xff0096C2), Color(0xff00DFEE)]),
+              borderRadius: BorderRadius.circular(15)),
+          child: TextButton(
+              style: TextButton.styleFrom(
+                  foregroundColor: Colors.white, padding: const EdgeInsets.all(10.0),
+                  textStyle: const TextStyle(fontSize: 13)),
+              onPressed: press,
+              child: Text(title)),
+        ),
       ),
     );
   }

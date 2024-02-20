@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:refierelo_marketplace/data/screens/popup_customer_money/login_pop_customer_money.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/registration_costumer_nps.dart';
+import 'package:refierelo_marketplace/data/screens/screens_login.dart/widget_button.dart';
 
 class AnswerOneNpsOption2Option1 extends StatefulWidget {
   const AnswerOneNpsOption2Option1({super.key});
@@ -17,60 +19,6 @@ class AnswerOneNpsOption2Option1State
   final TextEditingController _textFieldControllerQuestion =
       TextEditingController();
   bool isEditable = false;
-
-  Widget _buildButton(BuildContext context) {
-    double buttonWidth = MediaQuery.of(context).size.width * 0.25;
-    double buttonPaddingHorizontalPercentage = 0.020;
-
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          isEditable = !isEditable;
-        });
-      },
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: FractionallySizedBox(
-          widthFactor: 0.6,
-          child: Container(
-            constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width,
-            ),
-            padding: EdgeInsets.symmetric(
-              vertical: MediaQuery.of(context).size.width *
-                  buttonPaddingHorizontalPercentage,
-              horizontal: MediaQuery.of(context).size.width *
-                  buttonPaddingHorizontalPercentage,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              gradient: const LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [
-                  Color(0xFF003366),
-                  Color(0xFF02b5e7),
-                ],
-              ),
-            ),
-            child: SizedBox(
-              width: buttonWidth,
-              child: Text(
-                isEditable ? 'Guardar' : 'Editar Encuesta',
-                style: const TextStyle(
-                  fontFamily: 'Aileron',
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget _buildEditableTextField(
       String labelText, TextEditingController controller, int tabIndex) {
@@ -236,11 +184,37 @@ class AnswerOneNpsOption2Option1State
                 '🚀 Ir al Marketplace', _textFieldController2, 5),
             const SizedBox(height: 10),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Añadir espacio entre los TextField y el botón
                 const SizedBox(height: 10),
-                _buildButton(context),
+                Stack(
+                  children: [
+                    WidgetButton(
+                      press:  () {
+                            setState(() {
+                             isEditable = !isEditable;
+                            }
+                          );
+                        },
+                      title: isEditable ? 'Guardar' : 'Editar Encuesta',
+                    ),
+                  ],
+                ),
+                  Positioned(
+                      top: 0,
+                      left: 0,
+                      child: GestureDetector(
+                        onTap: () {
+                          LoginPopCustomerMoney.showLoginPop(context);
+                        },
+                        child: Container(
+                          width: 230,
+                          height: 70,
+                          color: Colors.transparent,
+                        ),                        
+                      ),
+                    ),                   
                 const SizedBox(height: 10),
               ],
             ),

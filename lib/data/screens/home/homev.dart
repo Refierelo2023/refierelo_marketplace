@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:grpc/grpc.dart';
 import 'package:provider/provider.dart';
-import 'package:refierelo_marketplace/constants.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/premio_diario_dialog.dart';
 import 'package:refierelo_marketplace/data/screens/Ofertas/ofertas_screen.dart';
 import 'package:refierelo_marketplace/data/screens/Stories/stories_screen.dart';
@@ -170,23 +169,23 @@ void initState() {
   }
 
 // get Referente information
-Future<String> getConfig() async {
-  String sessionSecret = await SessionManager().get("sessionString");
+// Future<String> getConfig() async {
+//   String sessionSecret = await SessionManager().get("sessionString");
 
-  final channel = ClientChannel(
-    // '18.188.244.114',
-    host,
-    port: port,
-    options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
-  );
+//   final channel = ClientChannel(
+//     // '18.188.244.114',
+//     host,
+//     port: getPort(),
+//     options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
+//   );
 
-    //Guardando el mensaje en la sesión
-    //await SessionManager().set("msg", welcomMsg);
-    //
+//     //Guardando el mensaje en la sesión
+//     //await SessionManager().set("msg", welcomMsg);
+//     //
 
-    await channel.shutdown();
-    return "data";
-  }
+//     await channel.shutdown();
+//     return "data";
+//   }
 
   _showDialog() async {
     final prefs = await SharedPreferences.getInstance();
