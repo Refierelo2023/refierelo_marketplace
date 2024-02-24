@@ -134,7 +134,7 @@ class _MisReferidosScreenState extends State<MisReferidosScreen> {
                       ),
                     ),
                   ),
-                  // SizedBox(height: size.height * 0.02),
+                  SizedBox(height: size.height * 0.02),
           
                   Expanded(
                   child:  Container(

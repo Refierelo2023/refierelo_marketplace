@@ -33,16 +33,19 @@ class WidgetCarrusel2State extends State<WidgetCarrusel2> {
     },
   ];
 
-  late PageController _pageController;
+  PageController _pageController = PageController();
   int _currentPage = 0;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
-    _pageController.addListener(() {
-      setState(() {
-        _currentPage = _pageController.page!.round();
+
+    Future.delayed(Duration.zero, () {
+      _pageController = PageController();
+      _pageController.addListener(() {
+        setState(() {
+          _currentPage = _pageController.page!.round();
+        });
       });
     });
   }
@@ -52,9 +55,9 @@ class WidgetCarrusel2State extends State<WidgetCarrusel2> {
     _pageController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
+    
     return SizedBox(
       height: widget.height ??
           MediaQuery.of(context).size.height *  0.33, 

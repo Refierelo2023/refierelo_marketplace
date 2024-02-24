@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:refierelo_marketplace/data/screens/main.dart';
+import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_points_calculate.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_points_calculate2.dart';
-import 'package:refierelo_marketplace/data/screens/screens_login.dart/widget_button.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 
 class LoginProductRegistration extends StatefulWidget {
@@ -546,7 +546,7 @@ class LoginProductRegistrationState extends State<LoginProductRegistration> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                WidgetButton(
+                BtnNext(
                   press: () {
                     Navigator.push(
                         context,

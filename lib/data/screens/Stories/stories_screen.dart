@@ -16,7 +16,7 @@ import 'package:http/http.dart' as http;
 import 'package:share_plus/share_plus.dart';
 import '../Register/components/components.dart';
 
-//Usuario que sube historias
+// Usuario que sube historias
 class UserModel {
   UserModel(this.stories, this.userName, this.imageUrl);
 
@@ -25,7 +25,7 @@ class UserModel {
   final String imageUrl;
 }
 
-//Historia
+// Historia
 class StoryModel {
   StoryModel(this.imageUrl, this.configCodigo, this.idRecurso);
 
@@ -61,7 +61,7 @@ class _StoriesScreenState extends State<StoriesScreen> {
   @override
   void dispose() {
     indicatorAnimationController?.dispose();
-    //ignore:todo
+    // ignore:todo
     // TODO: implement dispose
     super.dispose();
   }
@@ -84,7 +84,7 @@ class _StoriesScreenState extends State<StoriesScreen> {
                     bottom: size.height * 0.065, top: size.height * 0.095),
                 child: Image.network(
                   story.imageUrl,
-                  // fit: BoxFit.fitWidth,
+                  fit: BoxFit.fitWidth,
                 ),
               )),
             ],
@@ -120,33 +120,33 @@ class _StoriesScreenState extends State<StoriesScreen> {
                             builder: (context) {
                               return const Wrap(
                                 children: [
-                                  // ListTile(
-                                  //   leading: IconButton(
-                                  //     onPressed: () async {
-                                  //       final user =
-                                  //           widget.sampleUsers[pageIndex];
-                                  //       final story = user.stories[storyIndex];
+                                  ListTile(
+                                    // leading: IconButton(
+                                    //   onPressed: () async {
+                                    //     final user =
+                                    //         widget.sampleUsers[pageIndex];
+                                    //     final story = user.stories[storyIndex];
 
-                                  //       try {
-                                  //         var imageId = await ImageDownloader
-                                  //             .downloadImage(story.imageUrl);
-                                  //         if (imageId == null) {
-                                  //           toast('No se pudo descargar.',
-                                  //               Colors.red);
-                                  //         } else {
-                                  //           toast('Imagen guardada',
-                                  //               Colors.green);
-                                  //         }
-                                  //         Navigator.of(context).pop();
-                                  //       } on PlatformException {
-                                  //         toast('No se pudo descargar.',
-                                  //             Colors.red);
-                                  //       }
-                                  //     },
-                                  //     icon: const Icon(Icons.file_download),
-                                  //   ),
-                                  //   title: const Text('Descargar'),
-                                  // )
+                                    //     try {
+                                    //       var imageId = await ImageDownloader
+                                    //           .downloadImage(story.imageUrl);
+                                    //       if (imageId == null) {
+                                    //         toast('No se pudo descargar.',
+                                    //             Colors.red);
+                                    //       } else {
+                                    //         toast('Imagen guardada',
+                                    //             Colors.green);
+                                    //       }
+                                    //       Navigator.of(context).pop();
+                                    //     } on PlatformException {
+                                    //       toast('No se pudo descargar.',
+                                    //           Colors.red);
+                                    //     }
+                                    //   },
+                                    //   icon: const Icon(Icons.file_download),
+                                    // ),
+                                    title: const Text('Descargar'),
+                                  )
                                 ],
                               );
                             }).then((value) {

@@ -7,7 +7,6 @@ import 'package:refierelo_marketplace/data/screens/Dialogs/dialog_three.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/providers/referente_provider.dart';
-import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import '../Register/components/components.dart';
 import '../Register/components/custom_input.dart';
 
@@ -145,11 +144,11 @@ class _DialogTwoState extends State<DialogTwo> {
                                     nombreApellido: nombreApellido.text,
                                     numeroTelefono: numeroTelefono.text));
                             channel.shutdown();
-                            // context.read<ReferenteProvider>().actualizarPuntos(int.tryParse(response.puntos.toString())??0);
+                            context.read<ReferenteProvider>().actualizarPuntos(int.tryParse(response.puntos.toString())??0);
                             context.read<ReferenteProvider>().referenteGlobal?.puntosEnProceso += (int.tryParse(response.puntos)??0);
-                            // if ((int.tryParse(response.puntos)??0)>0) {
-                            //   toast('Ganaste ${response.puntos} puntos.', Colors.green);
-                            // }
+                            if ((int.tryParse(response.puntos)??0)>0) {
+                              toast('Ganaste ${response.puntos} puntos.', Colors.green);
+                            }
                             Navigator.pop(context);
                             showDialog(
                                 context: context,

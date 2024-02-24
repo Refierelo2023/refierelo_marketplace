@@ -21,11 +21,11 @@ class _TermsCheckState extends State<TermsCheck> {
       if (states.any(interactiveStates.contains)) {
         return Colors.blue;
       }
-      return const Color(0xff00DFEE);
+      return const Color(0xffffffff);
     }
 
     return Checkbox(
-      checkColor: Colors.white,
+      checkColor: const Color(0xFF003366),
       fillColor: MaterialStateProperty.resolveWith(getColor),
       value: isChecked,
       onChanged: (bool? value) {

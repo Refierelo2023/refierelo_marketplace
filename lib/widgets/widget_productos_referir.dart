@@ -236,3 +236,29 @@ class WidgetProductosReferir extends StatelessWidget {
   }
 }
 
+//Método utilizado en productos para Referir, verificar
+
+// @override
+//     void initState() {
+//       super.initState();
+//       // getImagenProducto();
+//     }
+
+//     Future<void> getImagenProducto() async {
+//     try {
+//       var channel = getChannel();
+//       var response = await ServiceClient(channel).getProductoById(
+//           productoByIdRequest(
+//               sessionString: await SessionManager().get('sessionString'),
+//               idProducto: 4));
+//       channel.shutdown();
+//       setState(() {
+//         imagenProducto = response.imagenProducto;
+//         imgAfiliados = response.aliados;
+//       });
+//     } on GrpcError catch (e) {
+//       toast(e.message ?? 'Hubo un error', Colors.red);
+//     } on Exception {
+//       toast('Hubo un error', Colors.red);
+//     }
+//   }

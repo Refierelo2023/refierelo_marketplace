@@ -7,8 +7,8 @@ import 'package:refierelo_marketplace/constants.dart';
 import 'package:refierelo_marketplace/data/screens/ErrorScreen/error_screen.dart';
 import 'package:refierelo_marketplace/data/screens/Login/options_login_screen.dart';
 import 'package:refierelo_marketplace/data/screens/Register/register_screen.dart';
-import 'package:refierelo_marketplace/data/screens/componentscopy/bottom_navigation_custom.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/btn_welcome.dart';
+import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 
 class Body extends StatelessWidget {
@@ -61,7 +61,7 @@ class Body extends StatelessWidget {
               return const ErrorScreen();
             } else {
               return backgroundImageWidget(
-                  //Donde irá imagen traída desde API
+                  // Donde irá imagen traída desde API
                   image: bgimg,
                   //  NetworkImage(bgimg),
                   child: Scaffold(
@@ -108,7 +108,7 @@ class Body extends StatelessWidget {
                                   Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (BuildContext context) => const BottomNavigationCustom(),
+                                        builder: (BuildContext context) => const MainScreen(),// Se cambia por nuevo menu
                                       ),
                                       (route) => false);
                                 } else {

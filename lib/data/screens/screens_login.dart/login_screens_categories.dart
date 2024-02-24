@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens_setup_account.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_type_company.dart';
-import 'package:refierelo_marketplace/data/screens/screens_login.dart/widget_button.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:refierelo_marketplace/widgets/search_box.dart';
 import 'package:refierelo_marketplace/widgets/widget_botton_select.dart';
@@ -113,7 +113,7 @@ class LoginScreensCategoriesState extends State<LoginScreensCategories> {
       ),
       bottomNavigationBar: Padding(
           padding: const EdgeInsets.only(bottom: 10),
-          child: WidgetButton(
+          child: BtnNext(
               title: "Continuar ",
               press: () {
                  Navigator.push(

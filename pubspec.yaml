@@ -67,7 +67,8 @@ dependencies:
   video_player: 2.8.1
   url_launcher: 6.1.4
   simple_circular_progress_bar: 1.0.1
-  grpc: 3.2.4
+  grpc: 3.2.3
+  # grpc: 3.2.4 
   # image_downloader: 0.31.0
   
 
@@ -214,6 +215,12 @@ flutter:
     - assets/images/option_login_screens/facebook_blanco.png
     - assets/images/option_login_screens/google.png
     - assets/images/option_login_screens/formulario.png
+    - assets/images/pop_welcome/personaje.png
+    - assets/images/pop_welcome/coin2.png
+    - assets/images/loading/LOADING.gif
+    - assets/images/pop_error/pop_error.png
+    - assets/images/pop_reward/Reward.png
+    - assets/images/refiere_una_empresa/store.png
   
     
 

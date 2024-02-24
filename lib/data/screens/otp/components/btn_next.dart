@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 
 class BtnNext extends StatelessWidget {
   final VoidCallback press;
@@ -7,22 +8,39 @@ class BtnNext extends StatelessWidget {
   const BtnNext({super.key, required this.press, required this.title});
 
   @override
-  Widget build(BuildContext context) {   
+  Widget build(BuildContext context) { 
+     double buttonPaddingHorizontalPercentage = 0.025;  
 
-    return Center(
-      child: FractionallySizedBox(
-        widthFactor: 0.6,
-        child: Container(          
-          decoration: BoxDecoration(
+    return GestureDetector(     
+      onTap: press, 
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: FractionallySizedBox(
+          widthFactor: 0.6,
+          child: Container(
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width,
+            ),
+            padding: EdgeInsets.symmetric(
+              vertical: MediaQuery.of(context).size.width *
+                  buttonPaddingHorizontalPercentage,
+              horizontal: MediaQuery.of(context).size.width *
+                  buttonPaddingHorizontalPercentage,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
               gradient: const LinearGradient(
-                  colors: [Color(0xff0096C2), Color(0xff00DFEE)]),
-              borderRadius: BorderRadius.circular(15)),
-          child: TextButton(
-              style: TextButton.styleFrom(
-                  foregroundColor: Colors.white, padding: const EdgeInsets.all(10.0),
-                  textStyle: const TextStyle(fontSize: 13)),
-              onPressed: press,
-              child: Text(title)),
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+                  Color(0xFF003366),
+                  Color(0xFF02b5e7),
+                ],
+              ),
+            ),
+            child: CustomFontAileronRegularWhite(text: (title)
+            ,textAlign: TextAlign.center),
+          ),
         ),
       ),
     );

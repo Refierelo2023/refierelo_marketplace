@@ -29,7 +29,7 @@ class _InsertNumberScreenState extends State<InsertNumberScreen> {
       backgroundColor: const Color(0xFFF5F6F9),
       appBar: AppBar(
         backgroundColor: const Color(0xFFF5F6F9),
-        // toolbarHeight: 30,
+        toolbarHeight: 30,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {

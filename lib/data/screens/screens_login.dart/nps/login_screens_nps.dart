@@ -51,8 +51,7 @@ class LoginScreensNpsState extends State<LoginScreensNps> {
                     child: Container(
                       alignment: Alignment.bottomCenter,
                       child: const CustomFontAileronRegular(
-                        text:
-                            "La encuesta Nps Monitorea la experiencia de tus clientes y te ayudan a generar insights para mejorar tus productos y servicios",
+                        text:"La encuesta Nps Monitorea la experiencia de tus clientes y te ayudan a generar insights para mejorar tus productos y servicios",
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -76,9 +75,8 @@ class LoginScreensNpsState extends State<LoginScreensNps> {
                             left: 5, right: 5, bottom: 0),
                         child: RichText(
                           textAlign: TextAlign.center,
-                          text: TextSpan(
-                            text:
-                                "Ingresa tu nombre y prueba la encuesta gratuita",
+                        text: TextSpan(
+                            text:"Ingresa tu nombre y prueba la encuesta gratuita",
                             style: const CustomFontAileronRegular(
                               text: " ",
                             ).getTextStyle(context),
@@ -91,8 +89,7 @@ class LoginScreensNpsState extends State<LoginScreensNps> {
                                       .getTextStyle(context)
                                       .copyWith(height: 1.5)),
                               TextSpan(
-                                text:
-                                    " para personalizar las imagenes y las preguntas, obten beneficios exclusivos",
+                                text:" para personalizar las imagenes y las preguntas, obten beneficios exclusivos",
                                 style: const CustomFontAileronRegular(
                                   text: " ",
                                 ).getTextStyle(context).copyWith(height: 1.5),

@@ -5,6 +5,7 @@ import 'package:grpc/grpc.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/models/enums.dart';
+import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import '../../../Register/components/components.dart';
 
 
@@ -78,9 +79,9 @@ class _MiActividadSectionMensajesState extends State<MiActividadSectionMensajes>
             children: [
               Row(
                 children: [
-                  Image.asset(widget.imgTitutulo, height: size.height * 0.04,),
-                  SizedBox(width: size.width * 0.01),
-                  Text(widget.titulo , style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                  Image.asset(widget.imgTitutulo, height: size.height * 0.03,),
+                  SizedBox(width: size.width * 0.02),
+                  Text(widget.titulo , style: const CustomFontAileronRegularWhite(text: " ").getTextStyle(context),),
                 ],
               ),
               GestureDetector(
@@ -90,15 +91,15 @@ class _MiActividadSectionMensajesState extends State<MiActividadSectionMensajes>
                      color: Colors.white.withOpacity(0.23),
                      borderRadius: BorderRadius.circular(10)
                   ),
-                  width: size.width * 0.3,
+                  width: size.width * 0.28,
                   height: size.height * 0.04,
-                  child: const Center(child:Text('Mostrar todo', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
+                  child:Center(child:Text('Mostrar todo', style: const CustomFontAileronRegularWhite(text: " ").getTextStyle(context))),
                 ),
               )
             ],
           ),
         ),
-        SizedBox(height: size.height * 0.02,),
+        SizedBox(height: size.height * 0.01),
         Container(
           margin: EdgeInsets.symmetric(horizontal: size.width * 0.06),
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.02, vertical: size.height * 0.01),
@@ -112,12 +113,13 @@ class _MiActividadSectionMensajesState extends State<MiActividadSectionMensajes>
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Actividad', style: TextStyle(color: Colors.white),),
+                  Text('Actividad', style: const CustomFontAileronRegularWhite(text: " ").getTextStyle(context)),
                   RichText(text: TextSpan(
                     text: 'Total ganado ',
-                    style: const TextStyle(color: Color(0xff00DFEE), fontSize: 10, fontWeight: FontWeight.bold),
+                    style: const TextStyle(color: Color(0xff03F9FF), fontSize: 12, fontWeight: FontWeight.bold),
                     children: [
-                      TextSpan(text: totalGanado.toString(), style: const TextStyle(color: Color(0xff00DFEE), fontWeight: FontWeight.bold, fontSize: 16))
+                      TextSpan(text: totalGanado.toString(), style: const CustomFontAileronSemiBoldTur(text: " ").getTextStyle(context),
+                      ),
                     ] 
                   ))
                 ],
@@ -125,7 +127,7 @@ class _MiActividadSectionMensajesState extends State<MiActividadSectionMensajes>
               SizedBox(height: size.height * 0.02),
               // for(var item in mensajeContactos) 
 
-              if(mensajeContactos.isEmpty) const Text('No hay historial', style: TextStyle(color: Colors.white),),
+              if(mensajeContactos.isEmpty) Text('No hay historial', style: const CustomFontAileronRegularWhite(text: " ").getTextStyle(context)),
 
               for(var item in mensajeContactos) Container(
                 padding: EdgeInsets.symmetric(horizontal: size.width * 0.01),
@@ -141,38 +143,39 @@ class _MiActividadSectionMensajesState extends State<MiActividadSectionMensajes>
                       children: [
                         Image.asset('assets/images/mi_actividad/2.png', width: size.width * 0.06, height: size.height * 0.06,),
                         SizedBox(width: size.width * 0.01),
-                        Text(item.nombreContacto, style: const TextStyle(color: Colors.white),)
+                        Text(item.nombreContacto, style: const CustomFontAileronRegularWhite(text: " ").getTextStyle(context))
                       ],
                     ),
                     Text(
                       EstadoMensajeContacto.values[item.estado]==EstadoMensajeContacto.formalizado?'+${item.puntosGanados}':EstadoMensajeContacto.values[item.estado].value,
-                      style: const TextStyle(color: Colors.white)
-                      // EstadoMensajeContacto.values[item.estado].value, style: TextStyle(color: Colors.white)
+                      style: const CustomFontAileronRegularWhite(text: " ").getTextStyle(context)
+                      // EstadoMensajeContacto.values[item.estado].value, 
+                      // style: TextStyle(color: Colors.white)
                       )
                   ],
                 ),
+              ),
+              SizedBox(height: size.height*0.01,),
+                            Container(
+                padding: EdgeInsets.symmetric(horizontal: size.width * 0.01),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.25),
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Image.asset('assets/images/mi_actividad/2.png', width: size.width * 0.06, height: size.height * 0.06,),
+                        SizedBox(width: size.width * 0.01),
+                        const Text('Contacto 1', style: TextStyle(color: Colors.white),)
+                      ],
+                    ),
+                    const Text('Pendiente', style: TextStyle(color: Colors.white))
+                  ],
+                ),
               )
-              // SizedBox(height: size.height*0.01,),
-              //               Container(
-              //   padding: EdgeInsets.symmetric(horizontal: size.width * 0.01),
-              //   decoration: BoxDecoration(
-              //     color: Colors.white.withOpacity(0.25),
-              //     borderRadius: BorderRadius.circular(10)
-              //   ),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       Row(
-              //         children: [
-              //           Image.asset('assets/images/mi_actividad/2.png', width: size.width * 0.06, height: size.height * 0.06,),
-              //           SizedBox(width: size.width * 0.01),
-              //           const Text('Contacto 1', style: TextStyle(color: Colors.white),)
-              //         ],
-              //       ),
-              //       const Text('Pendiente', style: TextStyle(color: Colors.white))
-              //     ],
-              //   ),
-              // )
             ],
           ),
         )

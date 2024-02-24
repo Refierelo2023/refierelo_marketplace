@@ -16,6 +16,7 @@ import 'package:refierelo_marketplace/data/screens/Share/components/section_shar
 import 'package:refierelo_marketplace/data/screens/Share/components/show_all.dart';
 import 'package:refierelo_marketplace/data/screens/Share/components/social_button.dart';
 import 'package:refierelo_marketplace/data/screens/Share/components/title_content.dart';
+import 'package:refierelo_marketplace/data/screens/home/components/bottom_navigation.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/providers/referente_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -210,7 +211,7 @@ class _ShareScreenState extends State<ShareScreen> {
                             textColor: Colors.white,
                             fontSize: 16.0);
                       } catch (e) {
-                        //error
+                        // error
                       }
                     }),
                     // child: const ShareBtnYoutube(
@@ -252,8 +253,8 @@ class _ShareScreenState extends State<ShareScreen> {
                           await flutterShareMe.shareToMessenger(
                               msg: '1', url: path);
 
-                          // final urlShare =
-                          //     Uri.encodeComponent(imagen?.path ?? '');
+                          final urlShare =
+                              Uri.encodeComponent(imagen?.path ?? '');
                           // final urlShare = Uri.encodeComponent(
                           //     "https://www.youtube.com/watch?v=bWehAFTFc9o");
 
@@ -367,7 +368,7 @@ class _ShareScreenState extends State<ShareScreen> {
                                 height: size.height * 0.04,
                                 width: size.width * 0.2,
                               ),
-                              // SizedBox(height: size.height * 0.02),
+                              SizedBox(height: size.height * 0.02),
                               const Text('Más...',
                                   style: TextStyle(color: Colors.white))
                             ],
@@ -383,7 +384,7 @@ class _ShareScreenState extends State<ShareScreen> {
             ),
           ),
         ),
-        // bottomNavigationBar: const BottomNavigation(),
+        bottomNavigationBar: const BottomNavigation(),
       ),
     );
   }

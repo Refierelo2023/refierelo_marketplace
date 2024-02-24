@@ -9,7 +9,7 @@ import 'package:refierelo_marketplace/data/screens/Login/otp/insert_number_scree
 import 'package:refierelo_marketplace/data/screens/Register/components/components.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/custom_input.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/terms_check.dart';
-import 'package:refierelo_marketplace/data/screens/componentscopy/bottom_navigation_custom.dart';
+import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/models/medio_pagos.dart';
@@ -35,13 +35,17 @@ class _RegisterFormState extends State<RegisterForm> {
   TextEditingController ciudad = TextEditingController();
   TextEditingController entidadFinanciera = TextEditingController();
 
-  List<MedioPago> mediosPagos = [];
+  List<MedioPago> mediosPagos = [    
+    MedioPago(id: '1', nombre: 'Daviplata'),
+    MedioPago(id: '2', nombre: 'Nequi'),
+    MedioPago(id: '3', nombre: 'Cta Ahorro'),
+    MedioPago(id: '4', nombre: 'Cta Corriente'),
+  ];
 
   String dropdownValue = 'Daviplata';
   String msisdn = '';
   String sessionString = '';
-  static const _chars =
-      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  static const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   final Random _rnd = Random();
 
   final _formKey = GlobalKey<FormState>();
@@ -50,7 +54,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   void initState() {
-    //ignore:todo
+    // ignore:todo
     // TODO: implement initState
     super.initState();
     msisdn = widget.msisdn;
@@ -94,17 +98,17 @@ class _RegisterFormState extends State<RegisterForm> {
   //   const int accType = 1;
 
   // validate the input data
-  //Codes:
+  // Codes:
   // 0 - OK
-  //100 - Invalid last Name
-  //101 - Invalid first Name
-  //102 - Invalid document number
-  //103 - Invalid msisdn
-  //104 - Invalid mail
-  //105 - Invalid date of birth
-  //106 - Invalid city
-  //107 - Invalid password
-  //108 - Invalid idMediopago
+  // 100 - Invalid last Name
+  // 101 - Invalid first Name
+  // 102 - Invalid document number
+  // 103 - Invalid msisdn
+  // 104 - Invalid mail
+  // 105 - Invalid date of birth
+  // 106 - Invalid city
+  // 107 - Invalid password
+  // 108 - Invalid idMediopago
   // print("Datos recibidos: " +
   //     apellidos +
   //     "," +
@@ -174,8 +178,8 @@ class _RegisterFormState extends State<RegisterForm> {
   //         ..date = DateFormat('yyyy-MM-dd').format(DateTime.now()));
   //   channel.shutdown;
 
-  //   print("referenteRegister response: " + response.message);
-  //   return (response.message);
+    // print("referenteRegister response: " + response.message);
+    // return (response.message);
   // }
 
   @override
@@ -189,7 +193,7 @@ class _RegisterFormState extends State<RegisterForm> {
         toolbarHeight: 30,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          // color: const Color(0xFFffffff),
+          color: const Color(0xFFffffff),
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -200,7 +204,7 @@ class _RegisterFormState extends State<RegisterForm> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
+        padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
         child: SafeArea(
           child: SingleChildScrollView(
             child: Form(
@@ -208,43 +212,74 @@ class _RegisterFormState extends State<RegisterForm> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: size.height * 0.02,
+                  const Center(
+                    child: CustomFontAileronBold2(
+                      text: 'Tus Datos básicos',
+                    ),
                   ),
+                  SizedBox(height: size.height * 0.02),                  
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        width: 120,
+                        height: 120,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: AssetImage(
+                                'assets/images/images_login/perfil.png'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                        Positioned(
+                        bottom: 5,
+                          right: 0,
+                          child: GestureDetector(
+                          onTap: () {
+                        // Acción para cargar imagen desde la galería
+                        // (debes implementar la lógica para esto)
+                          },
+                          child: const Icon(Icons.camera_alt),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: size.height * 0.015),
                   CustomInput(
-                    placeholder: 'Nombres',                    
+                    placeholder: 'Nombres',
                     controller: _firstNameController,
                     validator: ValidationBuilder().required().build(),
                   ),
-                  SizedBox(height: size.height * 0.02),
+                  SizedBox(height: size.height * 0.015),
                   CustomInput(
-                    placeholder: 'Apellidos',                   
+                    placeholder: 'Apellidos',
                     controller: _lastNameController,
                     validator: ValidationBuilder().required().build(),
                   ),
-                  SizedBox(height: size.height * 0.02),
+                  SizedBox(height: size.height * 0.015),
                   CustomInput(
-                    placeholder: 'identificación',                   
+                    placeholder: 'identificación',
                     texto: false,
                     controller: identificacion,
                     tipo: TextInputType.number,
                   ),
-                  SizedBox(height: size.height * 0.02),
+                  SizedBox(height: size.height * 0.015),
                   CustomInput(
-                    placeholder: "Celular",                    
-                    texto: false,                    
+                    placeholder: "Celular",
+                    texto: false,
                     tipo: TextInputType.number,
                   ),
-                  SizedBox(height: size.height * 0.02),
+                  SizedBox(height: size.height * 0.015),
                   CustomInput(
-                    placeholder: 'Mail',                    
+                    placeholder: 'Mail',
                     controller: _emailController,
                     validator: ValidationBuilder().required().build(),
                   ),
-                  SizedBox(height: size.height * 0.02),
-        
+                  SizedBox(height: size.height * 0.015),
                   CustomInput(
-                    placeholder: 'Fecha de Nacimiento',                    
+                    placeholder: 'Fecha de Nacimiento',
                     controller: _fechaNacController,
                     isDisabled: true,
                     tipo: TextInputType.datetime,
@@ -263,37 +298,36 @@ class _RegisterFormState extends State<RegisterForm> {
                       }
                     }),
                   ),
-                  SizedBox(height: size.height * 0.02),
+                  SizedBox(height: size.height * 0.015),
                   CustomInput(
-                    placeholder: 'Ciudad',                    
+                    placeholder: 'Ciudad',
                     controller: _ciudadController,
                     validator: ValidationBuilder().required().build(),
                   ),
-                  //Lista desplegable
-                  SizedBox(height: size.height * 0.02),
+                  // Lista desplegable
+                  SizedBox(height: size.height * 0.015),
                   Container(
-                    padding: const EdgeInsets.only(left: 20),
-                    width: size.width,
-                    child: const Text('Medio para recibir pagos',
-                        textAlign: TextAlign.start),
-                  ),
-                  Container(
-                    width: size.width * 0.9,
-                    height: size.height * 0.07,
+                    width: size.width * 0.93,
+                    height: size.height * 0.06,
                     decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
+                        borderRadius: BorderRadius.circular(15)),
                     child: DropdownButtonHideUnderline(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20),
                         child: DropdownButton(
                           isExpanded: true,
-                          hint: const Text('Seleccione un medio de pago'),
+                          hint: const CustomFontAileronRegular(
+                      text: 'Medio para recibir pagos',
+                        ),
                           items: mediosPagos.map((item) {
                             return DropdownMenuItem(
-                                value: item.id, child: Text(item.nombre));
-                          }).toList(),
-                          onChanged: (val) {
+                                value: item.id, child: CustomFontAileronRegular(text:(item.nombre),
+                              )
+                            );
+                          }
+                        ).toList(),
+                        onChanged: (val) {
                             setState(() {
                               idMediopago = val.toString();
                             });
@@ -303,91 +337,98 @@ class _RegisterFormState extends State<RegisterForm> {
                       ),
                     ),
                   ),
-                  SizedBox(height: size.height * 0.02),
+                  SizedBox(height: size.height * 0.015),
                   CustomInput(
-                    placeholder: 'Entidad financiera',                    
+                    placeholder: 'Entidad financiera',
                     controller: entidadFinanciera,
                     validator: ValidationBuilder().required().build(),
                   ),
-                  SizedBox(height: size.height * 0.02),
-                  CustomInput(
-                    placeholder: 'Clave 4 dígitos',                    
-                    texto: false,
-                    ocultarTexto: true,
-                    controller: _clave1Controller,
-                    validator: ValidationBuilder().required().build(),
-                    tipo: TextInputType.number,                   
+                  SizedBox(height: size.height * 0.015),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Flexible(
+                       fit: FlexFit.tight, 
+                        flex: 5,
+                        child: CustomInput(
+                      placeholder: 'Clave 4 dígitos',
+                      texto: false,
+                      ocultarTexto: true,
+                      controller: _clave1Controller,
+                      validator: ValidationBuilder().required().build(),
+                      tipo: TextInputType.number,
+                    ),
                   ),
-                  SizedBox(height: size.height * 0.02),
-                  CustomInput(
-                    placeholder: 'Confirmala',                   
-                    texto: false,
-                    ocultarTexto: true,
-                    controller: _clave2Controller,
-                    validator: ValidationBuilder().required().build(),
-                    tipo: TextInputType.number,
+                  SizedBox(height: size.height * 0.015),
+                  Flexible(
+                    fit: FlexFit.tight,
+                    flex: 5,
+                    child: CustomInput(
+                      placeholder: 'Confirmala',
+                      texto: false,
+                      ocultarTexto: true,
+                      controller: _clave2Controller,
+                      validator: ValidationBuilder().required().build(),
+                      tipo: TextInputType.number,
+                    ),
                   ),
-                  SizedBox(height: size.height * 0.02),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: size.width * 0.04),
-                    child: Row(
+                ],
+              ),
+              SizedBox(height: size.height * 0.03),
+                  Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [TermsCheck()],
                         ),
                         Column(
                           children: [
                             RichText(
-                                textAlign: TextAlign.justify,
-                                text: const TextSpan(
-                                    text: 'Al crear una cuenta aseguras haber\n',
-                                    style: TextStyle(
-                                        color: Colors.black54,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14),
-                                    children: [
-                                      TextSpan(
-                                          text:
-                                              'leido y estar de acuerdo con los\n',
-                                          style: TextStyle(
-                                              color: Colors.black54,
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14)),
-                                      TextSpan(
-                                          text: 'Terminos y condiciones ',
-                                          style: TextStyle(
-                                              color: Color(0xff00DFEE),
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14)),
-                                      TextSpan(
-                                          text: 'y con la',
-                                          style: TextStyle(
-                                              color: Colors.black54,
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14)),
-                                      TextSpan(
-                                          text: ' Politica\n',
-                                          style: TextStyle(
-                                              color: Color(0xff00DFEE),
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14)),
-                                      TextSpan(
-                                          text: 'de privacidad',
-                                          style: TextStyle(
-                                              color: Color(0xff00DFEE),
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14)),
-                                    ],
+                              textAlign: TextAlign.justify,
+                              text:TextSpan(
+                                text: 'Al crear una cuenta aseguras haber ',
+                                style:  const CustomFontAileronRegular(
+                                      text: " ",
+                                      ).getTextStyle(context),
+                                children: [
+                                  TextSpan(
+                                      text:'leído y estar \nde acuerdo con los',
+                                      style: const CustomFontAileronRegular(
+                                      text: " ",
+                                      ).getTextStyle(context),
+                                    ),
+                                  TextSpan(
+                                      text: ' Terminos y condiciones ',
+                                      style: const CustomFontAileronRegularTur(
+                                      text: " ",
+                                      ).getTextStyle(context),
+                                        ),
+                                  TextSpan(
+                                      text: 'y con\nla',
+                                      style: const CustomFontAileronRegular(
+                                      text: " ",
+                                      ).getTextStyle(context),),
+                                  TextSpan(
+                                      text: ' Politica',
+                                      style:  const CustomFontAileronRegularTur(
+                                      text: " ",
+                                      ).getTextStyle(context),
+                                          ),
+                                  TextSpan(
+                                      text: 'de privacidad',
+                                      style:  const CustomFontAileronRegularTur(
+                                      text: " ",
+                                      ).getTextStyle(context),
                                   ),
-                                ),
+                                ],
+                              ),
+                            ),
                           ],
                         )
                       ],
                     ),
-                  ),
-                  SizedBox(height: size.height * 0.02),
+                  SizedBox(height: size.height * 0.03),
                   BtnNext(
                       press: () async {
                         if (!_formKey.currentState!.validate()) {
@@ -417,7 +458,7 @@ class _RegisterFormState extends State<RegisterForm> {
                         }
                         try {
                           var channel = getChannel();
-        
+
                           var response = await ServiceClient(channel)
                               .referenteRegister(referenteRegisterRequest()
                                 ..msisdn = msisdn
@@ -435,10 +476,10 @@ class _RegisterFormState extends State<RegisterForm> {
                                     .format(DateTime.now())
                                 ..identificacion = identificacion.text);
                           channel.shutdown;
-        
+
                           await SessionManager()
                               .set("sessionString", sessionString);
-        
+
                           Fluttertoast.showToast(
                               msg: response.message,
                               toastLength: Toast.LENGTH_SHORT,
@@ -451,7 +492,7 @@ class _RegisterFormState extends State<RegisterForm> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const BottomNavigationCustom(),
+                                    const MainScreen(),
                               ),
                               (Route<dynamic> route) => false);
                         } on GrpcError catch (e) {

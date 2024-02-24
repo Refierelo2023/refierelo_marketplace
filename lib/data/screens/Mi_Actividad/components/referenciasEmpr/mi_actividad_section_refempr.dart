@@ -5,6 +5,7 @@ import 'package:grpc/grpc.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/models/enums.dart';
+import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import '../../../Register/components/components.dart';
 
 
@@ -33,7 +34,7 @@ class _MiActividadSectionRefemprState extends State<MiActividadSectionRefempr> {
     // TODO: implement initState
     super.initState();
 
-    getReferenciasEmpresas();
+    // getReferenciasEmpresas();
   }
 
   Future<void> getReferenciasEmpresas() async {
@@ -78,27 +79,27 @@ class _MiActividadSectionRefemprState extends State<MiActividadSectionRefempr> {
             children: [
               Row(
                 children: [
-                  Image.asset(widget.imgTitutulo, height: size.height * 0.04,),
-                  SizedBox(width: size.width * 0.01),
-                  Text(widget.titulo , style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                  Image.asset(widget.imgTitutulo, height: size.height * 0.03,),
+                  SizedBox(width: size.width * 0.02),
+                  Text(widget.titulo , style: const CustomFontAileronRegularWhite(text: " ").getTextStyle(context)),
                 ],
               ),
               GestureDetector(
                 onTap: widget.press,
                 child: Container(
                   decoration: BoxDecoration(
-                     color: Colors.white.withOpacity(0.23),
+                     color: Colors.white.withOpacity(0.28),
                      borderRadius: BorderRadius.circular(10)
                   ),
-                  width: size.width * 0.3,
+                  width: size.width * 0.28,
                   height: size.height * 0.04,
-                  child: const Center(child:Text('Mostrar todo', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
+                  child: Center(child:Text('Mostrar todo', style: const CustomFontAileronRegularWhite(text: " ").getTextStyle(context))),
                 ),
               )
             ],
           ),
         ),
-        SizedBox(height: size.height * 0.02,),
+        SizedBox(height: size.height * 0.01),
         Container(
           margin: EdgeInsets.symmetric(horizontal: size.width * 0.06),
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.02, vertical: size.height * 0.01),
@@ -115,7 +116,7 @@ class _MiActividadSectionRefemprState extends State<MiActividadSectionRefempr> {
                   const Text('Actividad', style: TextStyle(color: Colors.white),),
                   RichText(text: TextSpan(
                     text: 'Total ganado ',
-                    style: const TextStyle(color: Color(0xff00DFEE), fontSize: 10, fontWeight: FontWeight.bold),
+                    style: const TextStyle(color: Color(0xff00DFEE), fontSize: 12, fontWeight: FontWeight.bold),
                     children: [
                       TextSpan(text: totalGanado.toString(), style: const TextStyle(color: Color(0xff00DFEE), fontWeight: FontWeight.bold, fontSize: 16))
                     ] 

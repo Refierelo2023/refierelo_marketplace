@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart';
 import 'package:refierelo_marketplace/data/screens/popup_customer_money/login_pop_customer_money.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/registration_costumer_nps.dart';
-import 'package:refierelo_marketplace/data/screens/screens_login.dart/widget_button.dart';
 
 class AnswerOneNpsOption2Option1 extends StatefulWidget {
   const AnswerOneNpsOption2Option1({super.key});
@@ -190,7 +190,7 @@ class AnswerOneNpsOption2Option1State
                 const SizedBox(height: 10),
                 Stack(
                   children: [
-                    WidgetButton(
+                    BtnNext(
                       press:  () {
                             setState(() {
                              isEditable = !isEditable;

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/app/app_data/story_data.dart';
 import 'package:refierelo_marketplace/app/helper/page_animations/page_routes_animation.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens_data.dart';
+import 'package:refierelo_marketplace/data/screens/screens_profile.dart/screens_buy_points.dart';
 import 'package:refierelo_marketplace/data/screens/screens_profile.dart/screens_profile_tabbar.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:refierelo_marketplace/widgets/story_feed/widgets_story_feed.dart';
@@ -112,17 +113,28 @@ class ProfileScreensState extends State<ProfileScreens>
                             onStoryItemTap: onStoryItemTap,
                           ),
                         ),
-                        const Flexible(
+                        Flexible(
                           fit: FlexFit.tight,
                           flex: 3,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              CustomFontAileronBold(text: "2.000"),
-                              CustomFontAileronRegular(
-                                text: "Recompensas",
-                              ),
-                            ],
+                          child: GestureDetector(
+                            onTap: () {                             
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ScreensBuyPoints(),
+                                ),
+                              );
+                            },
+                            child: const Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                CustomFontAileronBold(text: "2.000"),
+                                CustomFontAileronRegular(
+                                  text: "Recompensas",
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         Flexible(

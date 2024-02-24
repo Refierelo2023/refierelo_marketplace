@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:refierelo_marketplace/data/screens/main.dart';
+import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/data/screens/sugerencias/input_sugerencia.dart';
 import 'package:refierelo_marketplace/data/screens/sugerencias/sugerencias_dropdown.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
@@ -43,13 +44,13 @@ class _SugerenciasScreenState extends State<SugerenciasScreen> {
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                        text: " Comparte tu experiencia con \n",
+                        text: " Refiérelo lo construimos entre\n",
                         style: const CustomFontAileronSemiBoldWhite(text: "")
                             .getTextStyle(context)
                             .copyWith(height: 1.5),
                         children: [
                           TextSpan(
-                            text: 'nosotros y déjanos tu ',
+                            text: 'todos, déjanos tu ',
                             style:
                                 const CustomFontAileronSemiBoldWhite(text: "")
                                     .getTextStyle(context)
@@ -72,7 +73,7 @@ class _SugerenciasScreenState extends State<SugerenciasScreen> {
                   SizedBox(height: size.height * 0.02),
                   InputSugerencia(
                     campo: 'mail',
-                    frase: 'Déjanos tu ',
+                    frase: 'Déjanos tu ',                    
                     controller: controller,
                   ),
                   SizedBox(height: size.height * 0.02),
@@ -88,14 +89,14 @@ class _SugerenciasScreenState extends State<SugerenciasScreen> {
                           child: RichText(
                             textAlign: TextAlign.center,
                             text: TextSpan(
-                                text: 'Déjanos tu ',
+                                text: 'Selecciona un ',
                                 style: const CustomFontAileronRegularWhite(
                                         text: "")
                                     .getTextStyle(context)
                                     .copyWith(height: 1.5),
                                 children: [
                                   TextSpan(
-                                    text: 'Sugerencia',
+                                    text: 'Tema',
                                     style: const CustomFontAileronRegularTur(
                                             text: "")
                                         .getTextStyle(context)
@@ -159,7 +160,7 @@ class _SugerenciasScreenState extends State<SugerenciasScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const MyApp(), // Ir a LoginScreens
+                  builder: (context) => const MainScreen(), // Ir a LoginScreens
                 ),
               );
             },

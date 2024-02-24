@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 
 class MiActividadSection extends StatefulWidget {
   final String imgTitutulo;
@@ -28,9 +29,9 @@ class _MiActividadSectionState extends State<MiActividadSection> {
             children: [
               Row(
                 children: [
-                  Image.asset(widget.imgTitutulo, height: size.height * 0.04,),
-                  SizedBox(width: size.width * 0.01),
-                  Text(widget.titulo , style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                  Image.asset(widget.imgTitutulo, height: size.height * 0.03,),
+                  SizedBox(width: size.width * 0.02),
+                  Text(widget.titulo ,style: const CustomFontAileronRegularWhite(text: " ").getTextStyle(context)),
                 ],
               ),
               GestureDetector(
@@ -40,15 +41,15 @@ class _MiActividadSectionState extends State<MiActividadSection> {
                      color: Colors.white.withOpacity(0.23),
                      borderRadius: BorderRadius.circular(10)
                   ),
-                  width: size.width * 0.3,
+                  width: size.width * 0.28,
                   height: size.height * 0.04,
-                  child: const Center(child:Text('Mostrar todo', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
+                  child: Center(child:Text('Mostrar todo', style: const CustomFontAileronRegularWhite(text: " ").getTextStyle(context))),
                 ),
               )
             ],
           ),
         ),
-        SizedBox(height: size.height * 0.02,),
+        SizedBox(height: size.height * 0.01),
         Container(
           margin: EdgeInsets.symmetric(horizontal: size.width * 0.06),
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.02, vertical: size.height * 0.01),

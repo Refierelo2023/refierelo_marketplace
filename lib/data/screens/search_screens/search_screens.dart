@@ -8,7 +8,7 @@ import 'package:refierelo_marketplace/widgets/search_box.dart';
 
 
 class SearchScreens extends StatefulWidget {
-  const SearchScreens({super.key});
+  const SearchScreens({super.key,});
 
   @override
   SearchScreensState createState() => SearchScreensState();
@@ -34,24 +34,27 @@ class SearchScreensState extends State<SearchScreens> with SingleTickerProviderS
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFFAFAFA),
+    return Scaffold( 
+      backgroundColor: const Color(0xFFF5F6F9),      
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100),
-        child: AppBar(
+        child: AppBar(                    
           backgroundColor: const Color(0xFFFAFAFA),
           automaticallyImplyLeading: false,
           flexibleSpace: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Flexible(
-                child: SearchBox(controller: searchController),
+            children: [              
+              Padding(                
+                padding: const EdgeInsets.only(left: 8, right: 8),
+                child: Flexible(
+                  child: SearchBox(controller: searchController),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 4, left: 8, right: 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: [                    
                     Container(
                       decoration: BoxDecoration(boxShadow: [
                         BoxShadow(
@@ -180,7 +183,7 @@ class SearchScreensState extends State<SearchScreens> with SingleTickerProviderS
           ScreensUserSearchReferir(),
           ScreensUserSearchComprar(),
         ],
-      ),
+      ),      
     );
   }
 }

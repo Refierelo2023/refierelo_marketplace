@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_type_company.dart';
-import 'package:refierelo_marketplace/data/screens/screens_login.dart/widget_button.dart';
 
 class LoginScreens extends StatefulWidget {
   const LoginScreens({super.key});
@@ -37,16 +37,19 @@ class LoginScreensState extends State<LoginScreens> {
     },
   ];
 
-  late PageController _pageController;
+  PageController _pageController = PageController();
   int _currentPage = 0;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
-    _pageController.addListener(() {
-      setState(() {
-        _currentPage = _pageController.page!.round();
+    
+    Future.delayed(Duration.zero, () {
+      _pageController = PageController();
+      _pageController.addListener(() {
+        setState(() {
+          _currentPage = _pageController.page!.round();
+        });
       });
     });
   }
@@ -56,9 +59,8 @@ class LoginScreensState extends State<LoginScreens> {
     _pageController.dispose();
     super.dispose();
   }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {   
     return Scaffold(
       body: Stack(
         children: [
@@ -87,7 +89,7 @@ class LoginScreensState extends State<LoginScreens> {
             right: 0,
             bottom: 20,
             child: Center(
-                child: WidgetButton(
+                child: BtnNext(
                 title: "Comenzar",
                 press: () {
                   Navigator.push(

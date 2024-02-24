@@ -106,7 +106,8 @@ class _DialogOneState extends State<DialogOne> {
                           return DialogTwo(
                             idSubproducto: widget.idSubproducto,
                           );
-                        });
+                        }
+                      );
                   },
                   child: Padding(
                     padding: EdgeInsets.only(left: size.width * 0.2),

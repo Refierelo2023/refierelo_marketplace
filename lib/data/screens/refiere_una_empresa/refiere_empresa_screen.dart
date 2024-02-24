@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
-import 'package:form_validator/form_validator.dart';
 import 'package:grpc/grpc.dart';
 import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/dialog_three.dart';
-import 'package:refierelo_marketplace/data/screens/Register/components/custom_input.dart';
+import 'package:refierelo_marketplace/data/screens/Register/components/terms_check.dart';
+import 'package:refierelo_marketplace/data/screens/Register/register_screen.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/error_alert.dart';
 import 'package:refierelo_marketplace/data/screens/main.dart';
-import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens_setup_account.dart';
+import 'package:refierelo_marketplace/data/screens/sugerencias/input_sugerencia.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/providers/referente_provider.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
@@ -30,7 +30,7 @@ class _RefiereEmpresaScreenState extends State<RefiereEmpresaScreen> {
 
   var formKey = GlobalKey<FormState>();
 
-  // String? videoId = YoutubePlayer.convertUrlToId("https://youtu.be/4kGRsJ8TEBw");
+  
   bool checked = false;
   Widget _buildButton(BuildContext context) {
     double buttonWidth = MediaQuery.of(context).size.width * 0.25;
@@ -162,16 +162,8 @@ class _RefiereEmpresaScreenState extends State<RefiereEmpresaScreen> {
       backgroundColor: Colors.transparent,
       body: Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            colors: [
-              Color(0xFF02b5e7),
-              Color(0xFF02b5e7),
-              Color(0xFF003366),
-              Color(0xFF003366),
-            ],
-          ),
+          gradient:
+              LinearGradient(colors: [Color(0xff003366), Color(0xff02B5E7)])
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10),
@@ -185,8 +177,8 @@ class _RefiereEmpresaScreenState extends State<RefiereEmpresaScreen> {
                   SizedBox(height: size.height * 0.01),
                   Center(
                     child: Image.asset(
-                      'assets/images/images_display_refiere_aqui/validacion.png',
-                      height: size.height * 0.1,
+                      'assets/images/refiere_una_empresa/store.png',
+                      height: size.height * 0.13,
                       width: size.width * 1,
                     ),
                   ),
@@ -194,27 +186,27 @@ class _RefiereEmpresaScreenState extends State<RefiereEmpresaScreen> {
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                        text: '¡ Más puntos para tu cuenta ! \n',
+                        text: '',
                         style: const CustomFontAileronSemiBoldTur(text: " ")
                             .getTextStyle(context)
                             .copyWith(height: 1.5),
                         children: [
                           TextSpan(
-                              text: 'comparte tu experiencia con \n',
+                              text: 'Invita más marcas y emprendimientos a unirse\n  ',
                               style: const CustomFontAileronSemiBoldWhite(
                                       text: " ")
                                   .getTextStyle(context)
                                   .copyWith(height: 1.5)),
                           TextSpan(
-                              text: 'otras marcas ',
+                              text: 'a Refiérelo y ',
                               style: const CustomFontAileronSemiBoldWhite(
                                       text: " ")
                                   .getTextStyle(context)
                                   .copyWith(height: 1.5)),
                           TextSpan(
-                              text: 'Refierelas y Gana  ',
+                              text: 'Gana más Puntos',
                               style:
-                                  const CustomFontAileronSemiBoldTur(text: " ")
+                                  const CustomFontAileronSemiBoldYellow(text: " ")
                                       .getTextStyle(context)
                                       .copyWith(height: 1.5)),
                           TextSpan(
@@ -226,52 +218,31 @@ class _RefiereEmpresaScreenState extends State<RefiereEmpresaScreen> {
                         ]),
                   ),
                   SizedBox(
-                    height: size.height * 0.02,
-                  ),
-                  // const Center(
-                  //   child: Text(
-                  //     '¿Por qué referir a una empresa?',
-                  //     style: TextStyle(color: Colors.white, fontSize: 16),
-                  //   ),
-                  // ),
-                  // // Container(
-                  // //   margin: EdgeInsets.symmetric(horizontal: size.width * 0.08),
-                  // //   child: YoutubeComponent(
-                  // //     videoId: videoId!,
-                  // //   ),
-                  // // ),
-                  CustomInput(
-                    colorTitle: Colors.white,
-                    title: const CustomFontAileronRegularWhite(
-                        text: 'Nombre de la empresa o emprendimiento'),
-                    controller: nombreEmpresa,
-                    validator: ValidationBuilder().required().build(),
-                    focusNode: focusNode,
-                    placeholder: '',
-                  ),
+                    height: size.height * 0.03,
+                  ),                
+                  InputSugerencia(
+                    campo: " empresa ó emprendiemiento", 
+                    frase: "Nombre de la",
+                     controller: nombreEmpresa,
+                     ),                  
                   SizedBox(height: size.height * 0.02),
-                  CustomInput(
-                    colorTitle: Colors.white,
-                    title: const CustomFontAileronRegularWhite(
-                        text: 'Identificación (Opcional)'),
-                    controller: identificacionEmpresa,
-                    validator: ValidationBuilder().required().build(),
-                    placeholder: '',
-                  ),
+                  InputSugerencia(
+                    campo: " (Opcional)", 
+                    frase: "Identificación",
+                     controller: identificacionEmpresa,
+                     ),                  
                   SizedBox(height: size.height * 0.02),
-                  CustomInput(
-                      colorTitle: Colors.white,
-                      title: const CustomFontAileronRegularWhite(
-                          text: 'Nombre completo de persona de contacto'),
-                      controller: nombreContacto,
-                      validator: ValidationBuilder().required().build()),
+                  InputSugerencia(
+                    campo: " persona de contacto", 
+                    frase: "Nombre completo",
+                     controller: nombreContacto,
+                     ),                  
                   SizedBox(height: size.height * 0.02),
-                  CustomInput(
-                      colorTitle: Colors.white,
-                      title: const CustomFontAileronRegularWhite(
-                          text: 'Número de teléfono'),
-                      controller: telefonoEmpresa,
-                      validator: ValidationBuilder().required().build()),
+                  InputSugerencia(
+                    campo: " teléfono", 
+                    frase: "Número de ",
+                     controller: telefonoEmpresa,
+                     ),
                   SizedBox(height: size.height * 0.02),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: size.width * 0.05),
@@ -281,17 +252,11 @@ class _RefiereEmpresaScreenState extends State<RefiereEmpresaScreen> {
                         SizedBox(
                           width: size.width * 0.08,
                           height: size.height * 0.01,
-                          child: Checkbox(
-                              value: checked,
-                              onChanged: (value) {
-                                setState(() {
-                                  checked = !checked;
-                                });
-                              }),
+                          child: const TermsCheck(),
                         ),
                         const Expanded(
                           child: CustomFontAileronRegularWhite(
-                            text:'Estoy autorizado por mi referido para el tratamiento de datos',
+                            text:'Estoy autorizado por mi referido para el tratamiento de datos personales',
                           ),
                         ),
                       ],
@@ -303,8 +268,9 @@ class _RefiereEmpresaScreenState extends State<RefiereEmpresaScreen> {
                     child: const Column(
                       children: [
                         CustomFontAileronRegularWhite(
-                          text:'Recibiras tus puntos una vez nuestros ejecutivos contacten a la empresa y/o emprendimiento y confirmen que fueron referidos por ti',
+                          text:'"Recibiras tus puntos una vez nuestros ejecutivos contacten a la empresa y/o emprendimiento y confirmen que fueron referidos por ti"',
                           textAlign: TextAlign.justify,
+                          fontSize: 0.03,
                         )
                       ],
                     ),
@@ -319,21 +285,30 @@ class _RefiereEmpresaScreenState extends State<RefiereEmpresaScreen> {
         ),
       ),
       appBar: AppBar(
-        toolbarHeight: 35,
-        backgroundColor: const Color(0xff003366),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded),
-          color: const Color(0xFFFFFFFF),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      const LoginScreensSetupAccount()), // Ir a LoginScreens
-            );
-          },
+          toolbarHeight: 35,
+          backgroundColor: const Color(0xff003366),
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xff003366), Color(0xff02B5E7)],
+                begin: Alignment.bottomLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+          ),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_rounded),
+            color: const Color(0xFFFFFFFF),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RegisterScreen(), // Ir a LoginScreens
+                ),
+              );
+            },
+          ),
         ),
-      ),
     );
   }
 }

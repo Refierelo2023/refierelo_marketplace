@@ -168,7 +168,7 @@ class _SectionShareState extends State<SectionShare> {
             // TextButton(
             //   onPressed: () async {
             //     try {
-            //       var imageId = await ImageDownloader.downloadImage(widget.image.path);
+            //       // var imageId = await ImageDownloader.downloadImage(widget.image.path);
             //       if (imageId == null) {
             //         return;
             //       } else {

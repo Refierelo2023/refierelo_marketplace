@@ -52,8 +52,7 @@ message landingConfigRequest
 message landingConfigResponse
 {
     string backgroundUrl = 1;
-    string welcomeMessage = 2;
-    string dynamicPort = 3;
+    string welcomeMessage = 2;   
 }
 
 message otpRequest

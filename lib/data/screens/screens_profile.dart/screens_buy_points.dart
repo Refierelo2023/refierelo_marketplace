@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens_categories.dart';
-import 'package:refierelo_marketplace/data/screens/screens_login.dart/widget_button.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:refierelo_marketplace/widgets/widget_botton_select.dart';
 
@@ -48,7 +48,7 @@ class ScreensBuyPointsState extends State<ScreensBuyPoints> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.white,
+        color: const Color(0xFFF5F6F9),
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -131,9 +131,9 @@ class ScreensBuyPointsState extends State<ScreensBuyPoints> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
+      bottomNavigationBar: Padding(        
         padding: const EdgeInsets.all(10.0),
-        child: WidgetButton(
+        child: BtnNext(
           press: () {
         Navigator.push(
           context,
@@ -142,11 +142,12 @@ class ScreensBuyPointsState extends State<ScreensBuyPoints> {
                 const LoginScreensCategories()), // Ir a LoginScreensCategories
           );
         },
-           title: "Recargar",
+           title: "Recargar",           
         ),
       ),
       appBar: AppBar(
         toolbarHeight: 40,
+        backgroundColor: const Color(0xFFF5F6F9),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {

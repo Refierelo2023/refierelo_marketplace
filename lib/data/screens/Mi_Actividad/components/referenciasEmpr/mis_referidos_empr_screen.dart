@@ -29,7 +29,7 @@ class _MisReferidosEmprScreenState extends State<MisReferidosEmprScreen> {
   void initState() {
     super.initState();
     _pagingController.addPageRequestListener((pageKey) {
-      getReferenciasEmpresas(pageKey);
+      // getReferenciasEmpresas(pageKey);
     });
   }
 

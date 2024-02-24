@@ -69,13 +69,13 @@ class _AllContactsScreenState extends State<AllContactsScreen> {
               ),
             )
           ],
-        ) : Column(
+        ) : const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/pop_referir/emoji.png'),
-            const Text('No hay contactos para mostrar.', style: TextStyle(color: Colors.white),)
-          ],
-        )
+            // Image.asset('assets/images/pop_referir/emoji.png'),
+            Text('No hay contactos para mostrar.', style: TextStyle(color: Colors.white),)
+            ],
+          )
          : const Center(child: CircularProgressIndicator())
         ),
       ),

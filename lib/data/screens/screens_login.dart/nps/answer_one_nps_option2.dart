@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart';
 import 'package:refierelo_marketplace/data/screens/popup_customer_money/login_pop_customer_money.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens_data.dart';
-import 'package:refierelo_marketplace/data/screens/screens_login.dart/widget_button.dart';
 
 
 class AnswerOneNpsOption2 extends StatefulWidget {
@@ -191,7 +191,7 @@ class AnswerOneNpsOption2State extends State<AnswerOneNpsOption2> {
               children: [
                 // Añadir espacio entre los TextField y el botón
                 const SizedBox(height: 10),
-                WidgetButton(
+                BtnNext(
                   press:  () {
                       setState(() {
                         isEditable = !isEditable;

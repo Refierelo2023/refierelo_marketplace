@@ -4,11 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:grpc/grpc.dart';
 import 'package:provider/provider.dart';
+import 'package:refierelo_marketplace/constants.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/premio_diario_dialog.dart';
 import 'package:refierelo_marketplace/data/screens/Ofertas/ofertas_screen.dart';
 import 'package:refierelo_marketplace/data/screens/Stories/stories_screen.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
+import 'package:refierelo_marketplace/data/screens/home/components/carousel_normal.dart';
 import 'package:refierelo_marketplace/data/screens/main.dart';
+import 'package:refierelo_marketplace/data/screens/refiere_una_empresa/refiere_empresa_screen.dart';
 import 'package:refierelo_marketplace/data/screens/screens_home__view/screens_announcements.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/providers/referente_provider.dart';
@@ -16,10 +19,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Dialogs/reward_dialog.dart';
 import '../Dialogs/welcome_dialog.dart';
 import '../Register/components/components.dart';
-import 'components/carousel_indicator.dart';
-import 'components/section_title.dart';
 
-//Imagenes para carrusel numero 3
+
+
+// Imagenes para carrusel numero 3
 final List<String> imgListCarousel_3 = [
   'assets/images/images_display_comprar.dart/black1.jpeg',
   'assets/images/images_display_comprar.dart/black3.jpeg',
@@ -49,7 +52,7 @@ class HomevState extends State<Homev> {
   String textoColor = '';
   String fecha = '';
 
-//Carga del modal
+// Carga del modal
   @override
 void initState() {
   super.initState();
@@ -146,11 +149,11 @@ void initState() {
                 context.read<ReferenteProvider>().referenteGlobal?.idreferente))
         .listen((value) {
       recursos.add(StoryModel(value.path, value.configCodigo, value.idRecurso));
-      // if (value.compartido == 0) {
-      //   setState(() {
-      //     compartidos = 0;
-      //   });
-      // }
+      if (value.compartido == 0) {
+        setState(() {
+          // compartidos = 0;
+        });
+      }
     }).onDone(() {
       recursos = recursos;
       recursos = recursos;
@@ -169,23 +172,23 @@ void initState() {
   }
 
 // get Referente information
-// Future<String> getConfig() async {
-//   String sessionSecret = await SessionManager().get("sessionString");
+Future<String> getConfig() async {
+  // String sessionSecret = await SessionManager().get("sessionString");
 
-//   final channel = ClientChannel(
-//     // '18.188.244.114',
-//     host,
-//     port: getPort(),
-//     options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
-//   );
+  final channel = ClientChannel(
+    // '18.188.244.114',
+    host,
+    port: getPort(),
+    options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
+  );
 
-//     //Guardando el mensaje en la sesión
-//     //await SessionManager().set("msg", welcomMsg);
-//     //
+    //Guardando el mensaje en la sesión
+    //await SessionManager().set("msg", welcomMsg);
+    //
 
-//     await channel.shutdown();
-//     return "data";
-//   }
+    await channel.shutdown();
+    return "data";
+  }
 
   _showDialog() async {
     final prefs = await SharedPreferences.getInstance();
@@ -220,173 +223,156 @@ void initState() {
         Scaffold(
           key: _scaffoldKey,
           backgroundColor: Colors.white,
-          body: AnnotatedRegion<SystemUiOverlayStyle>(
-            value:
-                SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.white
-                    // statusBarColor: Theme.of(context).bottomAppBarColor
-                    ),
-            child: SafeArea(
+          body: SafeArea(
+              child: Column(
+            children: [
+              Expanded(
+                  child: SingleChildScrollView(
                 child: Column(
-              children: [
-                Expanded(
-                    child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      // HISTORIAS
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Container(
-                                  width: 70,
-                                  height: 70,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100)),
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          navigatorKey.currentContext!,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  StoriesScreen(
-                                                      sampleUsers:
-                                                          sampleUsers)),
-                                        ).then((value) async {
-                                          if (value != null) {
-                                            try {
-                                              var channel = getChannel();
-                                              var response = await ServiceClient(
-                                                      getChannel())
-                                                  .registerVistaStories(
-                                                      registerVistaStoriesRequest(
-                                                          sessionString:
-                                                              (await SessionManager()
-                                                                      .get(
-                                                                          'sessionString'))
-                                                                  .toString()))
-                                                  .whenComplete(() {
-                                                channel.shutdown();
-                                              });
-
-                                              context
-                                                  .read<ReferenteProvider>()
-                                                  .actualizarPuntos(
-                                                      int.tryParse(response
-                                                              .puntosGanados
-                                                              .toString()) ??
-                                                          0);
-                                              if (mounted &&
-                                                  response.puntosGanados > 0) {
-                                                showDialog(
-                                                    context: context,
-                                                    builder: (context) {
-                                                      return RewardDialog(
-                                                        puntos: response
+                  children: [
+                    // HISTORIAS
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                width: 70,
+                                height: 70,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100)),
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        navigatorKey.currentContext!,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                StoriesScreen(
+                                                    sampleUsers:
+                                                        sampleUsers)),
+                                      ).then((value) async {
+                                        if (value != null) {
+                                          try {
+                                            var channel = getChannel();
+                                            var response = await ServiceClient(
+                                                    getChannel())
+                                                .registerVistaStories(
+                                                    registerVistaStoriesRequest(
+                                                        sessionString:
+                                                            (await SessionManager()
+                                                                    .get(
+                                                                        'sessionString'))
+                                                                .toString()))
+                                                .whenComplete(() {
+                                              channel.shutdown();
+                                            });
+          
+                                            context
+                                                .read<ReferenteProvider>()
+                                                .actualizarPuntos(
+                                                    int.tryParse(response
                                                             .puntosGanados
-                                                            .toString(),
-                                                      );
-                                                    });
-
-                                                setState(() {
-                                                  storiesVistas = value;
-                                                });
-                                              }
-                                            } catch (e) {
-                                              // Manejar la excepción aquí
+                                                            .toString()) ??
+                                                        0);
+                                            if (mounted &&
+                                                response.puntosGanados > 0) {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return RewardDialog(
+                                                      puntos: response
+                                                          .puntosGanados
+                                                          .toString(),
+                                                    );
+                                                  });
+          
+                                              setState(() {
+                                                storiesVistas = value;
+                                              });
                                             }
+                                          } catch (e) {
+                                            // Manejar la excepción aquí
                                           }
-                                          // getRecursos();
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.white,
-                                          padding: EdgeInsets.zero,
-                                          shape: const CircleBorder(),
-                                          fixedSize: const Size(40, 40),
-                                          side: BorderSide(
-                                              color: (storiesVistas == false &&
-                                                      sampleUsers.isNotEmpty)
-                                                  ? Colors.pink
-                                                  : Colors.grey,
-                                              width: 2)),
-                                      child: Ink(
-                                        decoration: BoxDecoration(
-                                            gradient: const LinearGradient(
-                                                colors: [
-                                                  Color(0xff142D55),
-                                                  Color(0xff27567F),
-                                                  Color(0xff2A75A3)
-                                                ]),
-                                            borderRadius:
-                                                BorderRadius.circular(80)),
-                                        child: Container(
-                                          width: 60,
-                                          height: 60,
-                                          alignment: Alignment.center,
-                                          child: Image.asset(
-                                              'assets/images/images_main/logocircular.png'),
-                                          // child: Image.asset('assets/images/logo.png'),
-                                        ),
-                                      )),
-                                ),
-                                // const Padding(
-                                //   padding: EdgeInsets.only(top: 1),
-                                //   child: Text('Ofertas',
-                                //       style: TextStyle(
-                                //           color: Color(0xff003366),
-                                //           fontWeight: FontWeight.w600)),
-                                // )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),                      
-
-                      if (imgLists.isNotEmpty)
-                        CarouselIndicator(imgCarousels: imgLists),
-                      GestureDetector(
+                                        }
+                                        // getRecursos();
+                                      });
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.white,
+                                        padding: EdgeInsets.zero,
+                                        shape: const CircleBorder(),
+                                        fixedSize: const Size(40, 40),
+                                        side: BorderSide(
+                                            color: (storiesVistas == false &&
+                                                    sampleUsers.isNotEmpty)
+                                                ? Colors.pink
+                                                : Colors.grey,
+                                            width: 2)),
+                                    child: Ink(
+                                      decoration: BoxDecoration(
+                                          gradient: const LinearGradient(
+                                              colors: [
+                                                Color(0xff142D55),
+                                                Color(0xff27567F),
+                                                Color(0xff2A75A3)
+                                              ]),
+                                          borderRadius:
+                                              BorderRadius.circular(80)),
+                                      child: Container(
+                                        width: 60,
+                                        height: 60,
+                                        alignment: Alignment.center,
+                                        child: Image.asset(
+                                            'assets/images/images_main/logocircular.png'),                                          
+                                      ),
+                                    )
+                                  ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    if (imgLists.isNotEmpty)
+                   
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const OfertasScreen()),
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.only(top: 10, left: 50, right: 50),
+                        child: const Image(
+                          image:AssetImage('assets/images/ofertas/ofertas.png'),
+                        ),
+                      ),
+                    ),                    
+           
+                    SizedBox(height: size.height * 0.02),
+                    GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const OfertasScreen()),
+                                builder: (context) =>
+                                    const RefiereEmpresaScreen()),
                           );
                         },
-                        child: Container(
-                          padding: const EdgeInsets.only(
-                              top: 10, left: 50, right: 50),
-                          child: const Image(
-                            image:
-                                AssetImage('assets/images/ofertas/ofertas.png'),
-                          ),
-                        ),
-                      ),
-                      const SectionTitle(title: 'Lo más referido'),
-                      // CarouselIndicator(imgCarousels: imgLists),
-                      SizedBox(height: size.height * 0.02),
-                      // GestureDetector(
-                      //     onTap: () {
-                      //       Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //             builder: (context) =>
-                      //                 const RefiereEmpresaScreen()),
-                      //       );
-                      //     },
-                      //     child: BannerComponent(paths: imgListCarousel_3)),
-                      SizedBox(
-                        height: size.height * 0.068,
-                      )
-                    ],
-                  ),
-                )),
-              ],
-            )),
-          ),
+                        child: BannerComponent(paths: imgListCarousel_3)),
+                    SizedBox(
+                      height: size.height * 0.068,
+                    )
+                  ],
+                ),
+              )),
+            ],
+          )),
         ),
         Positioned(
           top: 70.w,

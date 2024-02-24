@@ -1,21 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens_categories.dart';
-import 'package:refierelo_marketplace/data/screens/screens_login.dart/widget_button.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:refierelo_marketplace/widgets/widget_botton_select.dart';
-
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: LoginTypeCompany(),
-    );
-  }
-}
 
 class LoginTypeCompany extends StatefulWidget {
   const LoginTypeCompany({super.key});
@@ -99,7 +87,7 @@ class LoginTypeCompanyState extends State<LoginTypeCompany> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 10),
-        child: WidgetButton(
+        child: BtnNext(
           press: () {
         Navigator.push(
           context,

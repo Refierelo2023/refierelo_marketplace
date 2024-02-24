@@ -5,7 +5,7 @@ class RewardDialog extends StatefulWidget {
 
   final String puntos;
 
- @override
+  @override
   State<RewardDialog> createState() => _RewardDialogState();
 }
 
@@ -44,15 +44,26 @@ class _RewardDialogState extends State<RewardDialog>
                 margin: EdgeInsets.symmetric(horizontal: size.width * 0.04),
                 child: Stack(
                   children: [
-                    Image.asset(
-                        'assets/images/validacion_bienvenida/reward.png'),
+                    Image.asset('assets/images/pop_reward/Reward.png'),
                     Positioned(
-                      right: 0,
-                      child: GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Image.asset(
-                          'assets/images/validacion_bienvenida/close.png',
-                          height: size.height * 0.06,
+                      top: -0,
+                      right: 2,
+                      child: ClipOval(
+                        child: GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: Container(
+                            margin: const EdgeInsets.all(0),
+                            padding: const EdgeInsets.all(6),
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.close_rounded,
+                              size: 20,
+                              color: Color(0xff003366),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -67,7 +78,11 @@ class _RewardDialogState extends State<RewardDialog>
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(4)),
                             color: Colors.white),
-                        child: Center(child: Text('${widget.puntos} puntos', style: const TextStyle(color: Color(0xff00DFEE)),)),
+                        child: Center(
+                            child: Text(
+                          '${widget.puntos} puntos',
+                          style: const TextStyle(color: Color(0xff00DFEE)),
+                        )),
                       ),
                     )
                   ],

@@ -7,8 +7,8 @@ import 'package:grpc/grpc.dart';
 import 'package:refierelo_marketplace/app/helper/helpers/helpers.dart';
 import 'package:refierelo_marketplace/data/screens/Login/otp/insert_number_screen.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/components.dart';
-import 'package:refierelo_marketplace/data/screens/componentscopy/bottom_navigation_custom.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
+import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -107,7 +107,7 @@ class _LogueoFormScreenState extends State<LogueoFormScreen> {
           await prefs.setBool('repeat', true);
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => const BottomNavigationCustom()),
+        MaterialPageRoute(builder: (context) => const MainScreen()),// se cambia por nuevo menu
         (Route<dynamic> route) => false
       );
         } on GrpcError catch (e) {

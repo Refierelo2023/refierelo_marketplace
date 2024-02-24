@@ -4,8 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/components.dart';
 import 'package:refierelo_marketplace/data/screens/Register/options_register_screen.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
+import 'package:refierelo_marketplace/data/screens/main.dart';
 import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart';
-import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_type_company.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 
 class CodeScreen extends StatefulWidget {
@@ -21,9 +21,9 @@ class _CodeScreenState extends State<CodeScreen> {
   final TextEditingController _controllerOtp = TextEditingController();
   @override
   void initState() {
-    //ignore:todo
+    // ignore:todo
     // TODO: implement initState
-    super.initState();
+    // super.initState();
     msisdn = widget.msisdn;
   }
 
@@ -47,7 +47,7 @@ class _CodeScreenState extends State<CodeScreen> {
       backgroundColor: const Color(0xFFF5F6F9),
       appBar: AppBar(
         backgroundColor: const Color(0xFFF5F6F9),
-        // toolbarHeight: 30,
+        toolbarHeight: 30,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {

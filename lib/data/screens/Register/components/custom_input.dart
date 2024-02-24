@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 
 // ignore: must_be_immutable
 class CustomInput extends StatefulWidget {
@@ -18,9 +19,6 @@ class CustomInput extends StatefulWidget {
   bool showTitle;
   FocusNode? focusNode;
 
-  
-  
-
   CustomInput(
       {super.key,
       this.placeholder = '',
@@ -34,12 +32,9 @@ class CustomInput extends StatefulWidget {
       this.validator,
       this.rounded = true,
       this.colorTitle = const Color(0xFF666666),
-      this.alignTitle= Alignment.centerLeft,
-      this.showTitle=true,
-      this.focusNode
- 
-
-      });
+      this.alignTitle = Alignment.centerLeft,
+      this.showTitle = true,
+      this.focusNode});
 
   @override
   State<CustomInput> createState() => _CustomInputState();
@@ -48,13 +43,13 @@ class CustomInput extends StatefulWidget {
 class _CustomInputState extends State<CustomInput> {
   bool isObscure = true;
 
-TextEditingController? _textEditingController;
+  TextEditingController? _textEditingController;
 
-@override
-void initState() {
-  super.initState();
-  _textEditingController = widget.controller ?? TextEditingController();}
-
+  @override
+  void initState() {
+    super.initState();
+    _textEditingController = widget.controller ?? TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,26 +57,26 @@ void initState() {
 
     return Column(
       children: [
-        if(widget.showTitle) Column(
-          children: [
-          Container(
-          margin: EdgeInsets.symmetric(horizontal: size.width * 0.04),
-          child: Align(
-              alignment: widget.alignTitle,
-              child: widget.title,              
+        if (widget.showTitle)
+          Column(
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                child: Align(
+                  alignment: widget.alignTitle,
+                  child: widget.title,
+                ),
+              ),
+              SizedBox(height: size.height * 0.004),
+            ],
           ),
-        ),
-        SizedBox(
-          height: size.height * 0.004,
-        ),
-        ],),
         Container(
           // width: size.width * 1,
           // height: size.height * 0.05,
           // constraints: BoxConstraints(maxHeight: size.height * 0.065),
           // decoration: BoxDecoration(
           //     color: Colors.white, borderRadius: widget.rounded?BorderRadius.circular(10):null),
-          margin: EdgeInsets.symmetric(horizontal: size.width * 0.04),
+          margin: EdgeInsets.symmetric(horizontal: size.width * 0.02),
           child: TextFormField(
             readOnly: widget.isDisabled,
             controller: _textEditingController,
@@ -90,7 +85,10 @@ void initState() {
             validator: widget.validator,
             focusNode: widget.focusNode,
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'^[ ]'))],           
+            inputFormatters: [
+              FilteringTextInputFormatter.deny(RegExp(r'^[ ]'))
+            ],
+            obscureText: widget.ocultarTexto == true && isObscure,
             decoration: InputDecoration(
                 hintText: widget.placeholder,
                 labelText: widget.placeholder,
@@ -99,48 +97,57 @@ void initState() {
                 contentPadding: const EdgeInsets.all(10),
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.white),
-        borderRadius: widget.rounded?BorderRadius.circular(15.0):BorderRadius.zero,
-      ),
-      hintStyle: const TextStyle(color: Color(0xFFffffff)),
-      focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Color(0xFF02b5e7), width: 2),
-        borderRadius: widget.rounded?BorderRadius.circular(15.0):BorderRadius.zero,
-      ),
-                // border: 
+                  borderRadius: widget.rounded
+                      ? BorderRadius.circular(15.0)
+                      : BorderRadius.zero,
+                ),
+                hintStyle: const TextStyle(color: Color(0xFFffffff)),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Color(0xFF02b5e7), width: 1),
+                  borderRadius: widget.rounded
+                      ? BorderRadius.circular(15.0)
+                      : BorderRadius.zero,
+                ),
+                labelStyle: CustomFontAileronRegular(
+                  text: widget.placeholder,
+                  ).getTextStyle(context),
+                // border:
                 // border: InputBorder.none,
                 errorBorder: OutlineInputBorder(
-                  borderRadius: widget.rounded
-                  ?BorderRadius.circular(10.0)
-                  :BorderRadius.zero,
-                  borderSide: const BorderSide(color: Colors.red)
-                ),                
+                    borderRadius: widget.rounded
+                        ? BorderRadius.circular(10.0)
+                        : BorderRadius.zero,
+                    borderSide: const BorderSide(color: Colors.red)),
                 focusedErrorBorder: OutlineInputBorder(
                   borderRadius: widget.rounded
-                  ? BorderRadius.circular(15.0)
-                  :BorderRadius.zero,
+                      ? BorderRadius.circular(15.0)
+                      : BorderRadius.zero,
                   borderSide: const BorderSide(color: Colors.red),
                 ),
-                  prefixIcon: (widget.ocultarTexto==true)
-                  ? IconButton(
-                    icon: Icon(
-                        isObscure
-                         ? Icons.visibility : 
-                         Icons.visibility_off, color: const Color(0xFF003366),
-                    ),
-                    onPressed: ()=> setState(()=>isObscure = !isObscure),
-                    )
-                  :null
-                ),                
+                prefixIcon: (widget.ocultarTexto == true)
+                    ? IconButton(
+                        icon: Icon(
+                          isObscure ? Icons.visibility_off : Icons.visibility,
+                          color: const Color(0xFF666666),                          
+                        ),
+                        onPressed: () {
+                        setState(() {
+                          isObscure = !isObscure;
+                        });
+                      },
+                      )
+                    : null
+                  ),
             style: const TextStyle(fontSize: 14),
             cursorColor: const Color(0xFFFFFFFF),
             // obscureText: widget.ocultarTexto == true && isObscure==true,
             onTap: () {
-            if (widget.texto) {
-              // Borra el texto cuando se selecciona el campo
-              _textEditingController!.clear();
-            }
-            widget.onTap?.call();
-          },
+              if (widget.texto) {
+                // Borra el texto cuando se selecciona el campo
+                _textEditingController!.clear();
+              }
+              widget.onTap?.call();
+            },
           ),
         )
       ],

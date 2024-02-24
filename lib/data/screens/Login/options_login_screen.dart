@@ -8,8 +8,8 @@ import 'package:refierelo_marketplace/data/screens/Dialogs/dialog_register.dart'
 import 'package:refierelo_marketplace/data/screens/Login/logueo_form_screen.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/components.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/body.dart';
-import 'package:refierelo_marketplace/data/screens/componentscopy/bottom_navigation_custom.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
+import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,7 +26,7 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
   String msisdn = '';
   @override
   void initState() {
-    //ignore:todo
+    // ignore:todo
     // TODO: implement initState
     super.initState();
   }
@@ -55,7 +55,7 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-                builder: (context) => const BottomNavigationCustom()),
+                builder: (context) => const MainScreen()),// se cambia por nuevo menu
             (Route<dynamic> route) => false);
       } on GrpcError catch (e) {
         Navigator.of(context).pop();
@@ -67,11 +67,11 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
         return;
       } finally {
         channel.shutdown();
-        // Navigator.of(context).pop();
+        Navigator.of(context).pop();
       }
     } else {
       toast('Falló la autenticación con Google.', Colors.red);
-      // Navigator.pop(context);
+      Navigator.pop(context);
     }
   }
 
@@ -100,7 +100,7 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-                builder: (context) => const BottomNavigationCustom()),
+                builder: (context) => const MainScreen()),
             (Route<dynamic> route) => false);
       } on GrpcError catch (e) {
         Navigator.of(context).pop();
@@ -112,7 +112,7 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
         return;
       } finally {
         channel.shutdown();
-        // Navigator.of(context).pop();
+        Navigator.of(context).pop();
       }
       // print("referenteRegister response: " + response.message);
       // return (response.message);
@@ -159,18 +159,18 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
                 Image.asset('assets/images/otp/superreferente.png',
                   width: size.width * 0.52,
                 ),
-                const SizedBox(
-                  // width: size.width * 0.70,
-                  child: CustomFontAileronSemiBoldWhite(
+                SizedBox(
+                  width: size.width * 0.70,
+                  child: const CustomFontAileronSemiBoldWhite(
                     text: '¡ Te estábamos extrañando !',
                     fontSize: 0.045,
                   ),
                 ),
                 SizedBox(height: size.height * 0.07,
                 ),
-                const SizedBox(
-                  // width: size.width * 0.70,
-                  child: CustomFontAileronRegularWhite(
+                SizedBox(
+                  width: size.width * 0.70,
+                  child: const CustomFontAileronRegularWhite(
                     text: '¿Cómo deseas continuar?',
                   ),  
                 ),
@@ -215,7 +215,7 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
                     padding: const EdgeInsets.only(right: 8),
                     child: Image.asset(
                       'assets/images/option_login_screens/formulario.png',
-                      // width: size.width * 0.04,
+                      width: size.width * 0.04,
                       height: size.height * 0.044,
                       fit: BoxFit.fitHeight,
                   ),

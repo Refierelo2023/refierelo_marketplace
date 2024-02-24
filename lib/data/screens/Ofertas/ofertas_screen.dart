@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 // import 'package:image_downloader/image_downloader.dart';
 import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/data/screens/Ofertas/components/ofertas_btn.dart';
-import 'package:refierelo_marketplace/data/screens/Options/components/custom_appbar.dart';
+
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/providers/referente_provider.dart';
@@ -22,37 +22,37 @@ class _OfertasScreenState extends State<OfertasScreen> {
   bool loading = false;
 
   @override
-  void initState() {
-    super.initState();
+  // void initState() {
+  //   super.initState();
 
-    setState(() {
-      loading = true;
-    });
+  //   setState(() {
+  //     loading = true;
+  //   });
 
-    var channel = getChannel();
-    ServiceClient(channel)
-        .getRecursos(recursosRequest(
-            idComponente: 3,
-            sessionString: context
-                .read<ReferenteProvider>()
-                .referenteGlobal
-                ?.sessionString,
-            idreferente:
-                context.read<ReferenteProvider>().referenteGlobal?.idreferente))
-        .listen((value) {
-      if (value.tipoRecurso == 'imagen') {
-        setState(() {
-          imagenes.add({value: false});
-        });
-      }
-    }).onDone(() {
-      channel.shutdown();
+  //   // var channel = getChannel();
+  //   // ServiceClient(channel)
+  //       .getRecursos(recursosRequest(
+  //           idComponente: 3,
+  //           sessionString: context
+  //               .read<ReferenteProvider>()
+  //               .referenteGlobal
+  //               ?.sessionString,
+  //           idreferente:
+  //               context.read<ReferenteProvider>().referenteGlobal?.idreferente))
+  //       .listen((value) {
+  //     if (value.tipoRecurso == 'imagen') {
+  //       setState(() {
+  //         imagenes.add({value: false});
+  //       });
+  //     }
+  //   }).onDone(() {
+  //     channel.shutdown();
 
-      setState(() {
-      loading = false;
-    });
-      });
-  }
+  //     setState(() {
+  //     loading = false;
+  //   });
+  //     });
+  // }
 
   Future<void> descargar() async {
     try {
@@ -96,7 +96,6 @@ class _OfertasScreenState extends State<OfertasScreen> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: const CustomAppbar(title: 'Ofertas'),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(

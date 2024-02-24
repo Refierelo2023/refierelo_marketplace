@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
-import 'package:refierelo_marketplace/data/screens/componentscopy/bottom_navigation_custom.dart';
+import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
 
@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   MaterialPageRoute(
                       builder: (context) => (theFirstTime)
                           ? const IntroductionScreen()
-                          : const BottomNavigationCustom()))
+                          : const MainScreen()))//se cambia por nuevo menu
             });
   }
 

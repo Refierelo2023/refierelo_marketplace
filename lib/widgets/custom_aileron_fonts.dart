@@ -285,6 +285,42 @@ class CustomFontAileronSemiBoldTur extends StatelessWidget {
   }
 }
 
+class CustomFontAileronSemiBoldYellow extends StatelessWidget {
+  final String text;
+  final double fontSize;
+  final TextAlign? textAlign;
+  final int? maxLines;
+
+  const CustomFontAileronSemiBoldYellow({
+    super.key,
+    required this.text,
+    this.fontSize = 0.038,
+    this.textAlign,
+    this.maxLines,
+    });
+    // Nuevo método para obtener el estilo de texto deseado
+  TextStyle getTextStyle(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double calculatedFontSize = screenWidth * fontSize;
+
+    return TextStyle(
+      fontFamily: 'Aileron',
+      fontSize: calculatedFontSize,
+      fontWeight: FontWeight.w700,
+      color: const Color(0xFFf8e43e),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      textAlign: textAlign,
+      style: getTextStyle(context), 
+    );
+  }
+}
+
 class CustomFontAileronBold extends StatelessWidget {
   final String text;
   final double fontSize;

@@ -9,9 +9,8 @@ import 'package:refierelo_marketplace/app/helper/helpers/helpers.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/dialog_register.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/components.dart';
 import 'package:refierelo_marketplace/data/screens/Register/register_form.dart';
-import 'package:refierelo_marketplace/data/screens/componentscopy/body.dart';
-import 'package:refierelo_marketplace/data/screens/componentscopy/bottom_navigation_custom.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
+import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/data/screens/otp/insert_number_screen.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
@@ -30,7 +29,7 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
   String msisdn = '';
   @override
   void initState() {
-    //ignore: todo
+    // ignore: todo
     // TODO: implement initState
     super.initState();
     msisdn = widget.msisdn;
@@ -99,7 +98,7 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-              builder: (context) => const BottomNavigationCustom()),
+              builder: (context) => const MainScreen()),
           (Route<dynamic> route) => false);
     } else {
       Navigator.pop(context);
@@ -171,7 +170,7 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-              builder: (context) => const BottomNavigationCustom()),
+              builder: (context) => const MainScreen()),
           (Route<dynamic> route) => false);
 
       // print("referenteRegister response: " + response.message);
@@ -198,7 +197,7 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
         backgroundColor: Colors.transparent,
-        // toolbarHeight: 30,
+        toolbarHeight: 30,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           color: const Color(0xFFffffff),
@@ -238,19 +237,19 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: size.height * 0.1),
+                SizedBox(height: size.height * 0.2),
                 const Center(
                   child: CustomFontAileronRegularWhite(
                     text: '¿ Cómo deseas continuar ?',
                   ),
                 ),
-                SizedBox(height: size.height * 0.02),
+                SizedBox(height: size.height * 0.01),
                 btnForm(size, context),
-                SizedBox(height: size.height * 0.02),
+                SizedBox(height: size.height * 0.01),
                 btnFacebook(size),
-                SizedBox(height: size.height * 0.02),
+                SizedBox(height: size.height * 0.01),
                 btnGoogle(size),
-                SizedBox( height: size.height * 0.02),
+                SizedBox( height: size.height * 0.01),
               ],
             ),
           ),

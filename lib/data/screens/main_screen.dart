@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/reward_dialog.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/welcome_dialog.dart';
-import 'package:refierelo_marketplace/data/screens/Mi_Actividad/mi_actividad.dart';
-import 'package:refierelo_marketplace/data/screens/Register/options_register_screen.dart';
+import 'package:refierelo_marketplace/data/screens/Mi_Actividad/components/mi_actividad_tab.dart';
 import 'package:refierelo_marketplace/data/screens/home/components/sidebar.dart';
-import 'package:refierelo_marketplace/data/screens/home/homev.dart';
+import 'package:refierelo_marketplace/data/screens/screen_reward_user/widget_tabbar.dart';
+import 'package:refierelo_marketplace/data/screens/screens_home__view/screens_home_view.dart';
 import 'package:refierelo_marketplace/data/screens/screens_profile.dart/profile_screens.dart';
 import 'package:refierelo_marketplace/data/screens/display_refiere_aqui/display_refiere_aqui.dart';
-import 'package:refierelo_marketplace/data/screens/screens_profile.dart/screens_buy_points.dart';
+import 'package:refierelo_marketplace/data/screens/screens_profile_referir.dart';
+import 'package:refierelo_marketplace/data/screens/search_screens/search_screens.dart';
 import 'package:refierelo_marketplace/providers/referente_provider.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
-import 'package:refierelo_marketplace/widgets/widgets_botton_referir.dart';
+
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -25,10 +26,10 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   static final List<Widget> _listOptions = <Widget>[
-    Homev(setTab: (index) {}),
-    const OptionsRegisterScreen(msisdn: ""),
-    const WidgetDisplayReferir(),
-    const MiActividadScreen(),
+    const ScreensHomeView(),
+    const SearchScreens(),
+    const ScreenProfileReferir(),
+    const MiActividadTab(),
     const ProfileScreens(),
   ];
 
@@ -49,14 +50,15 @@ class _MainScreenState extends State<MainScreen> {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: MainScreenTop(
-          setTab: (index) {},
-          onTableRowsIconPressed: () {
-            _displaysidebar(context);
-          }),
+        setTab: (index) {},
+        onTableRowsIconPressed: () {
+          _displaysidebar(context);
+        },
+      ),
       body: _listOptions[_selectedIndex],
       bottomNavigationBar: SizedBox(
         height: 60,
@@ -129,6 +131,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 }
 
+
 class MainScreenTop extends StatelessWidget implements PreferredSizeWidget {
   const MainScreenTop({
     super.key,
@@ -195,10 +198,10 @@ class MainScreenTop extends StatelessWidget implements PreferredSizeWidget {
         flexibleSpace: Center(
           child: Padding(
             padding:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
+                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04),
             child: Container(
               width: containerWidth,
-              height: 38,
+              height: 43,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12.0),
                 color: Colors.white,
@@ -206,7 +209,7 @@ class MainScreenTop extends StatelessWidget implements PreferredSizeWidget {
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.2),
                     spreadRadius: 3,
-                    blurRadius: 6,
+                    blurRadius: 8,
                   ),
                 ],
               ),
@@ -232,18 +235,18 @@ class MainScreenTop extends StatelessWidget implements PreferredSizeWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const ScreensBuyPoints(),
+                      builder: (context) => const WidgetTabBar()
                     ),
                   );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Padding(padding: EdgeInsets.only(left: 2, right: 3)),
+                    const Padding(padding: EdgeInsets.all(5)),
                     Image.asset(
                       'assets/images/images_main_screen_top/puntos.png',
-                      height: 55,
-                      width: 25,
+                      height: 60,
+                      width: 26,
                     ),
                     Expanded(
                       child: Center(
@@ -253,7 +256,7 @@ class MainScreenTop extends StatelessWidget implements PreferredSizeWidget {
                                   .referenteGlobal
                                   ?.puntos
                                   .toString() ??
-                              '5.000',
+                              '1.000',
                           style: const TextStyle(
                             fontSize: 19,
                             fontWeight: FontWeight.bold,

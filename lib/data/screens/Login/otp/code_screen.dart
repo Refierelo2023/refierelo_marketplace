@@ -24,7 +24,7 @@ class _CodeScreenState extends State<CodeScreen> {
 
   @override
   void initState() {
-    //ignore:todo
+    // ignore:todo
     // TODO: implement initState
     super.initState();
     msisdn = widget.msisdn;
@@ -79,8 +79,8 @@ class _CodeScreenState extends State<CodeScreen> {
                       enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Color(0xffc0c0c0))),
                       focusedBorder: UnderlineInputBorder(
-                         // ignore: unnecessary_const
-                        borderSide: const BorderSide(color: Color(0xffc0c0c0),
+                    
+                        borderSide: BorderSide(color: Color(0xffc0c0c0),
                       ),
                     ),
                   ),

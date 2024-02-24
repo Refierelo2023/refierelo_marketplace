@@ -139,7 +139,7 @@ class _MiActividadDetalleScreenState extends State<MiActividadDetalleScreen> wit
                     ),
                   ),
                 ),
-                // SizedBox(height: size.height * 0.02),
+                SizedBox(height: size.height * 0.02),
                 Expanded(
                 child:  Container(
                 width: MediaQuery.of(context).size.width,
@@ -182,7 +182,7 @@ class _MiActividadDetalleScreenState extends State<MiActividadDetalleScreen> wit
 
     @override
   void dispose() {
-    // _pagingController.dispose();
+    _pagingController.dispose();
     super.dispose();
   }
 }
