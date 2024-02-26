@@ -85,10 +85,10 @@ Future<void> uploadStoryAndNavigate(BuildContext context) async {
       });
     } else {
       // Maneja el caso en que la carga al servidor no fue exitosa
-      print("Error en la carga al servidor: ${response.statusCode}");
+      // print("Error en la carga al servidor: ${response.statusCode}");
     }
   } catch (error) {
-    print("Error: $error");
+    // print("Error: $error");
   }
 }
 

@@ -15,7 +15,7 @@ class Body extends StatelessWidget {
   var bgimg = "";
   var welcomMsg = "¡Bienvenido!";
 
-  // Body({super.key});
+  Body({super.key});
 
   Future<String> getConfig() async {
     try {

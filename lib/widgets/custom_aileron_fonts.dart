@@ -159,7 +159,7 @@ class CustomFontAileronRegularTur extends StatelessWidget {
     return TextStyle(
       fontFamily: 'Aileron',
       fontSize: calculatedFontSize,
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w500,
       color: const Color(0xFF00DFEE),
     );
   }

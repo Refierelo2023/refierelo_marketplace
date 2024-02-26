@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:grpc/grpc.dart';
 import 'package:provider/provider.dart';
+import 'package:refierelo_marketplace/data/screens/donation/pop_donation.dart';
+import 'package:refierelo_marketplace/data/screens/popup_customer_money/login_pop_customer_money.dart';
 import 'package:refierelo_marketplace/data/screens/screen_reward_user/btn_recompesas.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
@@ -233,7 +235,11 @@ class _RecompensasTabState extends State<RecompensasTab> {
                                       },
                                     ),
                                     BtnYellowButton(
-                                        titulo: 'Donar', callback: () {}),
+                                        titulo: 'Donar',
+                                        callback: () {
+                                            PopDonation.showLoginPop(
+                                                context);
+                                        }),
                                     // BtnRecompensas(
                                     //     titulo: 'Efectivo', callback: () {}),
                                   ],

@@ -46,9 +46,7 @@ class SearchScreensState extends State<SearchScreens> with SingleTickerProviderS
             children: [              
               Padding(                
                 padding: const EdgeInsets.only(left: 8, right: 8),
-                child: Flexible(
-                  child: SearchBox(controller: searchController),
-                ),
+                child: SearchBox(controller: searchController),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 4, left: 8, right: 8),
@@ -100,9 +98,7 @@ class SearchScreensState extends State<SearchScreens> with SingleTickerProviderS
                           showModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
-                              return WidgetDisplayCategories(
-                                allCategories: allCategories,
-                                searchController: searchController,
+                              return const WidgetDisplayCategories(
                               );// llamando contenedor vertical
                             },
                           );

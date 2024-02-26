@@ -10,7 +10,6 @@ import 'package:refierelo_marketplace/data/screens/Register/components/component
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
 import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
-import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Register/components/custom_input.dart';
 

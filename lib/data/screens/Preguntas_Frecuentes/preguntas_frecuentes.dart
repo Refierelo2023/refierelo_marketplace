@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:refierelo_marketplace/data/screens/Preguntas_Frecuentes/List_preguntas.dart';
 import 'package:refierelo_marketplace/data/screens/Preguntas_Frecuentes/pregunta_item.dart';
 import 'package:refierelo_marketplace/data/screens/main_screen.dart';
-import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens.dart';
 import 'package:refierelo_marketplace/models/pregunta_frecuente.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:refierelo_marketplace/widgets/search_box.dart';

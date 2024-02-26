@@ -221,6 +221,11 @@ flutter:
     - assets/images/pop_error/pop_error.png
     - assets/images/pop_reward/Reward.png
     - assets/images/refiere_una_empresa/store.png
+    - assets/images/images_icons/heartWhite.png
+    - assets/images/images_icons/starWhite.png    
+    - assets/images/images_icons/sharehistory1.png
+    - assets/images/donation/FrailejonBanner.png
+    
   
     
 

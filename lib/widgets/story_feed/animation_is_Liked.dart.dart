@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
+
 
 class AnimationIsLiked extends StatefulWidget {
   const AnimationIsLiked({super.key});
@@ -9,43 +10,37 @@ class AnimationIsLiked extends StatefulWidget {
 }
 
 class _AnimationIsLikedState extends State<AnimationIsLiked> {
-  bool isLiked = false;
-  Color iconColor = Colors.white;
-
-  void _handleOnTap() {
-    setState(() {
-      isLiked = !isLiked;
-      iconColor = isLiked ? Colors.red : Colors.white;
-    });
-  }
+  bool isHeartIconSelected = false;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _handleOnTap,
+    return GestureDetector(      
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: const EdgeInsets.all(4),         
-             child: FaIcon(
-              FontAwesomeIcons.heart,
-              color: iconColor,
-              size: 20,
-            ),
+            padding:  const EdgeInsets.only(left: 0, right: 0),
+            child: InkWell(
+                onTap: () {
+                  setState(() {
+                    isHeartIconSelected = !isHeartIconSelected;
+                  });
+                },
+                child: Image.asset(
+                  isHeartIconSelected
+                      ? "assets/images/images_icons/heart2.png"
+                      : "assets/images/images_icons/heartWhite.png",
+                  width: 25,
+                  height: 25,
+                ),
+              ),
           ),
           const Padding(
-            padding: EdgeInsets.only(top: 4),
-            child: Text(
-              'Me gusta',
-              style: TextStyle(
-                fontFamily: 'Aileron',
-                fontSize: 12,
-                color: Colors.white,
-                fontWeight: FontWeight.w400,
-              ),
+            padding: EdgeInsets.only(top: 2),
+            child: CustomFontAileronRegularWhite(
+              text: "Me gusta",
             ),
           ),
         ],

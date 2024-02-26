@@ -3,13 +3,13 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:refierelo_marketplace/app/app_data/story_data.dart';
 import 'package:refierelo_marketplace/app/models/story_model.dart';
+import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:refierelo_marketplace/widgets/story_feed/animation_bar.dart';
 import 'package:refierelo_marketplace/widgets/story_feed/animation_is_Liked.dart.dart';
+import 'package:refierelo_marketplace/widgets/story_feed/widget_display_share_history.dart';
 import 'package:refierelo_marketplace/widgets/story_feed/widgets_user_info.dart';
-import 'package:refierelo_marketplace/widgets/widgets_botton_referir.dart';
 import 'package:video_player/video_player.dart';
 
 class WidgetsStoryFeed extends StatefulWidget {
@@ -230,7 +230,7 @@ class _WidgetsStoryFeedState extends State<WidgetsStoryFeed>
             },
           ),
           bottomNavigationBar: Padding(
-            padding: const EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.only(right: 10, top: 5,),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.end,
@@ -242,7 +242,7 @@ class _WidgetsStoryFeedState extends State<WidgetsStoryFeed>
                     showModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
-                        return const WidgetDisplayReferir(); // Ajusta según sea necesario
+                        return const WidgetDisplayShareHistory(); // Ajusta según sea necesario
                       },
                     );
                   },
@@ -252,24 +252,17 @@ class _WidgetsStoryFeedState extends State<WidgetsStoryFeed>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(4),
-                        child: const FaIcon(
-                          FontAwesomeIcons
-                              .solidPaperPlane, // Tu ícono de compartir
-                          color: Colors.white,
-                          size: 20,
+                        padding: const EdgeInsets.only(left: 0, right: 0,),
+                        child: Image.asset(
+                          "assets/images/images_icons/sharehistory1.png", 
+                          width: 28,
+                          height:28,
                         ),
                       ),
                       const Padding(
-                        padding: EdgeInsets.only(top: 4),
-                        child: Text(
-                          'Publicar',
-                          style: TextStyle(
-                            fontFamily: 'Aileron',
-                            fontSize: 12,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
-                          ),
+                        padding: EdgeInsets.only(top: 1),
+                        child:CustomFontAileronRegularWhite(
+                          text: "Publicar",
                         ),
                       ),
                     ],

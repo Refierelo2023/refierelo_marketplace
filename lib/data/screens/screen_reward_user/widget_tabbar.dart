@@ -22,8 +22,7 @@ class WidgetTabBarState extends State<WidgetTabBar>
     super.initState();
     _tabController = TabController(length: 4, vsync: this, initialIndex: 1);
 
-    _tabController.addListener(() {
-      print("Current Tab Index: ${_tabController.index}");
+    _tabController.addListener(() {      
       setState(() {
         appBarKey = UniqueKey();
       });
