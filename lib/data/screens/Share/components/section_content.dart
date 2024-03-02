@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 
 class SectionContent extends StatelessWidget {
   final String content;
@@ -9,22 +10,12 @@ class SectionContent extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Container
-    (
-      margin: EdgeInsets.symmetric(vertical: size.height * 0.01, horizontal: size.width * 0.04),
-      child: Align
-      (
+    return Container(
+        margin: EdgeInsets.symmetric(
+            vertical: size.height * 0.01, horizontal: size.width * 0.04),
+        child: Align(
             alignment: Alignment.centerLeft,
-            child: Text
-            (
-                content,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w400,
-                    fontSize: fontSize,
-                    height: 1.4
-                    )
-            )
+            child: CustomFontAileronRegularWhite(text: content),
       )
     );
   }

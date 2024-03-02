@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/custom_input.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/terms_check.dart';
 import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart';
-import 'package:refierelo_marketplace/data/screens/otp/insert_number_screen.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens_setup_account.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -109,8 +108,7 @@ class LoginScreensDataState extends State<LoginScreensData> {
     claveController.dispose();
     confirmaclaveController.dispose();
     webController.dispose();
-    instagramController.dispose();
-    // Libera otros controladores aquí si los tienes
+    instagramController.dispose();    
     super.dispose();
   }
 

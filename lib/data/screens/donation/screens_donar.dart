@@ -3,7 +3,7 @@ import 'package:refierelo_marketplace/data/screens/screen_reward_user/btn_recomp
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 
 class ScreensDonar extends StatefulWidget {
-  const ScreensDonar({Key? key}) : super(key: key);
+  const ScreensDonar({super.key});
 
   @override
   _ScreensDonarState createState() => _ScreensDonarState();

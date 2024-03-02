@@ -68,8 +68,11 @@ dependencies:
   url_launcher: 6.1.4
   simple_circular_progress_bar: 1.0.1
   grpc: 3.2.3
-  # grpc: 3.2.4 
-  # image_downloader: 0.31.0
+  youtube_player_flutter: ^9.0.0
+  flutter_downloader: ^1.11.6
+  image_gallery_saver: ^2.0.3
+
+  
   
 
   
@@ -166,10 +169,10 @@ flutter:
     - assets/images/images_display_refiere_aqui/pensiones.png
     - assets/images/images_display_refiere_aqui/reportados.png
     - assets/images/images_display_refiere_aqui/seguros.png
-    - assets/images/images_icons/compartir.png
+    - assets/images/images_icons/compartirnegro.png
     - assets/images/images_icons/heart.png
     - assets/images/images_icons/star.png
-    - assets/images/images_icons/compartir2.png
+    - assets/images/images_icons/compartirblue1.png
     - assets/images/images_icons/heart2.png
     - assets/images/images_icons/star2.png
     - assets/images/nps/NPS1.png
@@ -225,6 +228,10 @@ flutter:
     - assets/images/images_icons/starWhite.png    
     - assets/images/images_icons/sharehistory1.png
     - assets/images/donation/FrailejonBanner.png
+    - assets/images/comparte_y_gana/bannerReferente.png
+    - assets/images/comparte_y_gana/1.png
+    - assets/images/comparte_y_gana/youtube.png
+    - assets/images/images_icons/compartirblanco.png
     
   
     

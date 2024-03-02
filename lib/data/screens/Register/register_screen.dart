@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:refierelo_marketplace/data/screens/otp/insert_number_screen.dart';
+import 'package:refierelo_marketplace/data/screens/Register/options_register_screen.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_type_company.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
 
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
+
+  Future<void> enviarWebhook(String tipo) async {
+    final url = Uri.parse("http://5.189.161.131:5000/webhook");
+    final data = {"tipo": tipo};
+
+    final respuesta = await http.post(url, body: data);
+    if (respuesta.statusCode == 200) {
+      print('Webhook enviado con éxito');
+    } else {
+      print('Error al enviar el webhook: ${respuesta.statusCode}');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,29 +42,34 @@ class RegisterScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(2.0),
         child: Column(
-          children: [          
+          children: [
             GestureDetector(
-              onTap: () {
+              onTap: () async {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const InsertNumberScreen(),
+                    builder: (context) => const OptionsRegisterScreen(
+                      msisdn: '',
+                    ),
                   ),
                 );
+                await enviarWebhook("1. Referente");
+                print('Webhook enviado para Referente');
               },
-              child: cardReferente(context),
+              child: cardReferente(context, () => null),
             ),
             GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginScreens(),
-                  ),
-                );
-              },
-              child: cardComercio(context),
-            ),
+                onTap: () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginScreens(),
+                    ),
+                  );
+                  await enviarWebhook("2. Comercio");
+                  //  print('Webhook enviado para Comercio');
+                },
+                child: cardComercio(context, () => null)),
           ],
         ),
       ),
@@ -59,7 +77,7 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  Container cardComercio(BuildContext context) {
+  Container cardComercio(BuildContext context, Function()? onTap) {
     return Container(
       margin: EdgeInsets.only(
           left: MediaQuery.of(context).size.width * 0.04,
@@ -73,23 +91,23 @@ class RegisterScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(15)),
       child: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10, top: 15),
-        child: Row(          
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             const Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Image(
-                  image: AssetImage('assets/images/option_register/comercio.png'),
+                  image:
+                      AssetImage('assets/images/option_register/comercio.png'),
                   width: 140,
                   height: 170,
                   fit: BoxFit.contain,
                 ),
               ],
             ),
-            Column(
-             children: [
-              const SizedBox(                
+            Column(children: [
+              const SizedBox(
                 height: 40,
                 child: CustomFontAileronSemiBoldWhite(
                   text: "Tengo un negocio",
@@ -124,8 +142,7 @@ class RegisterScreen extends StatelessWidget {
                           text: '',
                           style: const CustomFontAileronRegularWhite(text: " ")
                               .getTextStyle(context)
-                              .copyWith(height: 1.5)
-                          ),
+                              .copyWith(height: 1.5)),
                     ]),
               ),
             ])
@@ -135,7 +152,7 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  Container cardReferente(BuildContext context) {
+  Container cardReferente(BuildContext context, Function()? onTap) {
     return Container(
       margin: EdgeInsets.only(
           left: MediaQuery.of(context).size.width * 0.04,
@@ -160,9 +177,8 @@ class RegisterScreen extends StatelessWidget {
               height: 180,
               fit: BoxFit.contain,
             ),
-            Column(              
-              children: [
-              const SizedBox(                
+            Column(children: [
+              const SizedBox(
                 height: 40,
                 child: CustomFontAileronSemiBoldWhite(
                   text: 'Quiero ser Referente',

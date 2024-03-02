@@ -14,8 +14,10 @@ class ShareBtnYoutube extends StatelessWidget {
       height: size.height * 0.05,
       decoration: BoxDecoration(
           gradient: const LinearGradient(
-              colors: [Color(0xffCE8F21), Color(0xffF8E43E)]),
-          borderRadius: BorderRadius.circular(30)),
+                  begin: Alignment.bottomCenter,
+                   end: Alignment.topCenter,
+                    colors: [ Color(0xffCE8F21),Color(0xffF8E43E),]),
+          borderRadius: BorderRadius.circular(10)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

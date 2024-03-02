@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_list_categories.dart';
 import 'package:refierelo_marketplace/data/screens/search_screens/display_categories.dart';
 import 'package:refierelo_marketplace/data/screens/search_screens/screens_user_search_comprar.dart';
 import 'package:refierelo_marketplace/data/screens/search_screens/screens_user_search_referir.dart';

@@ -17,6 +17,7 @@ import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:refierelo_marketplace/constants.dart';
 
+
 class OptionsRegisterScreen extends StatefulWidget {
   final String msisdn;
   const OptionsRegisterScreen({super.key, required this.msisdn});
@@ -215,7 +216,7 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: size.height * 0.30),
+                SizedBox(height: size.height * 0.34),
                 Center(
                   child: RichText(
                     textAlign: TextAlign.center,
@@ -294,7 +295,7 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
                 child: Padding(
                   padding: EdgeInsets.only(left: 2),
                   child: CustomFontAileronRegularWhite(
-                    text: 'Continuar con formulario',
+                    text: 'Continuar con tus datos',
                   ),
                 ),
               ),

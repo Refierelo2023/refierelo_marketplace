@@ -7,6 +7,7 @@ import 'package:refierelo_marketplace/app/helper/helpers/helpers.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/dialog_register.dart';
 import 'package:refierelo_marketplace/data/screens/Login/logueo_form_screen.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/components.dart';
+import 'package:refierelo_marketplace/data/screens/Register/register_form.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/body.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
 import 'package:refierelo_marketplace/data/screens/main_screen.dart';
@@ -203,7 +204,7 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const LogueoFormScreen()),
+              MaterialPageRoute(builder: (context) => const RegisterForm(msisdn: '',)),
             );
           },
           child: Row(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 
 class SocialButton extends StatefulWidget {
   final String img;
@@ -20,10 +21,12 @@ class _SocialButtonState extends State<SocialButton> {
       children: [
         Image.asset(
           widget.img,
-          height: size.height * 0.08,
-          width: size.width * 0.2,
+          height: size.height * 0.12,
+          width: size.width * 0.12,
         ),
-        Text(widget.title, style: const TextStyle(color: Colors.white))
+        Text(widget.title, style: const CustomFontAileronRegularWhite(
+          text: "",).getTextStyle(context)
+        ),
       ],
     );
   }

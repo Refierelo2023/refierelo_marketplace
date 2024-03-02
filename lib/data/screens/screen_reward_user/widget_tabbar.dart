@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:refierelo_marketplace/data/screens/Mi_Actividad/components/comparte_y_gana_tab.dart';
 import 'package:refierelo_marketplace/data/screens/Mi_Actividad/components/mi_actividad_tab.dart';
+import 'package:refierelo_marketplace/data/screens/Share/share_screen.dart';
 import 'package:refierelo_marketplace/data/screens/screen_reward_user/recompensas_tab.dart';
 import 'package:refierelo_marketplace/data/screens/screens_home__view/screens_announcements.dart';
 import 'package:refierelo_marketplace/data/screens/search_screens/search_screens.dart';
@@ -22,7 +22,7 @@ class WidgetTabBarState extends State<WidgetTabBar>
     super.initState();
     _tabController = TabController(length: 4, vsync: this, initialIndex: 1);
 
-    _tabController.addListener(() {      
+    _tabController.addListener(() {
       setState(() {
         appBarKey = UniqueKey();
       });
@@ -42,7 +42,7 @@ class WidgetTabBarState extends State<WidgetTabBar>
       length: 4,
       child: Scaffold(
         appBar: AppBar(
-          key: appBarKey,// clava para cambiar de color el icono según el index
+          key: appBarKey, // clave para cambiar de color el icono según el index
           toolbarHeight: 35,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
@@ -80,7 +80,7 @@ class WidgetTabBarState extends State<WidgetTabBar>
                                 changeTab: () {},
                                 tabController: _tabController)),
                         const Center(child: MiActividadTab()),
-                        const Center(child: ComparteYGanaTab()),
+                        const Center(child: ShareScreen()),
                       ],
                     ),
                   ),
@@ -116,9 +116,9 @@ class WidgetTabBarState extends State<WidgetTabBar>
       // Index 3 y 4
       return const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xff003366), Color(0xff003366)],
-          begin: Alignment.bottomLeft,
-          end: Alignment.bottomRight,
+          colors: [Color(0xff02B5E7), Color(0xff02B5E7)],
+          begin:Alignment.bottomCenter, 
+          end:Alignment.topCenter,
         ),
       );
     }

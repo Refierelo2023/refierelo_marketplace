@@ -219,7 +219,7 @@ class ProductIconRowState extends State<ProductIconRow> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10),
+      padding: const EdgeInsets.only(left: 20, right: 10),
       child: SizedBox(
         height: 50,
         child: Row(
@@ -239,24 +239,7 @@ class ProductIconRowState extends State<ProductIconRow> {
                 height: 28,
               ),
             ),
-            const Spacer(),
-            InkWell(
-              onTap: () {
-                setState(() {
-                  isCustomIconSelected = !isCustomIconSelected;
-                });
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: Image.asset(
-                  isCustomIconSelected
-                      ? "assets/images/images_icons/compartir2.png"
-                      : "assets/images/images_icons/compartir.png",
-                  width: 25,
-                  height: 25,
-                ),
-              ),
-            ),
+            const Spacer(),            
             InkWell(
               onTap: () {
                 setState(() {
@@ -269,6 +252,24 @@ class ProductIconRowState extends State<ProductIconRow> {
                     : "assets/images/images_icons/heart.png",
                 width: 25,
                 height: 25,
+              ),
+            ),
+            const SizedBox(width: 15,),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  isCustomIconSelected = !isCustomIconSelected;
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Image.asset(
+                  isCustomIconSelected
+                      ? "assets/images/images_icons/compartirblue1.png"
+                      : "assets/images/images_icons/compartirnegro.png",
+                  width: 25,
+                  height: 25,
+                ),
               ),
             ),
           ],

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:image_downloader/image_downloader.dart';
-import 'package:provider/provider.dart';
+
 import 'package:refierelo_marketplace/data/screens/Ofertas/components/ofertas_btn.dart';
 
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
-import 'package:refierelo_marketplace/providers/referente_provider.dart';
-import '../Register/components/components.dart';
+
+
 
 class OfertasScreen extends StatefulWidget {
   const OfertasScreen({super.key});

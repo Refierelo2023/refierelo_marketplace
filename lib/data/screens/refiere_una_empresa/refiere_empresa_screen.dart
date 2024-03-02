@@ -204,7 +204,7 @@ class _RefiereEmpresaScreenState extends State<RefiereEmpresaScreen> {
                                   .getTextStyle(context)
                                   .copyWith(height: 1.5)),
                           TextSpan(
-                              text: 'Gana más Puntos',
+                              text: 'Gana 100 Puntos',
                               style:
                                   const CustomFontAileronSemiBoldYellow(text: " ")
                                       .getTextStyle(context)
@@ -230,6 +230,7 @@ class _RefiereEmpresaScreenState extends State<RefiereEmpresaScreen> {
                     campo: " (Opcional)", 
                     frase: "Identificación",
                      controller: identificacionEmpresa,
+                     keyBoardType: TextInputType.number,
                      ),                  
                   SizedBox(height: size.height * 0.02),
                   InputSugerencia(
@@ -242,6 +243,7 @@ class _RefiereEmpresaScreenState extends State<RefiereEmpresaScreen> {
                     campo: " teléfono", 
                     frase: "Número de ",
                      controller: telefonoEmpresa,
+                     keyBoardType: TextInputType.number,
                      ),
                   SizedBox(height: size.height * 0.02),
                   Container(

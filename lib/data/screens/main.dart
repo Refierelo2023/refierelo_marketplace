@@ -6,6 +6,7 @@ import 'package:refierelo_marketplace/constants.dart';
 import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens_data.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/registration_costumer_nps.dart';
+import 'package:refierelo_marketplace/data/screens/sugerencias/sugerencias_screen.dart';
 import 'package:refierelo_marketplace/providers/referente_provider.dart';
 
 void main() {
@@ -16,6 +17,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => UserNameProvider()),
         ChangeNotifierProvider(create: (_) => UserDataProvider()),
         ChangeNotifierProvider(create: (_) => ReferenteProvider()),
+        ChangeNotifierProvider(create: (_) =>UserDataProviderSugerencias()),
       ],
       child: const MyApp(),
     ),

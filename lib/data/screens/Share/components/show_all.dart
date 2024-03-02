@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:refierelo_marketplace/data/screens/Share/all_contacts.dart';
+import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 
 class ShowAllContacts extends StatelessWidget {
   const ShowAllContacts({super.key});
@@ -10,15 +11,16 @@ class ShowAllContacts extends StatelessWidget {
 
     return Container(
         margin: EdgeInsets.symmetric(
-            vertical: size.height * 0.01, horizontal: size.width * 0.04),
+            vertical: size.height * 0.005, 
+            horizontal: size.width * 0.04),
         child: Align(
             alignment: Alignment.centerRight,
             child: Container(
-              height: size.height * 0.04,
+              height: size.height * 0.05,
               width: size.width * 0.3,
               decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.25),
-                  borderRadius: BorderRadius.circular(15)),
+                  borderRadius: BorderRadius.circular(10)),
               child: TextButton(
                 style: TextButton.styleFrom(foregroundColor: Colors.white),
                 onPressed: () {
@@ -28,11 +30,10 @@ class ShowAllContacts extends StatelessWidget {
                         builder: (context) => const AllContactsScreen()),
                   );
                 },
-                child: const Text(
-                  'Mostrar todo',
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                ),
-              ),
-            )));
+            child: const CustomFontAileronRegularWhite(text: "Mostrar todo")
+          ),
+        )
+      )
+    );
   }
 }

@@ -76,7 +76,17 @@ class _AllContactsScreenState extends State<AllContactsScreen> {
             Text('No hay contactos para mostrar.', style: TextStyle(color: Colors.white),)
             ],
           )
-         : const Center(child: CircularProgressIndicator())
+         : Center(child:  Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                'assets/images/loading/LOADING.gif',
+                height: 100,
+                width: 100,
+              ),
+            ],
+          ),)
         ),
       ),
     );

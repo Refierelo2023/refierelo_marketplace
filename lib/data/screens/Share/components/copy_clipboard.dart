@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 
 class CopyClipboard extends StatefulWidget {
   const CopyClipboard({required this.path, super.key});
@@ -19,30 +20,28 @@ class _CopyClipboardState extends State<CopyClipboard> {
 
     return Container(
       width: size.width,
-      height: size.height * 0.05,
-      padding: const EdgeInsets.only(left: 10),
+      height: size.height * 0.07,
+      padding: const EdgeInsets.only(top: 5, bottom: 5),
       margin: EdgeInsets.symmetric(
           vertical: size.height * 0.01, horizontal: size.width * 0.04),
       decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.23),
-          borderRadius: BorderRadius.circular(10)),
+          borderRadius: BorderRadius.circular(15)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Expanded(
-            child: Text(
-              widget.path,
-              overflow: TextOverflow.fade,
-              style: const TextStyle(color: Colors.white, fontSize: 10),
-            ),
+            child: CustomFontAileronRegularWhite(text: widget.path),
           ),
           Container(
-            height: size.height * 0.04,
-            width: size.width * 0.18,
+            height: size.height * 0.05,
+            width: size.width * 0.25,
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                    colors: [Color(0xffF8E43E), Color(0xffCE8F21)]),
+                  begin: Alignment.bottomCenter,
+                   end: Alignment.topCenter,
+                    colors: [ Color(0xffCE8F21),Color(0xffF8E43E),]),
                 borderRadius: BorderRadius.circular(10)),
             child: TextButton(
               onPressed: () async {
@@ -60,13 +59,7 @@ class _CopyClipboardState extends State<CopyClipboard> {
                   //error
                 }
               },
-              child: const Text(
-                'Copiar',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12),
-              ),
+              child:const CustomFontAileronRegularWhite(text: "Copiar"),
             ),
           ),
         ],

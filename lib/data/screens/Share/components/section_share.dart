@@ -1,24 +1,17 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:grpc/grpc.dart';
-import 'package:http/http.dart' as http;
-// import 'package:image_downloader/image_downloader.dart';
-import 'package:intl/intl.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:provider/provider.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
-import 'package:refierelo_marketplace/providers/referente_provider.dart';
-import 'package:share_plus/share_plus.dart';
-import '../../Register/components/components.dart';
+import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
+import 'package:refierelo_marketplace/widgets/widgets_botton_referir.dart';
 
 class SectionShare extends StatefulWidget {
-  const SectionShare({required this.callback, required this.image, super.key});
-
-  final recursosResponse image;
+  const SectionShare({required this.callback, super.key});
 
   final Function(String) callback;
 
@@ -28,190 +21,171 @@ class SectionShare extends StatefulWidget {
 
 class _SectionShareState extends State<SectionShare> {
   @override
+  void initState() {
+    super.initState();
+    FlutterDownloader.initialize(debug: true);
+  }
+
+  Future<void> _downloadImage() async {
+    try {
+      const String imageName = 'bannerReferente.png';
+      final ByteData data =
+          await rootBundle.load('assets/images/comparte_y_gana/$imageName');
+      final List<int> bytes = data.buffer.asUint8List();
+      final Directory tempDir = await getTemporaryDirectory();
+      final String tempPath = tempDir.path;
+      final File file = File('$tempPath/$imageName');
+      await file.writeAsBytes(bytes);
+
+      // Guardar en la galería
+      final result =
+          await ImageGallerySaver.saveImage(Uint8List.fromList(bytes));
+
+      // Puedes agregar lógica adicional aquí, como mostrar un mensaje de éxito.
+      print('Imagen guardada en: ${file.path}');
+      print('Guardada en la galería: $result');
+    } catch (error) {
+      print('Error al descargar la imagen: $error');
+      // Trata el error según sea necesario (por ejemplo, mostrar un mensaje de error).
+      throw PlatformException(
+        code: 'DOWNLOAD_ERROR',
+        message: 'Error al descargar la imagen',
+        details: error.toString(),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Align(
-            alignment: Alignment.centerLeft,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Image.network(
-                  widget.image.path,
-                  width: size.width * 0.3,
-                  height: size.height * 0.3,
-                ),
-                Image.asset(
-                  'assets/images/comparte_y_gana/banner_2.png',
-                  width: size.width * 0.3,
-                  height: size.height * 0.3,
-                )
-              ],
-            )),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.asset(
+                'assets/images/comparte_y_gana/bannerReferente.png',
+                width: size.width * 0.3,
+                height: size.height * 0.3,
+              )
+            ],
+          ),
+        ),
         Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextButton(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          backgroundColor: Colors.transparent,
-                          content: Container(color: Colors.transparent, height: 400, width: 500, child: PhotoView(
-                              backgroundDecoration: const BoxDecoration(color: Colors.transparent),
-                              imageProvider: NetworkImage(widget.image.path)),),
-                        );
-                      });
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                     Image.asset(
-                      'assets/images/comparte_y_gana/vista_previa.png',
-                      width: size.width * 0.06,
-                      color: Colors.white,
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      backgroundColor: Colors.transparent,
+                      content: Container(
+                        color: Colors.transparent,
+                        height: 400,
+                        width: 500,
+                        child: PhotoView(
+                          backgroundDecoration: const BoxDecoration(
+                            color: Colors.transparent,
+                          ),
+                          imageProvider: const AssetImage(
+                            'assets/images/comparte_y_gana/bannerReferente.png',
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.visibility_rounded,
+                      color: Color(0xFFffffff),
                     ),
-                    Text('  Vista previa',
-                        style: TextStyle(
-                            color: Colors.white, fontSize: size.width * 0.04))
-                  ],
-                )),
-            const Divider(
-              height: 18,
-              color: Colors.transparent,
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Cerrar la vista previa
+                    },
+                  ),
+                  const CustomFontAileronRegularWhite(
+                    text: 'Vista previa',
+                  ),
+                ],
+              ),
             ),
+            const Divider(height: 5),
             TextButton(
-                onPressed: () async {
-                  final url = Uri.parse(widget.image.path);
-                  final response = await http.get(url);
-                  final bytes = response.bodyBytes;
-
-                  final temp = await getTemporaryDirectory();
-                  final path = '${temp.path}/image.jpg';
-                  File(path).writeAsBytesSync(bytes);
-
-                  String msgSend = '';
-
-                  var result =
-                      // ignore: deprecated_member_use
-                      await Share.shareFilesWithResult([path], text: msgSend);
-
-                  if (result.status == ShareResultStatus.success) {
-                    try {
-                      var channel = getChannel();
-                      var response = await ServiceClient(getChannel())
-                          .asignarPuntos(asignarPuntosRequest(
-                              sessionString: await SessionManager().get('sessionString'),
-                              configCodigo: widget.image.configCodigo,
-                              date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                              idRecurso: widget.image.idRecurso,
-                              ),
-                              
-                              );
-
-                      channel.shutdown();
-
-                      context.read<ReferenteProvider>().actualizarPuntos(
-                          int.tryParse(response.puntos.toString()) ?? 0);
-                      widget.callback('imagen');
-                    } on GrpcError catch (e) {
-                      Fluttertoast.showToast(
-                          msg: e.message ?? 'Hubo un error.',
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 1,
-                          backgroundColor: Colors.orange,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
-                    } on Exception {
-                      Fluttertoast.showToast(
-                          msg: 'Hubo un error.',
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 1,
-                          backgroundColor: Colors.orange,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
-                    }
-                  } else {
-                    Fluttertoast.showToast(
-                        msg: 'No compartido.',
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.orange,
-                        textColor: Colors.white,
-                        fontSize: 16.0);
-                  }
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.asset(
-                      'assets/images/comparte_y_gana/compartir.png',
-                      width: size.width * 0.06,
-                      color: Colors.white,
+              onPressed: () {},
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.share_rounded,
+                      color: Color(0xFFffffff),
                     ),
-                    Text('  Compartir',
-                        style: TextStyle(
-                            color: Colors.white, fontSize: size.width * 0.04))
-                  ],
-                )),
-            const Divider(
-              height: 18,
-              color: Colors.transparent,
+                    onPressed: () {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const WidgetDisplayReferir();
+                        }
+                      );
+                    },
+                  ),
+                  const CustomFontAileronRegularWhite(
+                    text: 'Compartir',
+                  ),
+                ],
+              ),
             ),
-            // TextButton(
-            //   onPressed: () async {
-            //     try {
-            //       // var imageId = await ImageDownloader.downloadImage(widget.image.path);
-            //       if (imageId == null) {
-            //         return;
-            //       } else {
-            //         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            //           content: Text('Imagen guardada en el dispositivo'),
-            //           duration: Duration(seconds: 1),
-            //           action: null,
-            //           // action: SnackBarAction(
-            //           //   label: 'Abrir imagen',
-            //           //   onPressed: () {},
-            //           // ),
-            //         ));
-            //       }
-            //     } on PlatformException {
-            //       toast('No se pudo descargar.', Colors.red);
-            //     }
-            //   },
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       Image.asset(
-            //         'assets/images/comparte_y_gana/descargar.png',
-            //         width: size.width * 0.06,
-            //         color: Colors.white,
-            //       ),
-            //       Text('  Descargar',
-            //           style: TextStyle(
-            //               color: Colors.white, fontSize: size.width * 0.04))
-            //     ],
-            //   ),
-            // ),
+            const Divider(height: 5),
+            TextButton(
+              onPressed: () async {
+                try {
+                  await _downloadImage();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                          'Imagen guardada en el dispositivo y en la galería'),
+                      duration: Duration(seconds: 1),
+                    ),
+                  );
+                } on PlatformException {
+                  Fluttertoast.showToast(
+                    msg: 'No se pudo descargar.',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0,
+                  );
+                }
+              },
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.file_download_outlined,
+                      color: Color(0xFFffffff),
+                      size: 30,
+                    ),
+                    onPressed: () {},
+                  ),
+                  const CustomFontAileronRegularWhite(
+                    text: 'Descargar',
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
-        const Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            
-            Divider(height: 12, color: Colors.transparent,),
-            
-            Divider(height: 12, color: Colors.transparent,),
-            
-          ],
-        )
       ],
     );
   }

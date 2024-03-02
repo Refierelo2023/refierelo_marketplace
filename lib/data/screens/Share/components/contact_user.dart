@@ -1,10 +1,13 @@
 
+import 'dart:io';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:grpc/grpc.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
+import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../Register/components/components.dart';
 
 class ContactUser extends StatefulWidget {
@@ -50,20 +53,20 @@ class _ContactUserState extends State<ContactUser> {
               borderRadius: BorderRadius.circular(10)),
           child: TextButton(
             onPressed: () async {
-              // for (var element in widget.phoneContact) {
-              //   var whatsapp = element.value;
-              //   var whatsappUrl = '';
+              for (var element in widget.phoneContact) {
+                var whatsapp = element.value;
+                var whatsappUrl = '';
 
-              //   if (Platform.isIOS) {
-              //     whatsappUrl = 'https://wa.me/$whatsapp?text=¡Hola!';
-              //   } else {
-              //     whatsappUrl = 'whatsapp://send?phone=$whatsapp&text=http://www.refierelo.com/usario/miguelrodriguez8733+Echa+un+vistazo+a+esta+app+que+te+paga+por+referir,+registrate+y+gánate+tus+primeros+10+puntos+de+bienvenida+😃';
-              //   }
+                if (Platform.isIOS) {
+                  whatsappUrl = 'https://wa.me/$whatsapp?text=¡Hola!';
+                } else {
+                  whatsappUrl = 'whatsapp://send?phone=$whatsapp&text=http://www.refierelo.com/usario/miguelrodriguez8733+Echa+un+vistazo+a+esta+app+que+te+paga+por+referir,+registrate+y+gánate+tus+primeros+10+puntos+de+bienvenida+😃';
+                }
 
-              //   if (!await launchUrl(Uri.parse(whatsappUrl))) {
-              //     toast('WhatsApp no instalado.', Colors.red);
-              //   }
-              // }
+                if (!await launchUrl(Uri.parse(whatsappUrl))) {
+                  toast('WhatsApp no instalado.', Colors.red);
+                }
+              }
 
               try {
 
@@ -88,11 +91,7 @@ class _ContactUserState extends State<ContactUser> {
                 toast('Hubo un error.', Colors.red);
               }
             },
-            child: const Text(
-              'Invitar',
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-            ),
+            child: const CustomFontAileronRegularWhite(text: "Invitar",),
           ),
         ),
       ),

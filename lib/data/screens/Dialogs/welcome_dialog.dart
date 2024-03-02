@@ -113,7 +113,7 @@ class _WelcomeDialogState extends State<WelcomeDialog>
                               Positioned(
                                 top: size.height * 0.31,
                                 right: size.width * 0.03,
-                                child: Container(
+                                child: SizedBox(
                                   width: size.width * 0.47,
                                   height: size.height *0.054, // O ajusta el ancho según tus necesidades
                                   child: TextField(

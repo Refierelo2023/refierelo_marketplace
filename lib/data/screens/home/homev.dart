@@ -73,7 +73,7 @@ void initState() {
     final DateTime lastAccessTime = DateTime.fromMillisecondsSinceEpoch(lastAccess);
 
     // Imprime el valor de fecha antes de parsear
-    print('Valor de fecha antes de parsear: $fecha');
+    // print('Valor de fecha antes de parsear: $fecha');
 
     if (fecha.isNotEmpty) {
       try {
@@ -93,15 +93,15 @@ void initState() {
           );
         }
       } catch (e) {
-        print('Error al parsear la fecha: $e');
-        print('Valor de fecha que causó el error: $fecha');
+        // print('Error al parsear la fecha: $e');
+        // print('Valor de fecha que causó el error: $fecha');
         // Maneja el error de formato de fecha aquí
       }
     } else {
-      print('El valor de fecha es nulo o está vacío.');
+      // print('El valor de fecha es nulo o está vacío.');
     }
   } else {
-    print('El valor de lastAccess es nulo.');
+    // print('El valor de lastAccess es nulo.');
   }
 
   // Verifica si fecha es nulo o vacío antes de intentar parsearlo
@@ -128,10 +128,10 @@ void initState() {
 
     channel.shutdown();
   } on GrpcError catch (e) {
-    print('Error gRPC: $e');
+    // print('Error gRPC: $e');
     toast(e.message ?? 'Hubo un error', Colors.red);
   } catch (e) {
-    print('Error inesperado: $e');
+    // print('Error inesperado: $e');
     toast('Hubo un error', Colors.red);
   }
 }

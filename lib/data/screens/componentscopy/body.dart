@@ -41,7 +41,7 @@ class Body extends StatelessWidget {
     } catch (error) {
       print('Error en getConfig(): $error');
       // Puedes agregar más información o manejo de errores aquí
-      throw error; // Propaga el error para que pueda ser capturado en el FutureBuilder
+      rethrow; // Propaga el error para que pueda ser capturado en el FutureBuilder
     }
   }
 

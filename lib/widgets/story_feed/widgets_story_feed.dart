@@ -89,9 +89,7 @@ class _WidgetsStoryFeedState extends State<WidgetsStoryFeed>
         color: Colors.black,
         padding: EdgeInsets.only(
             top: MediaQuery.of(context).size.height * 0.06,
-            bottom: MediaQuery.of(context).size.height * 0.015,
-            left: 0,
-            right: 0),
+          ),
         child: Scaffold(
           backgroundColor: Colors.black,
           body: ValueListenableBuilder<double>(
@@ -158,7 +156,13 @@ class _WidgetsStoryFeedState extends State<WidgetsStoryFeed>
                                             );
                                           } else {
                                             // Manejo de caso nulo: Muestra un indicador de carga u otro widget
-                                            return const CircularProgressIndicator();
+                                            return Center(
+                                              child: Image.asset(
+                                                'assets/images/loading/LOADING.gif',
+                                                height: 100,
+                                                width: 100,
+                                              ),
+                                            );
                                           }
                                       }
                                     },
@@ -191,13 +195,12 @@ class _WidgetsStoryFeedState extends State<WidgetsStoryFeed>
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
-                                              horizontal: 1.5,
-                                              vertical:
-                                                  10.0), //posición nombre usuario, imagen
+                                            horizontal: 1.5,
+                                            vertical: 10.0,
+                                          ), //posición nombre usuario, imagen
                                           child: Hero(
                                               tag: widget.herotagString,
                                               child: Row(
-                                                /////// ojo row childre//////////
                                                 children: [
                                                   Expanded(
                                                     child: WidgetsUserInfo(
@@ -230,43 +233,46 @@ class _WidgetsStoryFeedState extends State<WidgetsStoryFeed>
             },
           ),
           bottomNavigationBar: Padding(
-            padding: const EdgeInsets.only(right: 10, top: 5,),
+            padding: const EdgeInsets.only(
+              right: 20,
+              top: 20,
+              bottom: 20,
+              left: 20,
+            ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 const AnimationIsLiked(),
-                const SizedBox(width: 15),
-                InkWell(
-                  onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return const WidgetDisplayShareHistory(); // Ajusta según sea necesario
+                const SizedBox(width: 22),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const WidgetDisplayShareHistory(); // Ajusta según sea necesario
+                          },
+                        );
                       },
-                    );
-                  },
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.only(left: 0, right: 0,),
-                        child: Image.asset(
-                          "assets/images/images_icons/sharehistory1.png", 
-                          width: 28,
-                          height:28,
-                        ),
+                      child: Image.asset(
+                        "assets/images/images_icons/compartirblanco.png",
+                        width: 25,
+                        height: 25,
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 1),
-                        child:CustomFontAileronRegularWhite(
-                          text: "Publicar",
-                        ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 2),
+                      child: CustomFontAileronRegularWhite(
+                        text: "Publicar",
+                        fontSize: 0.025,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),

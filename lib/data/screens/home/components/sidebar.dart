@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:refierelo_marketplace/data/screens/Preguntas_Frecuentes/preguntas_frecuentes.dart';
+import 'package:refierelo_marketplace/data/screens/Share/share_screen.dart';
 import 'package:refierelo_marketplace/data/screens/refiere_una_empresa/refiere_empresa_screen.dart';
 import 'package:refierelo_marketplace/data/screens/screens_profile.dart/profile_screens.dart';
 import 'package:refierelo_marketplace/data/screens/sugerencias/sugerencias_screen.dart';
@@ -339,7 +340,7 @@ class DisplaySidebarVerticalState extends State<DisplaySidebarVertical> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const PreguntasFrecuentesScreen(),
+                builder: (context) => const ShareScreen(),
               ),
             );  
           }

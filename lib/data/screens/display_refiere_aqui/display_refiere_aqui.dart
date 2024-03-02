@@ -74,7 +74,7 @@ class DisplayRefiereAquiState extends State<DisplayRefiereAqui> {
                   text: "¡ Gana más puntos refiriendo estos productos !",
                 ),
               ),
-            // const SizedBox(height: 5.0),
+            const SizedBox(height: 5.0),
             Padding(
               padding: const EdgeInsets.all(5.0),
               child: Column(
@@ -84,18 +84,15 @@ class DisplayRefiereAquiState extends State<DisplayRefiereAqui> {
                     children: [
                       buildContainer(
                         index: 0,
-                        title: 'Reportados',
-                        subtitle: 'Créditos >',
+                        title: 'Créditos',                    
                       ),
                       buildContainer(
                         index: 1,
-                        title: 'Hipotecario',
-                        subtitle: 'Créditos >',
+                        title: 'Hipotecario',                      
                       ),
                       buildContainer(
                         index: 2,
-                        title: 'Inversiones',
-                        subtitle: 'Recursos >',
+                        title: 'Inversiones',                       
                       ),
                     ],
                   ),
@@ -104,18 +101,15 @@ class DisplayRefiereAquiState extends State<DisplayRefiereAqui> {
                     children: [
                       buildContainer(
                         index: 3,
-                        title: 'Otros Créditos',
-                        subtitle: 'Créditos >',
+                        title: 'Libranza',                       
                       ),
                       buildContainer(
                         index: 4,
-                        title: 'Seguros',
-                        subtitle: 'Todo Riesgo >',
+                        title: 'Seguros',                      
                       ),
                       buildContainer(
                         index: 5,
-                        title: 'Pensiones',
-                        subtitle: 'Traslado >',
+                        title: 'Pensiones',                      
                       ),
                     ],
                   ),
@@ -130,8 +124,7 @@ class DisplayRefiereAquiState extends State<DisplayRefiereAqui> {
 
   Widget buildContainer({
     required int index,
-    required String title,
-    required String subtitle,
+    required String title,   
   }) {
     String imagePath = '';
     switch (index) {
@@ -198,17 +191,8 @@ class DisplayRefiereAquiState extends State<DisplayRefiereAqui> {
                   ),
                 ),
                 const SizedBox(height: 0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CustomFontAileronRegular(
-                      text: title,
-                    ),
-                    CustomFontAileronRegular2(
-                      text: subtitle,
-                    ),
-                  ],
+                CustomFontAileronRegular(
+                  text: title,
                 ),
               ],
             ),

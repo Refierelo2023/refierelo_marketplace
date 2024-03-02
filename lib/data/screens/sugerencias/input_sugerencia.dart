@@ -8,7 +8,16 @@ class InputSugerencia extends StatelessWidget {
   final dynamic validator;
   final TextInputType keyBoardType;
   final FocusNode? focusNode;
-  const InputSugerencia({super.key, required this.campo, required this.frase, required this.controller, this.validator, this.focusNode, this.keyBoardType = TextInputType.text});
+
+  const InputSugerencia({
+    super.key, 
+    required this.campo, 
+    required this.frase, 
+    required this.controller, 
+    this.validator, 
+    this.focusNode, 
+    this.keyBoardType = TextInputType.text
+    });
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +45,7 @@ class InputSugerencia extends StatelessWidget {
                   ]),
             ),
           ),
-          SizedBox(height: size.height * 0.01),
+          SizedBox(height: size.height * 0.001),
           Container(
             width: size.width * 0.9,
             height: size.height * 0.06,
