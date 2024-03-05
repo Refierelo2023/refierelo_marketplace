@@ -56,7 +56,8 @@ class _WidgetsUserStoryProfileState extends State<WidgetsUserStoryProfile>
                   renderBox.globalToLocal(details.globalPosition);
               final size = renderBox.size;
               rect = Rect.fromLTWH(
-                  localPosition.dx, localPosition.dy, size.width, size.height);
+                  localPosition.dx, localPosition.dy, size.width, size.height,
+                );
               widget.setRectPoint(rect);
             },
             child: const SizedBox(

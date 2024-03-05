@@ -83,9 +83,9 @@ class _SugerenciasScreenState extends State<SugerenciasScreen> {
 
     final respuesta = await http.post(url, body: data);
     if (respuesta.statusCode == 200) {
-      print('Webhook enviado con éxito');
+      // print('Webhook enviado con éxito');
     } else {
-      print('Error al enviar el webhook: ${respuesta.statusCode}');
+      // print('Error al enviar el webhook: ${respuesta.statusCode}');
     }
   }
 
@@ -224,10 +224,10 @@ class _SugerenciasScreenState extends State<SugerenciasScreen> {
                                   ),
                                 );
                                 // Imprimir valores antes de enviar el webhook
-                                    print('nombre: ${nombreController.text}');
-                                    print('mail: ${mailController.text}');
-                                    print('tema: ${temaController.text}');
-                                    print('comentario: ${comentarioController.text}');                              
+                                    // print('nombre: ${nombreController.text}');
+                                    // print('mail: ${mailController.text}');
+                                    // print('tema: ${temaController.text}');
+                                    // print('comentario: ${comentarioController.text}');                              
                                     enviarWebhook();
                                     Navigator.push(
                                       context,

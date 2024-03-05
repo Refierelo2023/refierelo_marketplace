@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_validator/form_validator.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/custom_input.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/terms_check.dart';
@@ -70,8 +73,10 @@ class LoginScreensDataState extends State<LoginScreensData> {
   TextEditingController confirmaclaveController = TextEditingController();
   TextEditingController webController = TextEditingController();
   TextEditingController instagramController = TextEditingController();
+  final ImagePicker _imagePicker = ImagePicker();
+  PickedFile? _pickedImage;
 
-    final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -108,8 +113,22 @@ class LoginScreensDataState extends State<LoginScreensData> {
     claveController.dispose();
     confirmaclaveController.dispose();
     webController.dispose();
-    instagramController.dispose();    
+    instagramController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    try {
+      final pickedImage =
+          await _imagePicker.pickImage(source: ImageSource.gallery);
+      if (pickedImage != null) {
+        setState(() {
+          XFile? _pickedImage;
+        });
+      }
+    } catch (e) {
+      print('Error al seleccionar la imagen: $e');
+    }
   }
 
   Future<void> enviarWebhook() async {
@@ -152,14 +171,18 @@ class LoginScreensDataState extends State<LoginScreensData> {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (BuildContext context) => const LoginScreensSetupAccount(),
+                  builder: (BuildContext context) =>
+                      const LoginScreensSetupAccount(),
                 ),
               );
             },
           ),
         ),
         body: Padding(
-          padding: const EdgeInsets.only(left: 10, right:10,),
+          padding: const EdgeInsets.only(
+            left: 10,
+            right: 10,
+          ),
           child: SafeArea(
             child: SingleChildScrollView(
               child: Form(
@@ -172,41 +195,54 @@ class LoginScreensDataState extends State<LoginScreensData> {
                         text: 'Datos básicos',
                       ),
                     ),
-                     SizedBox(height: size.height * 0.02),
+                    SizedBox(height: size.height * 0.02),
                     const Center(
                       child: CustomFontAileronRegular(
-                        text:'Información se mostrara en tu perfil públicamente, puedes editar esta información cuando quieras',
+                        text:
+                            'Información se mostrara en tu perfil públicamente, puedes editar esta información cuando quieras',
                         textAlign: TextAlign.center,
                       ),
                     ),
                     SizedBox(height: size.height * 0.02),
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [                        
-                        Container(
-                          width: 120,
-                          height: 120,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: AssetImage('assets/images/images_login/perfil.png'),
-                              fit: BoxFit.cover,
+                    InkWell(
+                      onTap: () async {
+                        await _pickImage();
+                      },
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                            width: 120,
+                            height: 120,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: _pickedImage != null
+                                  ? DecorationImage(
+                                      image:
+                                          FileImage(File(_pickedImage!.path)),
+                                      fit: BoxFit.cover,
+                                    )
+                                  : const DecorationImage(
+                                      image: AssetImage(
+                                        'assets/images/images_login/perfil.png',
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
                           ),
-                        ),
-                        SizedBox(width: size.width * 0.02),
-                        Positioned(
-                          bottom: 5,
-                          right: 0,
-                          child: GestureDetector(
-                            onTap: () {
-                              // Acción para cargar imagen desde la galería
-                              // (debes implementar la lógica para esto)
-                            },
-                            child: const Icon(Icons.camera_alt),
+                          SizedBox(width: size.width * 0.02),
+                          Positioned(
+                            bottom: 5,
+                            right: 0,
+                            child: GestureDetector(
+                              onTap: () async {
+                                await _pickImage();                                
+                              },
+                              child: const Icon(Icons.camera_alt),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     SizedBox(height: size.height * 0.015),
                     CustomInput(
@@ -235,10 +271,10 @@ class LoginScreensDataState extends State<LoginScreensData> {
                       children: [
                         Expanded(
                           child: CustomInput(
-                          placeholder: 'País',
-                          controller: paisController,
-                          validator: ValidationBuilder().required().build(),
-                                                      ),
+                            placeholder: 'País',
+                            controller: paisController,
+                            validator: ValidationBuilder().required().build(),
+                          ),
                         ),
                         Expanded(
                           child: CustomInput(
@@ -264,7 +300,7 @@ class LoginScreensDataState extends State<LoginScreensData> {
                     ),
                     SizedBox(height: size.height * 0.015),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,                     
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Flexible(
                           fit: FlexFit.tight,
@@ -277,7 +313,7 @@ class LoginScreensDataState extends State<LoginScreensData> {
                             tipo: TextInputType.number,
                             validator: ValidationBuilder().required().build(),
                           ),
-                        ),                                          
+                        ),
                         Flexible(
                           fit: FlexFit.tight,
                           flex: 4,
@@ -305,7 +341,7 @@ class LoginScreensDataState extends State<LoginScreensData> {
                       validator: ValidationBuilder().required().build(),
                     ),
                     SizedBox(height: size.height * 0.03),
-                  Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const Column(
@@ -316,40 +352,41 @@ class LoginScreensDataState extends State<LoginScreensData> {
                           children: [
                             RichText(
                               textAlign: TextAlign.justify,
-                              text:TextSpan(
+                              text: TextSpan(
                                 text: 'Al crear una cuenta aseguras haber ',
-                                style:  const CustomFontAileronRegular(
-                                      text: " ",
-                                      ).getTextStyle(context),
+                                style: const CustomFontAileronRegular(
+                                  text: " ",
+                                ).getTextStyle(context),
                                 children: [
                                   TextSpan(
-                                      text:'leído y estar \nde acuerdo con los',
-                                      style: const CustomFontAileronRegular(
+                                    text: 'leído y estar \nde acuerdo con los',
+                                    style: const CustomFontAileronRegular(
                                       text: " ",
-                                      ).getTextStyle(context),
-                                    ),
+                                    ).getTextStyle(context),
+                                  ),
                                   TextSpan(
-                                      text: ' Terminos y condiciones ',
-                                      style: const CustomFontAileronRegularTur(
+                                    text: ' Terminos y condiciones ',
+                                    style: const CustomFontAileronRegularTur(
                                       text: " ",
-                                      ).getTextStyle(context),
-                                        ),
+                                    ).getTextStyle(context),
+                                  ),
                                   TextSpan(
-                                      text: 'y con\nla',
-                                      style: const CustomFontAileronRegular(
+                                    text: 'y con\nla',
+                                    style: const CustomFontAileronRegular(
                                       text: " ",
-                                      ).getTextStyle(context),),
+                                    ).getTextStyle(context),
+                                  ),
                                   TextSpan(
-                                      text: ' Politica',
-                                      style:  const CustomFontAileronRegularTur(
+                                    text: ' Politica',
+                                    style: const CustomFontAileronRegularTur(
                                       text: " ",
-                                      ).getTextStyle(context),
-                                          ),
+                                    ).getTextStyle(context),
+                                  ),
                                   TextSpan(
-                                      text: 'de privacidad',
-                                      style:  const CustomFontAileronRegularTur(
+                                    text: 'de privacidad',
+                                    style: const CustomFontAileronRegularTur(
                                       text: " ",
-                                      ).getTextStyle(context),
+                                    ).getTextStyle(context),
                                   ),
                                 ],
                               ),
@@ -358,7 +395,7 @@ class LoginScreensDataState extends State<LoginScreensData> {
                         )
                       ],
                     ),
-                  SizedBox(height: size.height * 0.03),
+                    SizedBox(height: size.height * 0.03),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -367,23 +404,26 @@ class LoginScreensDataState extends State<LoginScreensData> {
                         BtnNext(
                             press: () async {
                               if (!_formKey.currentState!.validate()) {
-                          return;
-                        }
-                        if (claveController.text != confirmaclaveController.text) {
-                          Fluttertoast.showToast(
-                              msg: 'Las claves no coinciden',
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: Colors.red,
-                              textColor: Colors.white,
-                              fontSize: 16.0);
-                          return;
-                        }
-                        Provider.of<UserDataProvider>(context, listen: false)
+                                return;
+                              }
+                              if (claveController.text !=
+                                  confirmaclaveController.text) {
+                                Fluttertoast.showToast(
+                                    msg: 'Las claves no coinciden',
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
+                                return;
+                              }
+                              Provider.of<UserDataProvider>(context,
+                                      listen: false)
                                   .updateUserData(
                                 UserDataModel(
-                                  nombreComercial: nombreComercialController.text,
+                                  nombreComercial:
+                                      nombreComercialController.text,
                                   identificacion: identificacionController.text,
                                   presentacion: presentacionController.text,
                                   pais: paisController.text,
@@ -392,17 +432,20 @@ class LoginScreensDataState extends State<LoginScreensData> {
                                   celular: celularController.text,
                                   web: webController.text,
                                   instagram: instagramController.text,
-                                ),                                
+                                ),
                               );
                               // Imprimir valores antes de enviar el webhook
-                              print('Nombre Comercial: ${nombreComercialController.text}');
-                              print('Presentación: ${presentacionController.text}');
+                              print(
+                                  'Nombre Comercial: ${nombreComercialController.text}');
+                              print(
+                                  'Presentación: ${presentacionController.text}');
                               print('País: ${paisController.text}');
                               print('Ciudad: ${ciudadController.text}');
                               print('Dirección: ${direccionController.text}');
                               print('Celular: ${celularController.text}');
                               print('Clave: ${claveController.text}');
-                              print('Confirmala: ${confirmaclaveController.text}');
+                              print(
+                                  'Confirmala: ${confirmaclaveController.text}');
                               print('Pagina Web: ${webController.text}');
                               print('Red social: ${instagramController.text}');
                               enviarWebhook();

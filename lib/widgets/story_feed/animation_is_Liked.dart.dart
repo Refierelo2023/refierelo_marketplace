@@ -30,15 +30,15 @@ class _AnimationIsLikedState extends State<AnimationIsLiked> {
                 isHeartIconSelected
                     ? "assets/images/images_icons/heart2.png"
                     : "assets/images/images_icons/heartWhite.png",
-                width: 25,
-                height: 25,
+                width: 27,
+                height: 27,
               ),
             ),
           const Padding(
-            padding: EdgeInsets.only(top: 2),
+            padding: EdgeInsets.only(top: 3),
             child: CustomFontAileronRegularWhite(
               text: "Me gusta",
-              fontSize: 0.025,
+              fontSize: 0.028,
             ),
           ),
         ],

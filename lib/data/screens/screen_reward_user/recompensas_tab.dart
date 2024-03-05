@@ -67,7 +67,7 @@ class _RecompensasTabState extends State<RecompensasTab> {
                 children: [
                   Container(
                     width: size.width,
-                    height: size.height * 0.98,
+                    height: size.height * 0.99,
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(colors: [
                         Color(0xFFF5F6F9),

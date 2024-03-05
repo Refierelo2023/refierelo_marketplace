@@ -1,19 +1,67 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:form_validator/form_validator.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:grpc/grpc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/data/screens/Login/otp/insert_number_screen.dart';
-import 'package:refierelo_marketplace/data/screens/Register/components/components.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/custom_input.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/terms_check.dart';
 import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/models/medio_pagos.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
+import 'package:http/http.dart' as http;
+
+class UserDataModelUser {
+  final String firstName;
+  final String lastName;
+  final String identificacion;
+  final String celular;
+  final String email;
+  final String fechaNac;
+  final String ciudad;
+  final String pagos;
+  final String entidadFinanciera;
+  final String clave1;
+  final String clave2;
+
+  UserDataModelUser({
+    required this.firstName,
+    required this.lastName,
+    required this.identificacion,
+    required this.celular,
+    required this.email,
+    required this.fechaNac,
+    required this.ciudad,
+    required this.pagos,
+    required this.entidadFinanciera,
+    required this.clave1,
+    required this.clave2,
+  });
+}
+
+class UserDataProviderUser extends ChangeNotifier {
+  UserDataModelUser userData = UserDataModelUser(
+      firstName: '',
+      lastName: '',
+      identificacion: '',
+      celular: '',
+      email: '',
+      fechaNac: '',
+      ciudad: '',
+      pagos: '',
+      entidadFinanciera: '',
+      clave1: '',
+      clave2: '');
+
+  void updateUserData(UserDataModelUser newData) {
+    userData = newData;
+    notifyListeners();
+  }
+}
 
 class RegisterForm extends StatefulWidget {
   final String msisdn;
@@ -24,18 +72,23 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _fechaNacController = TextEditingController();
-  final TextEditingController _ciudadController = TextEditingController();
-  final TextEditingController _clave1Controller = TextEditingController();
-  final TextEditingController _clave2Controller = TextEditingController();
-  TextEditingController identificacion = TextEditingController();
-  TextEditingController ciudad = TextEditingController();
-  TextEditingController entidadFinanciera = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController identificacionController =
+      TextEditingController();
+  final TextEditingController celularController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController fechaNacController = TextEditingController();
+  final TextEditingController ciudadController = TextEditingController();
+  final TextEditingController pagosController = TextEditingController();
+  final TextEditingController entidadFinancieraController =
+      TextEditingController();
+  final TextEditingController clave1Controller = TextEditingController();
+  final TextEditingController clave2Controller = TextEditingController();
+  final ImagePicker _imagePicker = ImagePicker();
+  PickedFile? _pickedImage;
 
-  List<MedioPago> mediosPagos = [    
+  List<MedioPago> mediosPagos = [
     MedioPago(id: '1', nombre: 'Daviplata'),
     MedioPago(id: '2', nombre: 'Nequi'),
     MedioPago(id: '3', nombre: 'Cta Ahorro'),
@@ -45,7 +98,8 @@ class _RegisterFormState extends State<RegisterForm> {
   String dropdownValue = 'Daviplata';
   String msisdn = '';
   String sessionString = '';
-  static const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  static const _chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   final Random _rnd = Random();
 
   final _formKey = GlobalKey<FormState>();
@@ -62,22 +116,75 @@ class _RegisterFormState extends State<RegisterForm> {
     print(sessionString);
     ValidationBuilder.setLocale('es');
 
-    getMediosPagos();
+    final userData =
+        Provider.of<UserDataProviderUser>(context, listen: false).userData;
+    firstNameController.text = userData.firstName;
+    lastNameController.text = userData.lastName;
+    identificacionController.text = userData.identificacion;
+    celularController.text = userData.celular;
+    emailController.text = userData.email;
+    fechaNacController.text = userData.fechaNac;
+    ciudadController.text = userData.ciudad;
+    pagosController.text = userData.pagos;
+    entidadFinancieraController.text = userData.entidadFinanciera;
+    clave1Controller.text = userData.clave1;
+    clave2Controller.text = userData.clave2;
   }
 
-  Future<void> getMediosPagos() async {
-    var channel = getChannel();
-    var res = ServiceClient(channel)
-        .getMediosPagos(medioPagoRequest(sessionString: ''));
+  @override
+  void dispose() {
+    // liberar los recursos de los controladores cuando el widget se elimine
+    firstNameController.dispose();
+    lastNameController.dispose();
+    identificacionController.dispose();
+    celularController.dispose();
+    emailController.dispose();
+    fechaNacController.dispose();
+    ciudadController.dispose();
+    pagosController.dispose();
+    entidadFinancieraController.dispose();
+    clave1Controller.dispose();
+    clave2Controller.dispose();
+    super.dispose();
+  }
 
-    res.listen((value) {
+  Future<void> _pickImage() async {
+  try {
+    final pickedImage = await _imagePicker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
       setState(() {
-        mediosPagos
-            .add(MedioPago(id: value.idMedioPago, nombre: value.medioPago));
+        XFile? _pickedImage;
       });
-    }).onDone(() {
-      channel.shutdown();
-    });
+    }
+  } catch (e) {
+    print('Error al seleccionar la imagen: $e');
+  }
+}
+
+
+  Future<void> enviarWebhook() async {
+    final url = Uri.parse("http://5.189.161.131:5000/webhook");
+    final data = {
+      'Nombres': firstNameController.text,
+      'Apellidos': lastNameController.text,
+      'identificación': identificacionController.text,
+      'celular': celularController.text,
+      'email': emailController.text,
+      "Fecha de Nacimiento": fechaNacController.text,
+      'Ciudad': ciudadController.text,
+      'Medio para recibir pagos': pagosController.text,
+      'Entidad financiera': entidadFinancieraController.text,
+      'clave 4 digítos': clave1Controller.text,
+      'Confirmala': clave2Controller.text,
+      // ... otras propiedades del formulario
+    };
+
+    final respuesta = await http.post(url, body: data);
+    if (respuesta.statusCode == 200) {
+      print('Webhook enviado con éxito');
+    } else {
+      print('Error al enviar el webhook: ${respuesta.statusCode}');
+    }
   }
 
   String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
@@ -178,8 +285,8 @@ class _RegisterFormState extends State<RegisterForm> {
   //         ..date = DateFormat('yyyy-MM-dd').format(DateTime.now()));
   //   channel.shutdown;
 
-    // print("referenteRegister response: " + response.message);
-    // return (response.message);
+  // print("referenteRegister response: " + response.message);
+  // return (response.message);
   // }
 
   @override
@@ -217,70 +324,81 @@ class _RegisterFormState extends State<RegisterForm> {
                       text: 'Tus Datos básicos',
                     ),
                   ),
-                  SizedBox(height: size.height * 0.02),                  
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Container(
-                        width: 120,
-                        height: 120,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: AssetImage(
-                                'assets/images/images_login/perfil.png'),
-                            fit: BoxFit.cover,
+                  SizedBox(height: size.height * 0.02),
+                  InkWell(
+                    onTap: () async {
+                      await _pickImage();
+                    },
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                          width: 120,
+                          height: 120,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: _pickedImage != null
+                                ? DecorationImage(
+                                    image: FileImage(File(_pickedImage!.path)),
+                                    fit: BoxFit.cover,
+                                  )
+                                : const DecorationImage(
+                                    image: AssetImage(
+                                      'assets/images/images_login/perfil.png',
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
                         ),
-                      ),
                         Positioned(
-                        bottom: 5,
+                          bottom: 10,
                           right: 0,
                           child: GestureDetector(
-                          onTap: () {
-                        // Acción para cargar imagen desde la galería
-                        // (debes implementar la lógica para esto)
-                          },
-                          child: const Icon(Icons.camera_alt),
+                            onTap: () async {
+                              await _pickImage();
+                            },
+                            child: const Icon(Icons.camera_alt),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   SizedBox(height: size.height * 0.015),
                   CustomInput(
                     placeholder: 'Nombres',
-                    controller: _firstNameController,
+                    controller: firstNameController,
                     validator: ValidationBuilder().required().build(),
                   ),
                   SizedBox(height: size.height * 0.015),
                   CustomInput(
                     placeholder: 'Apellidos',
-                    controller: _lastNameController,
+                    controller: lastNameController,
                     validator: ValidationBuilder().required().build(),
                   ),
                   SizedBox(height: size.height * 0.015),
                   CustomInput(
                     placeholder: 'identificación',
                     texto: false,
-                    controller: identificacion,
+                    controller: identificacionController,
                     tipo: TextInputType.number,
                   ),
                   SizedBox(height: size.height * 0.015),
                   CustomInput(
                     placeholder: "Celular",
                     texto: false,
+                    controller: celularController,
                     tipo: TextInputType.number,
                   ),
                   SizedBox(height: size.height * 0.015),
                   CustomInput(
                     placeholder: 'Mail',
-                    controller: _emailController,
+                    controller: emailController,
                     validator: ValidationBuilder().required().build(),
                   ),
                   SizedBox(height: size.height * 0.015),
                   CustomInput(
                     placeholder: 'Fecha de Nacimiento',
-                    controller: _fechaNacController,
+                    controller: fechaNacController,
                     isDisabled: true,
                     tipo: TextInputType.datetime,
                     validator: ValidationBuilder().required().build(),
@@ -292,7 +410,7 @@ class _RegisterFormState extends State<RegisterForm> {
                           lastDate: DateTime(2100));
                       if (pickedDate != null) {
                         setState(() {
-                          _fechaNacController.text =
+                          fechaNacController.text =
                               DateFormat('yyyy-MM-dd').format(pickedDate);
                         });
                       }
@@ -301,7 +419,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   SizedBox(height: size.height * 0.015),
                   CustomInput(
                     placeholder: 'Ciudad',
-                    controller: _ciudadController,
+                    controller: ciudadController,
                     validator: ValidationBuilder().required().build(),
                   ),
                   // Lista desplegable
@@ -316,23 +434,28 @@ class _RegisterFormState extends State<RegisterForm> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20),
                         child: DropdownButton(
+                          value: idMediopago == '' ? null : idMediopago,
                           isExpanded: true,
                           hint: const CustomFontAileronRegular(
-                      text: 'Medio para recibir pagos',
-                        ),
+                            text: 'Medio para recibir pagos',
+                          ),
                           items: mediosPagos.map((item) {
                             return DropdownMenuItem(
-                                value: item.id, child: CustomFontAileronRegular(text:(item.nombre),
-                              )
-                            );
-                          }
-                        ).toList(),
-                        onChanged: (val) {
+                                value: item.id,
+                                child: CustomFontAileronRegular(
+                                  text: (item.nombre),
+                                ));
+                          }).toList(),
+                          onChanged: (val) {
                             setState(() {
                               idMediopago = val.toString();
+                              pagosController.text = mediosPagos
+                                  .firstWhere(
+                                      (element) => element.id == idMediopago)
+                                  .nombre;
                             });
+                            enviarWebhook();
                           },
-                          value: idMediopago == '' ? null : idMediopago,
                         ),
                       ),
                     ),
@@ -340,7 +463,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   SizedBox(height: size.height * 0.015),
                   CustomInput(
                     placeholder: 'Entidad financiera',
-                    controller: entidadFinanciera,
+                    controller: entidadFinancieraController,
                     validator: ValidationBuilder().required().build(),
                   ),
                   SizedBox(height: size.height * 0.015),
@@ -348,86 +471,87 @@ class _RegisterFormState extends State<RegisterForm> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Flexible(
-                       fit: FlexFit.tight, 
+                        fit: FlexFit.tight,
                         flex: 5,
                         child: CustomInput(
-                      placeholder: 'Clave 4 dígitos',
-                      texto: false,
-                      ocultarTexto: true,
-                      controller: _clave1Controller,
-                      validator: ValidationBuilder().required().build(),
-                      tipo: TextInputType.number,
-                    ),
-                  ),
-                  SizedBox(height: size.height * 0.015),
-                  Flexible(
-                    fit: FlexFit.tight,
-                    flex: 5,
-                    child: CustomInput(
-                      placeholder: 'Confirmala',
-                      texto: false,
-                      ocultarTexto: true,
-                      controller: _clave2Controller,
-                      validator: ValidationBuilder().required().build(),
-                      tipo: TextInputType.number,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: size.height * 0.03),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        const Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [TermsCheck()],
+                          placeholder: 'Clave 4 dígitos',
+                          texto: false,
+                          ocultarTexto: true,
+                          controller: clave1Controller,
+                          validator: ValidationBuilder().required().build(),
+                          tipo: TextInputType.number,
                         ),
-                        Column(
-                          children: [
-                            RichText(
-                              textAlign: TextAlign.justify,
-                              text:TextSpan(
-                                text: 'Al crear una cuenta aseguras haber ',
-                                style:  const CustomFontAileronRegular(
-                                      text: " ",
-                                      ).getTextStyle(context),
-                                children: [
-                                  TextSpan(
-                                      text:'leído y estar \nde acuerdo con los',
-                                      style: const CustomFontAileronRegular(
-                                      text: " ",
-                                      ).getTextStyle(context),
-                                    ),
-                                  TextSpan(
-                                      text: ' Terminos y condiciones ',
-                                      style: const CustomFontAileronRegularTur(
-                                      text: " ",
-                                      ).getTextStyle(context),
-                                        ),
-                                  TextSpan(
-                                      text: 'y con\nla',
-                                      style: const CustomFontAileronRegular(
-                                      text: " ",
-                                      ).getTextStyle(context),),
-                                  TextSpan(
-                                      text: ' Politica',
-                                      style:  const CustomFontAileronRegularTur(
-                                      text: " ",
-                                      ).getTextStyle(context),
-                                          ),
-                                  TextSpan(
-                                      text: 'de privacidad',
-                                      style:  const CustomFontAileronRegularTur(
-                                      text: " ",
-                                      ).getTextStyle(context),
-                                  ),
-                                ],
-                              ),
+                      ),
+                      SizedBox(height: size.height * 0.015),
+                      Flexible(
+                        fit: FlexFit.tight,
+                        flex: 5,
+                        child: CustomInput(
+                          placeholder: 'Confirmala',
+                          texto: false,
+                          ocultarTexto: true,
+                          controller: clave2Controller,
+                          validator: ValidationBuilder().required().build(),
+                          tipo: TextInputType.number,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: size.height * 0.03),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [TermsCheck()],
+                      ),
+                      Column(
+                        children: [
+                          RichText(
+                            textAlign: TextAlign.justify,
+                            text: TextSpan(
+                              text: 'Al crear una cuenta aseguras haber ',
+                              style: const CustomFontAileronRegular(
+                                text: " ",
+                              ).getTextStyle(context),
+                              children: [
+                                TextSpan(
+                                  text: 'leído y estar \nde acuerdo con los',
+                                  style: const CustomFontAileronRegular(
+                                    text: " ",
+                                  ).getTextStyle(context),
+                                ),
+                                TextSpan(
+                                  text: ' Terminos y condiciones ',
+                                  style: const CustomFontAileronRegularTur(
+                                    text: " ",
+                                  ).getTextStyle(context),
+                                ),
+                                TextSpan(
+                                  text: 'y con\nla',
+                                  style: const CustomFontAileronRegular(
+                                    text: " ",
+                                  ).getTextStyle(context),
+                                ),
+                                TextSpan(
+                                  text: ' Politica',
+                                  style: const CustomFontAileronRegularTur(
+                                    text: " ",
+                                  ).getTextStyle(context),
+                                ),
+                                TextSpan(
+                                  text: 'de privacidad',
+                                  style: const CustomFontAileronRegularTur(
+                                    text: " ",
+                                  ).getTextStyle(context),
+                                ),
+                              ],
                             ),
-                          ],
-                        )
-                      ],
-                    ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                   SizedBox(height: size.height * 0.03),
                   BtnNext(
                       press: () async {
@@ -445,7 +569,7 @@ class _RegisterFormState extends State<RegisterForm> {
                               fontSize: 16.0);
                           return;
                         }
-                        if (_clave1Controller.text != _clave2Controller.text) {
+                        if (clave1Controller.text != clave2Controller.text) {
                           Fluttertoast.showToast(
                               msg: 'Las claves no coinciden',
                               toastLength: Toast.LENGTH_SHORT,
@@ -456,64 +580,46 @@ class _RegisterFormState extends State<RegisterForm> {
                               fontSize: 16.0);
                           return;
                         }
-                        try {
-                          var channel = getChannel();
-
-                          var response = await ServiceClient(channel)
-                              .referenteRegister(referenteRegisterRequest()
-                                ..msisdn = msisdn
-                                ..apellidos = _lastNameController.text
-                                ..nombres = _firstNameController.text
-                                ..mail = _emailController.text
-                                ..fechaNacimiento = _fechaNacController.text
-                                ..ciudad = _ciudadController.text
-                                ..mediosPagos = idMediopago.toString()
-                                ..entidadFinanciera = entidadFinanciera.text
-                                ..tipoCuenta = '1'
-                                ..clave = _clave1Controller.text
-                                ..sessionString = sessionString
-                                ..date = DateFormat('yyyy-MM-dd')
-                                    .format(DateTime.now())
-                                ..identificacion = identificacion.text);
-                          channel.shutdown;
-
-                          await SessionManager()
-                              .set("sessionString", sessionString);
-
-                          Fluttertoast.showToast(
-                              msg: response.message,
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: Colors.green,
-                              textColor: Colors.white,
-                              fontSize: 16.0);
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const MainScreen(),
-                              ),
-                              (Route<dynamic> route) => false);
-                        } on GrpcError catch (e) {
-                          Fluttertoast.showToast(
-                              msg: e.message ?? 'Hubo un error',
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: Colors.red,
-                              textColor: Colors.white,
-                              fontSize: 16.0);
-                        } on Exception catch (e) {
-                          Fluttertoast.showToast(
-                              msg: e.toString(),
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: Colors.red,
-                              textColor: Colors.white,
-                              fontSize: 16.0);
-                        }
+                        Provider.of<UserDataProviderUser>(context,
+                                listen: false)
+                            .updateUserData(
+                          UserDataModelUser(
+                            firstName: firstNameController.text,
+                            lastName: lastNameController.text,
+                            identificacion: identificacionController.text,
+                            celular: celularController.text,
+                            email: emailController.text,
+                            fechaNac: fechaNacController.text,
+                            ciudad: ciudadController.text,
+                            pagos: pagosController.text,
+                            entidadFinanciera: entidadFinancieraController.text,
+                            clave1: clave1Controller.text,
+                            clave2: clave2Controller.text,
+                          ),
+                        );
+                        // Imprimir valores antes de enviar el webhook
+                        // print('Nombres: ${firstNameController.text}');
+                        // print('Apellidos: ${lastNameController.text}');
+                        // print(
+                        //     'Identificación: ${identificacionController.text}');
+                        // print('Celular: ${celularController.text}');
+                        // print('Mail: ${emailController.text}');
+                        // print(
+                        //     'fecha de Nacimiento: ${fechaNacController.text}');
+                        // print('Ciudad: ${ciudadController.text}');
+                        // print('Pagos: ${pagosController.text}');
+                        // print(
+                        //     'entidad financiera: ${entidadFinancieraController.text}');
+                        // print('Clave 4 dígitos: ${clave1Controller.text}');
+                        // print('Confirmar: ${clave2Controller.text}');
+                        enviarWebhook();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const MainScreen(),
+                          ),
+                        );
                       },
                       title: 'Crear cuenta'),
                   SizedBox(height: size.height * 0.02),

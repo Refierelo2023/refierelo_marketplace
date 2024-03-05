@@ -266,10 +266,10 @@ class _WidgetsStoryFeedState extends State<WidgetsStoryFeed>
                       ),
                     ),
                     const Padding(
-                      padding: EdgeInsets.only(top: 2),
+                      padding: EdgeInsets.only(top: 5),
                       child: CustomFontAileronRegularWhite(
                         text: "Publicar",
-                        fontSize: 0.025,
+                        fontSize: 0.028,
                       ),
                     ),
                   ],

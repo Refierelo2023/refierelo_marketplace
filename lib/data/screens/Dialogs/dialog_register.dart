@@ -85,7 +85,7 @@ class _DialogRegisterState extends State<DialogRegister> {
                               texto: false,
                               tipo: TextInputType.number,
                             ),
-                            SizedBox(height: size.height * 0.02),
+                            // SizedBox(height: size.height * 0.02),
                             // CustomInput(
                             //   placeholder: 'Mail',
                             //   // controller: _emailController,
@@ -113,37 +113,37 @@ class _DialogRegisterState extends State<DialogRegister> {
                             //   }),
                             // ),
                             // SizedBox(height: size.height * 0.02),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Flexible(
-                                  fit: FlexFit.tight,
-                                  flex: 5,
-                                  child: CustomInput(
-                                    placeholder: 'Clave 4 dígitos',
-                                    texto: false,
-                                    ocultarTexto: true,
+                            // Row(
+                            //   crossAxisAlignment: CrossAxisAlignment.start,
+                            //   children: [
+                            //     Flexible(
+                            //       fit: FlexFit.tight,
+                            //       flex: 5,
+                            //       child: CustomInput(
+                            //         placeholder: 'Clave 4 dígitos',
+                            //         texto: false,
+                            //         ocultarTexto: true,
                                     
-                                    validator:
-                                        ValidationBuilder().required().build(),
-                                    tipo: TextInputType.number,
-                                  ),
-                                ),
-                                SizedBox(height: size.height * 0.02),
-                                Flexible(
-                                  fit: FlexFit.tight,
-                                  flex: 5,
-                                  child: CustomInput(
-                                    placeholder: 'Confirmala',
-                                    texto: false,
-                                    ocultarTexto: true,                                 
-                                    validator:
-                                        ValidationBuilder().required().build(),
-                                    tipo: TextInputType.number,
-                                  ),
-                                ),
-                              ],
-                            ),
+                            //         validator:
+                            //             ValidationBuilder().required().build(),
+                            //         tipo: TextInputType.number,
+                            //       ),
+                            //     ),
+                            //     SizedBox(height: size.height * 0.02),
+                            //     Flexible(
+                            //       fit: FlexFit.tight,
+                            //       flex: 5,
+                            //       child: CustomInput(
+                            //         placeholder: 'Confirmala',
+                            //         texto: false,
+                            //         ocultarTexto: true,                                 
+                            //         validator:
+                            //             ValidationBuilder().required().build(),
+                            //         tipo: TextInputType.number,
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
                             Padding(
                               padding: const EdgeInsets.only(
                                 left: 15,
