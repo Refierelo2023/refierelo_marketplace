@@ -53,8 +53,8 @@ class RegisterScreen extends StatelessWidget {
                     ),
                   ),
                 );
-                await enviarWebhook("1. Referente");
-                print('Webhook enviado para Referente');
+                await enviarWebhook("referente");
+                print('Webhook enviado para referente');
               },
               child: cardReferente(context, () => null),
             ),
@@ -66,8 +66,8 @@ class RegisterScreen extends StatelessWidget {
                       builder: (context) => const LoginScreens(),
                     ),
                   );
-                  await enviarWebhook("2. Comercio");
-                  //  print('Webhook enviado para Comercio');
+                  await enviarWebhook("comercio");
+                   print('Webhook enviado para Comercio');
                 },
                 child: cardComercio(context, () => null)),
           ],

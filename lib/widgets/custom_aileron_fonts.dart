@@ -72,6 +72,45 @@ class CustomFontAileronRegularWhite extends StatelessWidget {
   }
 }
 
+class CustomFontAileronRegularBlack extends StatelessWidget {
+  final String text;
+  final double fontSize;
+  final TextAlign? textAlign;
+  final int? maxLines;
+
+
+
+  const CustomFontAileronRegularBlack({
+    super.key,
+    required this.text,
+    this.fontSize =0.035, // Porcentaje del tamaño de la pantalla (35% en este caso)
+    this.textAlign,
+    this.maxLines,    
+    });
+
+  TextStyle getTextStyle(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double calculatedFontSize = screenWidth * fontSize;
+
+    return TextStyle(
+      fontFamily: 'Aileron',
+      fontSize: calculatedFontSize,
+      fontWeight: FontWeight.w400,
+      color: const Color(0xFF000000),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+   return Text(
+      text,
+      textAlign: textAlign,
+      style: getTextStyle(context),
+    );
+  }
+}
+
+
 class CustomFontAileronRegular2 extends StatelessWidget {
   final String text;
   final double fontSize;
@@ -235,6 +274,43 @@ class CustomFontAileronSemiBoldWhite extends StatelessWidget {
       fontSize: calculatedFontSize,
       fontWeight: FontWeight.w700,
       color: const Color(0xFFffffff),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      textAlign: textAlign,
+      style: getTextStyle(context), 
+    );
+  }
+}
+
+class CustomFontAileronSemiBoldBlack extends StatelessWidget {
+  final String text;
+  final double fontSize;
+  final TextAlign? textAlign;
+  final int? maxLines;
+
+  const CustomFontAileronSemiBoldBlack({
+    super.key,   
+    required this.text,
+    this.fontSize = 0.038,
+    this.textAlign,
+    this.maxLines,
+    });
+
+  // Nuevo método para obtener el estilo de texto deseado
+  TextStyle getTextStyle(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double calculatedFontSize = screenWidth * fontSize;
+
+    return TextStyle(
+      fontFamily: 'Aileron',
+      fontSize: calculatedFontSize,
+      fontWeight: FontWeight.w700,
+      color: const Color(0xFF000000),
     );
   }
 
@@ -453,11 +529,6 @@ class CustomFontAileronBold2White extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
 class CustomFontAileronBlackTur extends StatelessWidget {
   final String text;
   final double fontSize;

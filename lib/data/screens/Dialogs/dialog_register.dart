@@ -20,7 +20,7 @@ class _DialogRegisterState extends State<DialogRegister> {
     Size size = MediaQuery.of(context).size;
 
     return Dialog(
-      insetPadding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+      insetPadding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
       elevation: 0,
       backgroundColor: Colors.transparent,
       child: Stack(
@@ -34,7 +34,7 @@ class _DialogRegisterState extends State<DialogRegister> {
               child: Stack(
                 children: [
                   Container(
-                    height: size.height * 0.60,
+                    height: size.height * 0.49,
                     width: size.width,
                     padding: EdgeInsets.zero,
                     decoration: BoxDecoration(
@@ -53,11 +53,27 @@ class _DialogRegisterState extends State<DialogRegister> {
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            const Center(
-                              child: CustomFontAileronSemiBoldWhite(
-                                text:
-                                    '¡ Queremos conocerte mejor \n antes de crear tu cuenta !',
-                                textAlign: TextAlign.center,
+                            RichText(
+                              textAlign: TextAlign.justify,
+                              text: TextSpan(
+                                text: 'Queremos concerte mejor\n',
+                                style: const CustomFontAileronSemiBoldWhite(
+                                  text: "",
+                                ).getTextStyle(context),
+                                children: [
+                                  TextSpan(
+                                    text: ' antes de ',
+                                    style: const CustomFontAileronSemiBoldWhite(
+                                      text: " ",
+                                    ).getTextStyle(context),
+                                  ),
+                                  TextSpan(
+                                    text: 'crear tu cuenta',
+                                    style: const CustomFontAileronSemiBoldTur(
+                                      text: "",
+                                    ).getTextStyle(context),
+                                  ),
+                                ],
                               ),
                             ),
                             SizedBox(height: size.height * 0.02),
@@ -123,7 +139,7 @@ class _DialogRegisterState extends State<DialogRegister> {
                             //         placeholder: 'Clave 4 dígitos',
                             //         texto: false,
                             //         ocultarTexto: true,
-                                    
+
                             //         validator:
                             //             ValidationBuilder().required().build(),
                             //         tipo: TextInputType.number,
@@ -136,7 +152,7 @@ class _DialogRegisterState extends State<DialogRegister> {
                             //       child: CustomInput(
                             //         placeholder: 'Confirmala',
                             //         texto: false,
-                            //         ocultarTexto: true,                                 
+                            //         ocultarTexto: true,
                             //         validator:
                             //             ValidationBuilder().required().build(),
                             //         tipo: TextInputType.number,

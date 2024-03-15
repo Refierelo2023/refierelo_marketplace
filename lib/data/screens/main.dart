@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/app/app_data/story_data.dart';
 import 'package:refierelo_marketplace/constants.dart';
 import 'package:refierelo_marketplace/data/screens/Register/register_form.dart';
-import 'package:refierelo_marketplace/data/screens/main_screen.dart';
+import 'package:refierelo_marketplace/data/screens/componentscopy/body.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens_data.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/registration_costumer_nps.dart';
 import 'package:refierelo_marketplace/data/screens/sugerencias/sugerencias_screen.dart';
@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
               visualDensity: VisualDensity.adaptivePlatformDensity,
               fontFamily: "Aileron",
               primarySwatch: Colors.blue),
-          home: const MainScreen()),
+          home: Body()),
     );
   }
 }

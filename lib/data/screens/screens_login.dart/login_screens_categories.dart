@@ -6,6 +6,7 @@ import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:refierelo_marketplace/widgets/search_box.dart';
 import 'package:refierelo_marketplace/widgets/widget_botton_select.dart';
 import 'login_list_categories.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreensCategories extends StatefulWidget {
   const LoginScreensCategories({super.key});
@@ -15,6 +16,7 @@ class LoginScreensCategories extends StatefulWidget {
 }
 
 class LoginScreensCategoriesState extends State<LoginScreensCategories> {
+  String selectedCategory = '';
   List<bool> isSelectedList = List.filled(38, false);
   List<String> displayedCategories = []; // Lista mostrada en la UI
   TextEditingController searchController = TextEditingController();
@@ -41,6 +43,24 @@ class LoginScreensCategoriesState extends State<LoginScreensCategories> {
       }
     });
   }
+
+  void enviarWebhook(String selectedCategory) {
+  final url = Uri.parse("http://5.189.161.131:5000/webhook");
+  final data = {
+    'Categoria': selectedCategory,
+    // ... otras propiedades del formulario
+  };
+
+  http.post(url, body: data).then((respuesta) {
+    if (respuesta.statusCode == 200) {
+      print('Webhook enviado con éxito');
+    } else {
+      print('Error al enviar el webhook: ${respuesta.statusCode}');
+    }
+  }).catchError((error) {
+    print('Error al enviar el webhook: $error');
+  });
+}
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +107,7 @@ class LoginScreensCategoriesState extends State<LoginScreensCategories> {
                             for (int i = 0; i < isSelectedList.length; i++) {
                               isSelectedList[i] = i == index;
                             }
+                            selectedCategory = displayedCategories[index];
                           });
                         },
                         child: Row(
@@ -116,17 +137,19 @@ class LoginScreensCategoriesState extends State<LoginScreensCategories> {
           child: BtnNext(
               title: "Continuar ",
               press: () {
-                 Navigator.push(
+                 if (selectedCategory.isNotEmpty){
+                   enviarWebhook(selectedCategory);
+                   Navigator.push(
                     context,
                     MaterialPageRoute(
                     builder: (BuildContext context) =>
                   const LoginScreensSetupAccount(),
                 ),
               );
-
-              }
-              
-        
+            } else {
+              print('Error: No se ha seleccionado ninguna categoría');
+            }
+          }
         )
       ),
     );

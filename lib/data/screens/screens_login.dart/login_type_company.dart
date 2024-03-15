@@ -4,6 +4,7 @@ import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_scre
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens_categories.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:refierelo_marketplace/widgets/widget_botton_select.dart';
+import 'package:http/http.dart' as http;
 
 class LoginTypeCompany extends StatefulWidget {
   const LoginTypeCompany({super.key});
@@ -14,6 +15,13 @@ class LoginTypeCompany extends StatefulWidget {
 
 class LoginTypeCompanyState extends State<LoginTypeCompany> {
   late List<bool> isButtonSelectedList;
+
+   List<String> palabras = [
+    'microemprendimientos',
+    'pequeña empresa',
+    'Mediana empresa',
+    'gran empresa',
+  ];  
 
   @override
   void initState() {
@@ -27,6 +35,25 @@ class LoginTypeCompanyState extends State<LoginTypeCompany> {
         isButtonSelectedList[i] = (i == index);
       }
     });
+  }
+
+  void enviarWebhook(int selectedIndex) {    
+    if (selectedIndex >= 0 && selectedIndex < palabras.length) {
+      final url = Uri.parse("http://5.189.161.131:5000/webhook");
+      final data = {'TipoEmpresa': palabras[selectedIndex]};
+
+      http.post(url, body: data).then((respuesta) {
+        if (respuesta.statusCode == 200) {
+          print('Webhook enviado con éxito');
+        } else {
+          print('Error al enviar el webhook: ${respuesta.statusCode}');
+        }
+      }).catchError((error) {
+        print('Error al enviar el webhook: $error');
+      });
+    } else {
+      print('Error: Índice fuera de rango');
+    }
   }
 
   @override
@@ -88,11 +115,26 @@ class LoginTypeCompanyState extends State<LoginTypeCompany> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: BtnNext(
-          press: () {
+          press: () {          
+          int selectedIndex = -1;
+          for (int i = 0; i < isButtonSelectedList.length; i++) {
+            if (isButtonSelectedList[i]) {
+              selectedIndex = i;
+              break;
+            }
+          }
+          if (selectedIndex != -1) {
+            enviarWebhook(selectedIndex);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const LoginScreensCategories()), // Ir a LoginScreensCategories
         );
+        } else {
+          print('Error: Ningún tipo de empresa seleccionado');
+
+        }
+
+
       }, 
       title: "Continuar")
     ),

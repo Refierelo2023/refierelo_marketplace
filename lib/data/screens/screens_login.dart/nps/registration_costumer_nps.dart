@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/tab_bar_nps.dart';
 
 class RegistrationCostumerNps extends StatefulWidget {
   const RegistrationCostumerNps({super.key});
@@ -30,8 +31,9 @@ class RegistrationCostumerNpsState extends State<RegistrationCostumerNps> {
     return GestureDetector(
       onTap: () {
         Provider.of<UserNameProvider>(context, listen: false)
-            .setUserName(nombreClienteController.text);
-        DefaultTabController.of(context).animateTo(1);
+            .setUserName(nombreClienteController.text);            
+         TabBarNpsState tabBarNpsState = context.findAncestorStateOfType<TabBarNpsState>()!;
+      tabBarNpsState.changeTab(1);
       },
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
@@ -82,7 +84,7 @@ class RegistrationCostumerNpsState extends State<RegistrationCostumerNps> {
     return Scaffold(
       body: Container(
         decoration:  BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(0),
           gradient: const LinearGradient(
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,

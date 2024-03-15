@@ -1,9 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:refierelo_marketplace/data/screens/Preguntas_Frecuentes/preguntas_frecuentes.dart';
+import 'package:refierelo_marketplace/data/screens/Register/register_form.dart';
 import 'package:refierelo_marketplace/data/screens/Share/share_screen.dart';
 import 'package:refierelo_marketplace/data/screens/refiere_una_empresa/refiere_empresa_screen.dart';
-import 'package:refierelo_marketplace/data/screens/screens_profile.dart/profile_screens.dart';
+import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/actividad_nps.dart';
 import 'package:refierelo_marketplace/data/screens/sugerencias/sugerencias_screen.dart';
 import 'package:refierelo_marketplace/data/screens/tabla_recompensas/tabla_recompensas_screen.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
@@ -38,107 +39,6 @@ class _SidebarState extends State<Sidebar> {
               child: Column(
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const Text(
-                        'Menu',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(Icons.close, color: Colors.white),
-                      )
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ProfileScreens()));
-                    },
-                    child: const ListTile(
-                      leading: Icon(Icons.person_rounded),
-                      title: Text(
-                        'Mi perfil',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                      onTap: (() {
-                        Navigator.of(context).pop();
-                      }),
-                      child: const ListTile(
-                        leading: Icon(Icons.person_rounded),
-                        title: Text(
-                          'Referir',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white),
-                        ),
-                      )),
-                  ListTile(
-                    leading: const Icon(Icons.person_rounded),
-                    title: const Text(
-                      'Consultar',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
-                    ),
-                    onTap: () {
-                      widget.setTab(2);
-                    },
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      const numero = '+573014117482';
-                      final Uri whatsappURlAndroid =
-                          Uri.parse("whatsapp://send?phone=$numero");
-                      final Uri whatappURLIos =
-                          Uri.parse('https://wa.me/$numero');
-
-                      if (Platform.isIOS) {
-                        if (await canLaunchUrl(whatappURLIos)) {
-                          await launchUrl(whatappURLIos,
-                              mode: LaunchMode.platformDefault);
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text("WhatsApp no está instalado")));
-                        }
-                      } else {
-                        if (await canLaunchUrl(whatsappURlAndroid)) {
-                          await launchUrl(whatsappURlAndroid);
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text("WhatsApp no está instalado")));
-                        }
-                      }
-                    },
-                    child: const ListTile(
-                      leading: Icon(Icons.person_rounded),
-                      title: Text(
-                        'Atención',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white),
-                      ),
-                    ),
-                  ),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -176,16 +76,6 @@ class _SidebarState extends State<Sidebar> {
                       ),
                     ),
                   ),
-                  const ListTile(
-                    leading: Icon(Icons.person_rounded),
-                    title: Text(
-                      'Compartir',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
-                    ),
-                  ),
                   ListTile(
                     leading: const Icon(Icons.person_rounded),
                     onTap: () {
@@ -221,16 +111,7 @@ class _SidebarState extends State<Sidebar> {
                       ),
                     ),
                   ),
-                  const ListTile(
-                    leading: Icon(Icons.person_rounded),
-                    title: Text(
-                      'Tienda',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
-                    ),
-                  ),
+
                   // ListTile(
                   //   leading: const Icon(Icons.person_rounded),
                   //   title: const Text(
@@ -274,7 +155,7 @@ class DisplaySidebarVerticalState extends State<DisplaySidebarVertical> {
   @override
   void initState() {
     super.initState();
-    isButtonSelectedList = List.generate(6, (index) => false);
+    isButtonSelectedList = List.generate(7, (index) => false);
   }
 
   void selectOnly(int index) {
@@ -306,6 +187,15 @@ class DisplaySidebarVerticalState extends State<DisplaySidebarVertical> {
                 MaterialPageRoute(
                   builder: (context) => const RefiereEmpresaScreen(),
                 ));
+          } else if (title == "Mi perfil") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const RegisterForm(
+                  msisdn: '',
+                ),
+              ),
+            );
           }
           if (title == "Atención") {
             const numero = '+573014117482';
@@ -342,18 +232,24 @@ class DisplaySidebarVerticalState extends State<DisplaySidebarVertical> {
               MaterialPageRoute(
                 builder: (context) => const ShareScreen(),
               ),
-            );  
-          }
-          else if (title == "Preguntas frecuentes") {
+            );
+          } else if (title == "Preguntas frecuentes") {
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const PreguntasFrecuentesScreen(),
               ),
-            );            
+            );
+          } else if (title == "Nps") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ActividadNpsScreen(),
+              ),
+            );
             selectOnly(index);
             toggleVisibility();
-          }             
+          }
         },
         child: Ink(
           decoration: BoxDecoration(
@@ -368,9 +264,8 @@ class DisplaySidebarVerticalState extends State<DisplaySidebarVertical> {
               ),
             ],
             border: Border.all(
-                color: isButtonSelectedList[index]
-                    ? Colors.white
-                    : Colors.white),
+                color:
+                    isButtonSelectedList[index] ? Colors.white : Colors.white),
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(
@@ -415,60 +310,72 @@ class DisplaySidebarVerticalState extends State<DisplaySidebarVertical> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 9),
-            height: 5,
-            decoration: const BoxDecoration(
-              color: Color(0xFF666666),
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-            ),
-            width: MediaQuery.of(context).size.width * 0.12,
+    return ListView(
+      shrinkWrap: true,
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            color: Color(0xFFffffff),
+            borderRadius: BorderRadius.all(Radius.circular(20)),
           ),
-          const SizedBox(height: 20.0),
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Column(
-              children: [
-                buildContainer(
-                  index: 0,
-                  title: 'Mi perfil',
-                  icon: Icons.person_outline_rounded,
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 9),
+                height: 5,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF666666),
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.001,
+                width: MediaQuery.of(context).size.width * 0.12, // Ancho del accesorio
+              ),
+              const SizedBox(height: 10.0),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Column(
+                  children: [
+                    buildContainer(
+                      index: 0,
+                      title: 'Mi perfil',
+                      icon: Icons.person_outline_rounded,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width * 0.001,
+                    ),
+                    buildContainer(
+                      index: 1,
+                      title: 'Comparte y Gana',
+                      icon: Icons.rotate_right_sharp,
+                    ),
+                    buildContainer(
+                      index: 2,
+                      title: 'Refiere una marca',
+                      icon: Icons.shopping_cart_outlined,
+                    ),
+                    buildContainer(
+                      index: 3,
+                      title: 'Atención',
+                      icon: Icons.phonelink_ring_rounded,
+                    ),
+                    buildContainer(
+                        index: 4,
+                        title: 'Sugerencias',
+                        icon: Icons.lightbulb_outline_sharp),
+                    buildContainer(
+                        index: 5,
+                        title: 'Preguntas frecuentes',
+                        icon: Icons.question_mark_rounded),
+                    buildContainer(
+                        index: 6,
+                        title: 'Nps',
+                        icon: Icons.star_border_rounded),
+                  ],
                 ),
-                buildContainer(
-                  index: 1,
-                  title: 'Comparte y Gana',
-                  icon: Icons.rotate_right_sharp,
-                ),
-                buildContainer(
-                  index: 2,
-                  title: 'Refiere una marca',
-                  icon: Icons.shopping_cart_outlined,
-                ),
-                buildContainer(
-                  index: 3,
-                  title: 'Atención',
-                  icon: Icons.phonelink_ring_rounded,
-                ),
-                buildContainer(
-                    index: 4,
-                    title: 'Sugerencias',
-                    icon: Icons.lightbulb_outline_sharp
-                ),
-                buildContainer(
-                    index: 5,
-                    title: 'Preguntas frecuentes',
-                    icon: Icons.question_mark_rounded),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

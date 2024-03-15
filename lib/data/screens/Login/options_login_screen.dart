@@ -4,10 +4,8 @@ import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:grpc/grpc.dart';
 import 'package:refierelo_marketplace/app/helper/helpers/helpers.dart';
-import 'package:refierelo_marketplace/data/screens/Dialogs/dialog_register.dart';
+import 'package:refierelo_marketplace/data/screens/Login/logueo_form_screen.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/components.dart';
-import 'package:refierelo_marketplace/data/screens/Register/register_form.dart';
-import 'package:refierelo_marketplace/data/screens/componentscopy/body.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
 import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
@@ -30,6 +28,7 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
     // TODO: implement initState
     super.initState();
   }
+
   final GoogleSignIn _googleSignIn = GoogleSignIn(
       scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile']);
 
@@ -44,9 +43,7 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
             clave: '${keyRedes}g${userData.id.toString()}',
             idTipoCuentaReferente: '3',
             usuario: userData.email.toString(),
-            sessionString: sessionString
-            )
-          );
+            sessionString: sessionString));
 
         await SessionManager().set("sessionString", sessionString);
         final prefs = await SharedPreferences.getInstance();
@@ -55,7 +52,8 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-                builder: (context) => const MainScreen()),// se cambia por nuevo menu
+                builder: (context) =>
+                    const MainScreen()), 
             (Route<dynamic> route) => false);
       } on GrpcError catch (e) {
         Navigator.of(context).pop();
@@ -99,8 +97,7 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
         await prefs.setBool('repeat', true);
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(
-                builder: (context) => const MainScreen()),
+            MaterialPageRoute(builder: (context) => const MainScreen()),
             (Route<dynamic> route) => false);
       } on GrpcError catch (e) {
         Navigator.of(context).pop();
@@ -116,26 +113,27 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
       }
       // print("referenteRegister response: " + response.message);
       // return (response.message);
-    }     
-    else {
+    } else {
       toast('Falló la autenticación con Facebook.', Colors.red);
     }
   }
 
   @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+Widget build(BuildContext context) {
+  Size size = MediaQuery.of(context).size;
 
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(          
-            image: AssetImage('assets/images/option_login_screens/fondo.png',            
-          ),     
-        fit: BoxFit.cover),
+  return Container(
+    decoration: const BoxDecoration(
+      image: DecorationImage(
+        image: AssetImage(
+          'assets/images/option_login_screens/fondo.png',
+        ),
+        fit: BoxFit.cover,
       ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-         appBar: AppBar(
+    ),
+    child: Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
         backgroundColor: Colors.transparent,
         toolbarHeight: 30,
         leading: IconButton(
@@ -144,49 +142,49 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (BuildContext context) => Body(),
+                builder: (BuildContext context) => const MainScreen(),
               ),
             );
           },
         ),
       ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(height: size.height * 0.10),
-                Image.asset('assets/images/otp/superreferente.png',
-                  width: size.width * 0.52,
-                ),
-                SizedBox(
-                  width: size.width * 0.70,
-                  child: const CustomFontAileronSemiBoldWhite(
-                    text: '¡ Te estábamos extrañando !',
-                    fontSize: 0.045,
-                  ),
-                ),
-                SizedBox(height: size.height * 0.07,
-                ),
-                SizedBox(
-                  width: size.width * 0.70,
-                  child: const CustomFontAileronRegularWhite(
-                    text: '¿Cómo deseas continuar?',
-                  ),  
-                ),
-                SizedBox(height: size.height * 0.02),
-                btnForm(size, context),
-                SizedBox(height: size.height * 0.02),
-                btnFacebook(size),
-                SizedBox(height: size.height * 0.02),
-                btnGoogle(size)
-              ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            SizedBox(height: size.height * 0.20),
+            Image.asset(
+              'assets/images/otp/superreferente.png',
+              width: size.width * 0.52,
             ),
-          ),
+            SizedBox(
+              width: size.width * 0.70,
+              child: const CustomFontAileronSemiBoldWhite(
+                text: '¡ Te estábamos extrañando !',
+                fontSize: 0.045,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const Spacer(), // Added Spacer to push the next widgets to the bottom
+            SizedBox(
+              width: size.width * 0.90,
+              child: const CustomFontAileronRegularWhite(
+                text: '¿Cómo deseas continuar?',
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SizedBox(height: size.height * 0.01),
+            btnForm(size, context),
+            SizedBox(height: size.height * 0.01),
+            btnFacebook(size),
+            SizedBox(height: size.height * 0.01),
+            btnGoogle(size),
+            SizedBox(height: size.height * 0.02),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Container btnForm(Size size, BuildContext context) {
     return Container(
@@ -203,7 +201,9 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const RegisterForm(msisdn: '',)),
+              MaterialPageRoute(
+                  builder: (context) => const LogueoFormScreen(                        
+                      )),
             );
           },
           child: Row(
@@ -212,15 +212,15 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
               Expanded(
                 flex: 3,
                 child: Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: Image.asset(
-                      'assets/images/option_login_screens/formulario.png',
-                      width: size.width * 0.04,
-                      height: size.height * 0.044,
-                      fit: BoxFit.fitHeight,
+                  padding: const EdgeInsets.only(right: 8),
+                  child: Image.asset(
+                    'assets/images/option_login_screens/formulario.png',
+                    width: size.width * 0.04,
+                    height: size.height * 0.044,
+                    fit: BoxFit.fitHeight,
                   ),
                 ),
-              ),                  
+              ),
               const Expanded(
                 flex: 7,
                 child: Padding(
@@ -229,10 +229,10 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
                     text: 'Continuar con usuario y clave',
                   ),
                 ),
-              ),              
-          ],
-        )
-      ),
+              ),
+            ],
+          )
+        ),
     );
   }
 
@@ -245,14 +245,7 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
       ),
       child: TextButton(
           style: TextButton.styleFrom(foregroundColor: Colors.white),
-          onPressed: () {
-            showDialog(
-                context: context,
-                builder: (context) {
-                return DialogRegister(pressContinue: iniciarSesionFacebook);
-              }
-            );
-          },
+          onPressed: iniciarSesionFacebook,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -260,7 +253,8 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
                 flex: 3,
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8),
-                  child: Image.asset('assets/images/option_login_screens/facebook_blanco.png',
+                  child: Image.asset(
+                      'assets/images/option_login_screens/facebook_blanco.png',
                       height: size.height * 0.05,
                       fit: BoxFit.fitHeight),
                 ),
@@ -269,16 +263,17 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
                 flex: 7,
                 child: Padding(
                   padding: EdgeInsets.only(left: 2),
-                child: CustomFontAileronRegularWhite(
-                  text: 'Continuar con Facebook',
+                  child: CustomFontAileronRegularWhite(
+                    text: 'Continuar con Facebook',
+                  ),
                 ),
               ),
-            ),
-          ],
-        )
-      ),
+            ],
+          )
+        ),
     );
   }
+
   Container btnGoogle(Size size) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: size.width * 0.08),
@@ -288,14 +283,7 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
       ),
       child: TextButton(
           style: TextButton.styleFrom(foregroundColor: Colors.white),
-          onPressed: () async {
-            showDialog(
-                context: context,
-                builder: (context) {
-                return DialogRegister(pressContinue: iniciarSesionGoogle);
-              }
-            );
-          },
+          onPressed: iniciarSesionGoogle,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -303,7 +291,8 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
                 flex: 3,
                 child: Padding(
                   padding: const EdgeInsets.only(right: 0),
-                  child: Image.asset('assets/images/option_login_screens/google.png',
+                  child: Image.asset(
+                    'assets/images/option_login_screens/google.png',
                     // width: size.width * 0.04,
                     height: size.height * 0.045,
                   ),
@@ -312,15 +301,15 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
               const Expanded(
                 flex: 7,
                 child: Padding(
-                padding: EdgeInsets.only(left: 2),
-                child: CustomFontAileronRegular(
-                  text:'Continuar con Google',
+                  padding: EdgeInsets.only(left: 2),
+                  child: CustomFontAileronRegular(
+                    text: 'Continuar con Google',
+                  ),
                 ),
               ),
-            ),
-          ],
-        )
-      ),
+            ],
+          )
+        ),
     );
   }
 }

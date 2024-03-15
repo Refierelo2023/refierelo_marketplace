@@ -9,6 +9,7 @@ import 'package:refierelo_marketplace/app/helper/helpers/helpers.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/dialog_register.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/components.dart';
 import 'package:refierelo_marketplace/data/screens/Register/register_form.dart';
+import 'package:refierelo_marketplace/data/screens/componentscopy/body.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
 import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/data/screens/otp/insert_number_screen.dart';
@@ -16,7 +17,6 @@ import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:refierelo_marketplace/constants.dart';
-
 
 class OptionsRegisterScreen extends StatefulWidget {
   final String msisdn;
@@ -35,76 +35,98 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
     super.initState();
     msisdn = widget.msisdn;
   }
-
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-      scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile']);
+      scopes: [
+         'email',
+      'https://www.googleapis.com/auth/calendar',
+      'https://www.googleapis.com/auth/drive',
+      'https://www.googleapis.com/auth/gmail.readonly',
+      'https://www.googleapis.com/auth/youtube',
+      'https://www.googleapis.com/auth/photoslibrary',
+      'https://www.googleapis.com/auth/contacts.readonly',
+      'https://www.googleapis.com/auth/tasks',      
+        ]
+      );
 
-  void iniciarSesionGoogle() async {
-    var userData = await _googleSignIn.signIn();
-
-    if (userData != null) {
-      var sessionString = generateSessionString();
-
-      var pass = '${keyRedes}g${userData.id.toString()}';
-
-      var existente = await ServiceClient(getChannel()).getReferenteByEmail(
-          getReferenteByEmailRequest(mail: userData.email.toString()));
-
-      // if (existente.mail.isNotEmpty && existente.idTipoCuentaReferente != '3') {
-      if (existente.mail.isNotEmpty) {
-        Fluttertoast.showToast(
-            msg: "Este correo ya existe en nuestros registros.",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
-        return;
-      }
-
-      if (existente.mail.isEmpty) {
-        try {
-          await ServiceClient(getChannel())
-              .referenteRegister(referenteRegisterRequest()
-                ..msisdn = msisdn
-                ..apellidos = ''
-                ..nombres = userData.displayName.toString()
-                ..mail = userData.email
-                ..fechaNacimiento =
-                    DateFormat('yyyy-MM-dd').format(DateTime.now())
-                ..ciudad = ''
-                ..mediosPagos = ''
-                ..entidadFinanciera = ''
-                ..tipoCuenta = '3'
-                ..clave = pass
-                ..sessionString = sessionString
-                ..date = DateFormat('yyyy-MM-dd').format(DateTime.now()));
-        } on GrpcError catch (e) {
-          toast(e.message ?? 'No se pudo iniciar sesión.', Colors.red);
-          return;
-        } on Exception {
-          toast('No se pudo iniciar sesión.', Colors.red);
-          return;
-        } finally {
-          Navigator.of(context).pop();
-        }
-      } else {
-        sessionString = existente.sessionString;
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setBool('repeat', true);
-      }
-      await SessionManager().set("sessionString", sessionString);
-
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const MainScreen()),
-          (Route<dynamic> route) => false);
-    } else {
-      Navigator.pop(context);
-    }
+     Future<void> iniciarSesionGoogle() async {
+  try {
+    await _googleSignIn.signIn();
+    // Si el inicio de sesión es exitoso, navegamos al MainScreen
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => Body()),
+      (Route<dynamic> route) => false,
+    );
+  } catch (error) {
+    print('Error signing in: $error');
   }
+}
+
+  // void iniciarSesionGoogle() async {
+  //   var userData = await _googleSignIn.signIn();
+
+  //   if (userData != null) {
+  //     var sessionString = generateSessionString();
+
+  //     var pass = '${keyRedes}g${userData.id.toString()}';
+
+  //     var existente = await ServiceClient(getChannel()).getReferenteByEmail(
+  //         getReferenteByEmailRequest(mail: userData.email.toString()));
+
+  //     if (existente.mail.isNotEmpty && existente.idTipoCuentaReferente != '3') {
+  //     if (existente.mail.isNotEmpty) {
+  //       Fluttertoast.showToast(
+  //           msg: "Este correo ya existe en nuestros registros.",
+  //           toastLength: Toast.LENGTH_SHORT,
+  //           gravity: ToastGravity.BOTTOM,
+  //           timeInSecForIosWeb: 1,
+  //           backgroundColor: Colors.red,
+  //           textColor: Colors.white,
+  //           fontSize: 16.0);
+  //       return;
+  //     }
+
+  //     if (existente.mail.isEmpty) {
+  //       try {
+  //         await ServiceClient(getChannel())
+  //             .referenteRegister(referenteRegisterRequest()
+  //               ..msisdn = msisdn
+  //               ..apellidos = ''
+  //               ..nombres = userData.displayName.toString()
+  //               ..mail = userData.email
+  //               ..fechaNacimiento =
+  //                   DateFormat('yyyy-MM-dd').format(DateTime.now())
+  //               ..ciudad = ''
+  //               ..mediosPagos = ''
+  //               ..entidadFinanciera = ''
+  //               ..tipoCuenta = '3'
+  //               ..clave = pass
+  //               ..sessionString = sessionString
+  //               ..date = DateFormat('yyyy-MM-dd').format(DateTime.now()));
+  //       } on GrpcError catch (e) {
+  //         toast(e.message ?? 'No se pudo iniciar sesión.', Colors.red);
+  //         return;
+  //       } on Exception {
+  //         toast('No se pudo iniciar sesión.', Colors.red);
+  //         return;
+  //       } finally {
+  //         Navigator.of(context).pop();
+  //       }
+  //     } else {
+  //       sessionString = existente.sessionString;
+  //       final prefs = await SharedPreferences.getInstance();
+  //       await prefs.setBool('repeat', true);
+  //     }
+  //     await SessionManager().set("sessionString", sessionString);
+
+  //     Navigator.pushAndRemoveUntil(
+  //         context,
+  //         MaterialPageRoute(builder: (context) => const MainScreen()),
+  //         (Route<dynamic> route) => false);
+  //   } else {
+  //     Navigator.pop(context);
+  //   }
+  // }
 
   void iniciarSesionFacebook() async {
     final LoginResult result = await FacebookAuth.instance
@@ -170,10 +192,8 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
 
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(
-              builder: (context) => const MainScreen()),
+          MaterialPageRoute(builder: (context) => const MainScreen()),
           (Route<dynamic> route) => false);
-
       // print("referenteRegister response: " + response.message);
       // return (response.message);
     } else {
@@ -186,31 +206,31 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Container(     
+    return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
             image: AssetImage(
-            'assets/images/option_register/background1.png',            
-            ),            
+              'assets/images/option_register/background1.png',
+            ),
             fit: BoxFit.cover),
       ),
-      child: Scaffold(        
+      child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        toolbarHeight: 30,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          color: const Color(0xFFffffff),
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) => const InsertNumberScreen(),
-              ),
-            );
-          },
+          backgroundColor: Colors.transparent,
+          toolbarHeight: 30,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            color: const Color(0xFFffffff),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const InsertNumberScreen(),
+                ),
+              );
+            },
+          ),
         ),
-      ),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -250,7 +270,7 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
                 btnFacebook(size),
                 SizedBox(height: size.height * 0.01),
                 btnGoogle(size),
-                SizedBox( height: size.height * 0.01),
+                SizedBox(height: size.height * 0.01),
               ],
             ),
           ),
@@ -258,6 +278,7 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
       ),
     );
   }
+
   Container btnForm(Size size, BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: size.width * 0.1),
@@ -285,7 +306,7 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 0),
                   child: Image.asset(
-                    'assets/images/option_login_screens/formulario.png',               
+                    'assets/images/option_login_screens/formulario.png',
                     height: size.height * 0.04,
                   ),
                 ),
@@ -293,15 +314,15 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
               const Expanded(
                 flex: 7,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 2),
-                  child: CustomFontAileronRegularWhite(
-                    text: 'Continuar con tus datos',
-                  ),
+                padding: EdgeInsets.only(left: 2),
+                child: CustomFontAileronRegularWhite(
+                  text: 'Continuar con tus datos',
                 ),
               ),
-            ],
-          )
-        ),
+            ),
+          ],
+        )
+      ),
     );
   }
 
@@ -316,10 +337,11 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
           style: TextButton.styleFrom(foregroundColor: Colors.white),
           onPressed: () {
             showDialog(
-                context: context,
-                builder: (context) {
-                  return DialogRegister(pressContinue: iniciarSesionFacebook);
-                });
+              context: context,
+              builder: (context) {
+                return DialogRegister(pressContinue: iniciarSesionFacebook);
+              }
+            );
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -329,24 +351,24 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8),
                   child: Image.asset(
-                      'assets/images/option_login_screens/facebook_blanco.png',                       
-                      height: size.height * 0.05,
-                      fit: BoxFit.fitHeight),
+                      'assets/images/option_login_screens/facebook_blanco.png',
+                    height: size.height * 0.05,
+                    fit: BoxFit.fitHeight,
+                  ),
                 ),
               ),
               const Expanded(
                 flex: 7,
-                child: 
-                  Padding(
-                    padding: EdgeInsets.only(left: 2),
-                    child: CustomFontAileronRegularWhite(
-                      text: 'Continuar con Facebook',
-                    ),
-                  ),
-               
-              ),              
-            ],
-          )),
+                child: Padding(
+                padding: EdgeInsets.only(left: 2),
+                child: CustomFontAileronRegularWhite(
+                  text: 'Continuar con Facebook',
+                ),
+              ),
+            ),
+          ],
+        )
+      ),
     );
   }
 
@@ -362,9 +384,10 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
           onPressed: () async {
             showDialog(
                 context: context,
-                builder: (context) {
-                  return DialogRegister(pressContinue: iniciarSesionGoogle);
-                });
+              builder: (context) {
+                return DialogRegister(pressContinue: iniciarSesionGoogle);
+              }
+            );
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -384,15 +407,15 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
               const Expanded(
                 flex: 7,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 2),
-                  child: CustomFontAileronRegular(
-                    text:'Continuar con Google',
-                  ),
+                padding: EdgeInsets.only(left: 2),
+                child: CustomFontAileronRegular(
+                  text: 'Continuar con Google',
                 ),
               ),
-              
-            ],
-          )),
+            ),
+          ],
+        )
+      ),
     );
   }
 }

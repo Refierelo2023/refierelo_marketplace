@@ -165,17 +165,17 @@ class _RegisterFormState extends State<RegisterForm> {
   Future<void> enviarWebhook() async {
     final url = Uri.parse("http://5.189.161.131:5000/webhook");
     final data = {
-      'Nombres': firstNameController.text,
-      'Apellidos': lastNameController.text,
+      'nombres': firstNameController.text,
+      'apellidos': lastNameController.text,
       'identificación': identificacionController.text,
       'celular': celularController.text,
       'email': emailController.text,
-      "Fecha de Nacimiento": fechaNacController.text,
+      "fecha de nacimiento": fechaNacController.text,
       'Ciudad': ciudadController.text,
-      'Medio para recibir pagos': pagosController.text,
-      'Entidad financiera': entidadFinancieraController.text,
-      'clave 4 digítos': clave1Controller.text,
-      'Confirmala': clave2Controller.text,
+      'medio para recibir pagos': pagosController.text,
+      'entidad financiera': entidadFinancieraController.text,
+      'clave4digitos': clave1Controller.text,
+      'confirmala': clave2Controller.text,
       // ... otras propiedades del formulario
     };
 
@@ -453,8 +453,7 @@ class _RegisterFormState extends State<RegisterForm> {
                                   .firstWhere(
                                       (element) => element.id == idMediopago)
                                   .nombre;
-                            });
-                            enviarWebhook();
+                            });                            
                           },
                         ),
                       ),
@@ -474,7 +473,7 @@ class _RegisterFormState extends State<RegisterForm> {
                         fit: FlexFit.tight,
                         flex: 5,
                         child: CustomInput(
-                          placeholder: 'Clave 4 dígitos',
+                          placeholder: 'clave 4 digitos',
                           texto: false,
                           ocultarTexto: true,
                           controller: clave1Controller,
@@ -598,20 +597,20 @@ class _RegisterFormState extends State<RegisterForm> {
                           ),
                         );
                         // Imprimir valores antes de enviar el webhook
-                        // print('Nombres: ${firstNameController.text}');
-                        // print('Apellidos: ${lastNameController.text}');
-                        // print(
-                        //     'Identificación: ${identificacionController.text}');
-                        // print('Celular: ${celularController.text}');
-                        // print('Mail: ${emailController.text}');
-                        // print(
-                        //     'fecha de Nacimiento: ${fechaNacController.text}');
-                        // print('Ciudad: ${ciudadController.text}');
-                        // print('Pagos: ${pagosController.text}');
-                        // print(
-                        //     'entidad financiera: ${entidadFinancieraController.text}');
-                        // print('Clave 4 dígitos: ${clave1Controller.text}');
-                        // print('Confirmar: ${clave2Controller.text}');
+                        print('Nombres: ${firstNameController.text}');
+                        print('Apellidos: ${lastNameController.text}');
+                        print(
+                            'Identificación: ${identificacionController.text}');
+                        print('Celular: ${celularController.text}');
+                        print('Mail: ${emailController.text}');
+                        print(
+                            'fecha de Nacimiento: ${fechaNacController.text}');
+                        print('Ciudad: ${ciudadController.text}');
+                        print('Pagos: ${pagosController.text}');
+                        print(
+                            'entidad financiera: ${entidadFinancieraController.text}');
+                        print('clave4digitos: ${clave1Controller.text}');
+                        print('Confirmar: ${clave2Controller.text}');
                         enviarWebhook();
                         Navigator.push(
                           context,

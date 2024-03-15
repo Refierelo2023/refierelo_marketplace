@@ -7,6 +7,7 @@ import 'package:refierelo_marketplace/data/screens/Mi_Actividad/components/mi_ac
 import 'package:refierelo_marketplace/data/screens/home/components/sidebar.dart';
 import 'package:refierelo_marketplace/data/screens/screen_reward_user/widget_tabbar.dart';
 import 'package:refierelo_marketplace/data/screens/screens_home__view/screens_home_view.dart';
+import 'package:refierelo_marketplace/data/screens/screens_profile.dart/profile_screen_user.dart';
 import 'package:refierelo_marketplace/data/screens/screens_profile.dart/profile_screens.dart';
 import 'package:refierelo_marketplace/data/screens/display_refiere_aqui/display_refiere_aqui.dart';
 import 'package:refierelo_marketplace/data/screens/screens_profile_referir.dart';
@@ -30,7 +31,7 @@ class _MainScreenState extends State<MainScreen> {
     const SearchScreens(),
     const ScreenProfileReferir(),
     const MiActividadTab(),
-    const ProfileScreens(),
+    const ProfileScreensUser(),
   ];
 
   final List<String> _imagePaths = [
@@ -61,7 +62,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
       body: _listOptions[_selectedIndex],
       bottomNavigationBar: SizedBox(
-        height: 60,
+        height: 60,// altura del menu inferior
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -124,6 +125,7 @@ class _MainScreenState extends State<MainScreen> {
   void _displaysidebar(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (BuildContext context) {
         return const DisplaySidebarVertical();
       },

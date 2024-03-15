@@ -180,3 +180,118 @@ class WidgetCarruselNpsState extends State<WidgetCarruselNps> {
     return lines;
   }
 }
+
+class WidgetEmojiCategories extends StatefulWidget {
+  final double? height;
+
+  const WidgetEmojiCategories({Key? key, this.height}) : super(key: key);
+
+  @override
+  _WidgetEmojiCategoriesState createState() => _WidgetEmojiCategoriesState();
+}
+
+class _WidgetEmojiCategoriesState extends State<WidgetEmojiCategories> {
+  final List<Map<String, String>> emojiData = [
+    {
+      'imagePath': 'assets/images/nps/NPS1.png',
+      'title': 'Promotores',
+      'paragraph':
+          'Clientes altamente satisfechos y leales que tienen una mayor probabilidad de difundir y recomendar tu marca.',
+    },
+    {
+      'imagePath': 'assets/images/nps/NPS2.png',
+      'title': 'Neutros',
+      'paragraph':
+          'Clientes satisfechos, pero no lo suficiente, es crucial entender sus expectativas y mejorarlas para convertir a este grupo en Promotores',
+    },
+    {
+      'imagePath': 'assets/images/nps/NPS3.png',
+      'title': 'Detractores',
+      'paragraph':
+          'Expresan insatisfacción total y son propensos a recomendar negativamente tu marca, sus comentarios son muy válidos para identificar aspectos a mejorar',
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: widget.height ?? MediaQuery.of(context).size.height * 1.001,
+      child: Scaffold(        
+        body: Center(          
+          child: Column(            
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: emojiData
+                .map((emoji) => _buildEmojiCategory(
+                      emoji['imagePath']!,
+                      emoji['title']!,
+                      emoji['paragraph']!,
+                    ))
+                .toList(),
+                
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmojiCategory(String imagePath, String title, String paragraph) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    List<String> wrappedText = _wrapText(paragraph);
+
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 20),
+      decoration: BoxDecoration(
+        color: const Color(0xFFffffff),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      padding: const EdgeInsets.only(top: 0, bottom: 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(
+            imagePath,
+            height: screenHeight * 0.090,
+            width: screenHeight * 0.090,
+            fit: BoxFit.contain,
+          ),
+          const SizedBox(height: 10),
+          Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: wrappedText
+                .map((line) => Text(
+                      line,
+                      textAlign: TextAlign.center,
+                    ))
+                .toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<String> _wrapText(String text) {
+    const int maxCharactersPerLine = 43;
+    List<String> lines = [];
+    List<String> words = text.split(' ');
+    String line = '';
+
+    for (int i = 0; i < words.length; i++) {
+      String currentWord = words[i];
+      if ((line + currentWord).length > maxCharactersPerLine) {
+        lines.add(line.trim());
+        line = '';
+      }
+      line += '$currentWord ';
+    }
+    if (line.isNotEmpty) {
+      lines.add(line.trim());
+    }
+    return lines;
+  }
+}

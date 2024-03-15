@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:refierelo_marketplace/data/screens/componentscopy/body.dart';
 import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/data/screens/sugerencias/input_sugerencia.dart';
 import 'package:refierelo_marketplace/data/screens/sugerencias/sugerencias_dropdown.dart';
@@ -269,7 +270,7 @@ class _SugerenciasScreenState extends State<SugerenciasScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const MainScreen(), // Ir a LoginScreens
+                      builder: (context) => Body(), // Ir a LoginScreens
                     ),
                   );
                 },

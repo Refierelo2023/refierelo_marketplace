@@ -70,43 +70,34 @@ class _CustomInputState extends State<CustomInput> {
               SizedBox(height: size.height * 0.004),
             ],
           ),
-        Container(
-          // width: size.width * 1,
-          // height: size.height * 0.05,
-          // constraints: BoxConstraints(maxHeight: size.height * 0.065),
-          // decoration: BoxDecoration(
-          //     color: Colors.white, borderRadius: widget.rounded?BorderRadius.circular(10):null),
-          margin: EdgeInsets.symmetric(horizontal: size.width * 0.02),
+        Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: TextFormField(
-            readOnly: widget.isDisabled,
+            readOnly: widget.isDisabled,            
             controller: _textEditingController,
             textAlign: TextAlign.justify,
             keyboardType: widget.tipo,
             validator: widget.validator,
-            focusNode: widget.focusNode,
+            focusNode: widget.focusNode,            
             autovalidateMode: AutovalidateMode.onUserInteraction,
             inputFormatters: [
               FilteringTextInputFormatter.deny(RegExp(r'^[ ]'))
             ],
             obscureText: widget.ocultarTexto == true && isObscure,
             decoration: InputDecoration(
-                hintText: widget.placeholder,
+                hintText: widget.placeholder,                
                 labelText: widget.placeholder,
                 filled: true,
                 fillColor: Colors.white,
                 contentPadding: const EdgeInsets.all(10),
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.white),
-                  borderRadius: widget.rounded
-                      ? BorderRadius.circular(15.0)
-                      : BorderRadius.zero,
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
                 hintStyle: const TextStyle(color: Color(0xFFffffff)),
                 focusedBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: Color(0xFF02b5e7), width: 1),
-                  borderRadius: widget.rounded
-                      ? BorderRadius.circular(15.0)
-                      : BorderRadius.zero,
+                  borderRadius:BorderRadius.circular(15.0),
                 ),
                 labelStyle: CustomFontAileronRegular(
                   text: widget.placeholder,
@@ -114,14 +105,10 @@ class _CustomInputState extends State<CustomInput> {
                 // border:
                 // border: InputBorder.none,
                 errorBorder: OutlineInputBorder(
-                    borderRadius: widget.rounded
-                        ? BorderRadius.circular(10.0)
-                        : BorderRadius.zero,
+                    borderRadius: BorderRadius.circular(10.0),
                     borderSide: const BorderSide(color: Colors.red)),
                 focusedErrorBorder: OutlineInputBorder(
-                  borderRadius: widget.rounded
-                      ? BorderRadius.circular(15.0)
-                      : BorderRadius.zero,
+                  borderRadius: BorderRadius.circular(15.0),
                   borderSide: const BorderSide(color: Colors.red),
                 ),
                 prefixIcon: (widget.ocultarTexto == true)
@@ -136,7 +123,8 @@ class _CustomInputState extends State<CustomInput> {
                         });
                       },
                       )
-                    : null
+                    : null,
+                     floatingLabelBehavior: FloatingLabelBehavior.never, 
                   ),
             style: const TextStyle(fontSize: 14),
             cursorColor: const Color(0xFFFFFFFF),

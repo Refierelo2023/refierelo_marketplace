@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart';
 import 'package:refierelo_marketplace/data/screens/popup_customer_money/login_pop_customer_money.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/registration_costumer_nps.dart';
+import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/tab_bar_nps.dart';
 
 
 class AnswerThreeNps extends StatefulWidget {
@@ -24,7 +25,8 @@ class AnswerThreeNpsState extends State<AnswerThreeNps> {
       onTap: () {
         if (!isEditable) {
           // Navegar a la pantalla correspondiente
-          DefaultTabController.of(context).animateTo(tabIndex);
+          TabBarNpsState tabBarNpsState = context.findAncestorStateOfType<TabBarNpsState>()!;
+        tabBarNpsState.changeTab(tabIndex);
         }
       },
       child: TextField(

@@ -4,6 +4,7 @@ import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart'
 import 'package:refierelo_marketplace/data/screens/popup_customer_money/login_pop_customer_money.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens_data.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/registration_costumer_nps.dart';
+import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/tab_bar_nps.dart';
 
 
 class QuestionOneNps extends StatefulWidget {
@@ -27,7 +28,8 @@ class QuestionOneNpsState extends State<QuestionOneNps> {
       onTap: () {
         if (!isEditable) {
           // Navegar a la pantalla correspondiente
-          DefaultTabController.of(context).animateTo(tabIndex);
+          TabBarNpsState tabBarNpsState = context.findAncestorStateOfType<TabBarNpsState>()!;
+        tabBarNpsState.changeTab(tabIndex);
         }
       },
       child: TextField(
@@ -228,7 +230,8 @@ class QuestionOneNpsState extends State<QuestionOneNps> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            DefaultTabController.of(context).animateTo(0);
+             TabBarNpsState tabBarNpsState = context.findAncestorStateOfType<TabBarNpsState>()!;
+              tabBarNpsState.changeTab(0);
           },
         ),
       ),

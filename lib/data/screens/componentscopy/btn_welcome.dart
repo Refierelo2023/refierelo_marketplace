@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 
 class BtnWelcome extends StatelessWidget {
   final VoidCallback press;
@@ -8,7 +9,7 @@ class BtnWelcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Opacity(
-      opacity: 0.6,
+      opacity: 1,
       child: ElevatedButton(
         onPressed: press,
         style: ElevatedButton.styleFrom(
@@ -17,19 +18,21 @@ class BtnWelcome extends StatelessWidget {
             padding: const EdgeInsets.all(0)),
         child: Ink(
           decoration: BoxDecoration(
-              gradient: const LinearGradient(colors: [
-                Color(0xff0080BF),
-                Color(0xff1393BF),
-                Color(0xff00DFDF)
-              ], begin: Alignment.centerLeft, end: Alignment.centerRight),
-              borderRadius: BorderRadius.circular(30)),
+              gradient: const LinearGradient(colors: [Color(0xff00DFEE), Color(0xff0096C2)],
+               begin: Alignment.topCenter,
+            end: Alignment.bottomCenter),
+              borderRadius: BorderRadius.circular(15)),
           child: Container(
             constraints: const BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
             alignment: Alignment.center,
             child: Text(
               title,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white),
+              style: const CustomFontAileronRegularWhite(text:" ",).getTextStyle(context),
+              
+              
+              
+             
             ),
           ),
         ),

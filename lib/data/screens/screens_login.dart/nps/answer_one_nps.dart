@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart';
 import 'package:refierelo_marketplace/data/screens/popup_customer_money/login_pop_customer_money.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/registration_costumer_nps.dart';
+import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/tab_bar_nps.dart';
 
 
 class QuestionTwoNps extends StatefulWidget {
@@ -25,7 +26,8 @@ class QuestionTwoNpsState extends State<QuestionTwoNps> {
       onTap: () {
         if (!isEditable) {
           // Navegar a la pantalla correspondiente
-          DefaultTabController.of(context).animateTo(tabIndex);
+          TabBarNpsState tabBarNpsState = context.findAncestorStateOfType<TabBarNpsState>()!;
+        tabBarNpsState.changeTab(tabIndex);
         }
       },
       child: TextField(
@@ -217,15 +219,15 @@ class QuestionTwoNpsState extends State<QuestionTwoNps> {
           ],
         ),
       ),
-      // appBar: AppBar(
-      //     toolbarHeight: 40,
-      //     leading: IconButton(
-      //       icon: const Icon(Icons.arrow_back),
-      //       onPressed: () {
-      //         DefaultTabController.of(context).animateTo(1);
-      //       },
-      //     ),
-      //   ),
+      appBar: AppBar(
+          toolbarHeight: 40,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              DefaultTabController.of(context).animateTo(1);
+            },
+          ),
+        ),
     );
   }
 }

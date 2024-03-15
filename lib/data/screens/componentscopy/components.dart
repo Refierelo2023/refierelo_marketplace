@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 
 Future<void> onLoading(BuildContext context, {String texto = 'Cargando...', bool dark = true}) {
   double containerWidth = MediaQuery.of(context).size.width * 0.38;
@@ -32,7 +33,7 @@ Future<void> onLoading(BuildContext context, {String texto = 'Cargando...', bool
               ),
               const SizedBox(height: 0), // Ajusta el espacio entre la imagen y el texto
               Text("  $texto",
-              style: const TextStyle(color: Colors.white),
+              style:const CustomFontAileronRegularWhite(text: "",).getTextStyle(context)
               ),
             ],
           ),
