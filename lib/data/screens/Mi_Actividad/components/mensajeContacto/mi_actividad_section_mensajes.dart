@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:grpc/grpc.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/models/enums.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import '../../../Register/components/components.dart';
@@ -24,7 +23,7 @@ class MiActividadSectionMensajes extends StatefulWidget {
 
 class _MiActividadSectionMensajesState extends State<MiActividadSectionMensajes> {
 
-  List<mensajeContacto> mensajeContactos = [];
+  // List<mensajeContacto> mensajeContactos = [];
 
   int totalGanado = 0;
 
@@ -40,21 +39,20 @@ class _MiActividadSectionMensajesState extends State<MiActividadSectionMensajes>
   Future<void> getMensajeContactos() async {
     try {
       var channel = getChannel();
-    var response = await ServiceClient(channel).getMensajeContactos(getMensajeContactosRequest(
-            sessionString: await SessionManager().get('sessionString'), pageKey: '1', term: ''));
+    var response = await (channel);
 
-    List<mensajeContacto> data = [];
+    // List<mensajeContacto> data = [];
 
-    for(var i = 0; i < response.data.length; i++){
-      if (i>1) {
-        continue;
-      }
-      data.add(response.data[i]);
-    }
-    setState(() {
-      totalGanado = response.puntosGanados;
-      mensajeContactos = data;
-    });
+    // for(var i = 0; i < response.data.length; i++){
+    //   if (i>1) {
+    //     continue;
+    //   }
+    //   data.add(response.data[i]);
+    // }
+    // setState(() {
+    //   totalGanado = response.puntosGanados;
+    //   mensajeContactos = data;
+    // });
 
 
     channel.shutdown();
@@ -127,9 +125,9 @@ class _MiActividadSectionMensajesState extends State<MiActividadSectionMensajes>
               SizedBox(height: size.height * 0.02),
               // for(var item in mensajeContactos) 
 
-              if(mensajeContactos.isEmpty) Text('No hay historial', style: const CustomFontAileronRegularWhite(text: " ").getTextStyle(context)),
+             Text('No hay historial', style: const CustomFontAileronRegularWhite(text: " ").getTextStyle(context)),
 
-              for(var item in mensajeContactos) Container(
+              Container(
                 padding: EdgeInsets.symmetric(horizontal: size.width * 0.01),
                 margin: const EdgeInsets.only(bottom: 10),
                 decoration: BoxDecoration(
@@ -143,15 +141,15 @@ class _MiActividadSectionMensajesState extends State<MiActividadSectionMensajes>
                       children: [
                         Image.asset('assets/images/mi_actividad/2.png', width: size.width * 0.06, height: size.height * 0.06,),
                         SizedBox(width: size.width * 0.01),
-                        Text(item.nombreContacto, style: const CustomFontAileronRegularWhite(text: " ").getTextStyle(context))
+                        // Text(nombreContacto, style: const CustomFontAileronRegularWhite(text: " ").getTextStyle(context))
                       ],
                     ),
-                    Text(
-                      EstadoMensajeContacto.values[item.estado]==EstadoMensajeContacto.formalizado?'+${item.puntosGanados}':EstadoMensajeContacto.values[item.estado].value,
-                      style: const CustomFontAileronRegularWhite(text: " ").getTextStyle(context)
-                      // EstadoMensajeContacto.values[item.estado].value, 
-                      // style: TextStyle(color: Colors.white)
-                      )
+                    // Text(
+                    //   EstadoMensajeContacto.values[item.estado]==EstadoMensajeContacto.formalizado?'+${.puntosGanados}':EstadoMensajeContacto.values[item.estado].value,
+                    //   style: const CustomFontAileronRegularWhite(text: " ").getTextStyle(context)
+                    //   // EstadoMensajeContacto.values[item.estado].value, 
+                    //   // style: TextStyle(color: Colors.white)
+                    //   )
                   ],
                 ),
               ),

@@ -6,19 +6,19 @@ import 'package:refierelo_marketplace/widgets/story_feed/widget_story_edit_image
 import 'package:refierelo_marketplace/widgets/widget_botton_select.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
-
-
 class WidgetsUserStoryProfile extends StatefulWidget {
-  const WidgetsUserStoryProfile({
-    super.key,
-    required this.index,
-    required this.setRectPoint,
-    required this.onStoryItemTap,
-  });
+  const WidgetsUserStoryProfile(
+      {super.key,
+      required this.index,
+      required this.setRectPoint,
+      required this.onStoryItemTap,
+      required this.backgroundImage,
+      });
 
   final int index;
   final Function(Rect?) setRectPoint;
   final Function(Rect?, int) onStoryItemTap;
+  final ImageProvider backgroundImage;
 
   @override
   State<WidgetsUserStoryProfile> createState() =>
@@ -31,17 +31,16 @@ class _WidgetsUserStoryProfileState extends State<WidgetsUserStoryProfile>
   late Animation<double> base;
   late Animation<double> reverse;
   Rect? rect;
-  GlobalKey touchPoint = GlobalKey();  
+  GlobalKey touchPoint = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.center,
       children: [
-        const CircleAvatar(
+        CircleAvatar(
           radius: 30.0,
-          backgroundImage: NetworkImage(
-              "https://i.pinimg.com/474x/6e/d0/b5/6ed0b51833ee7affe0dfd37a531b2431.jpg"),
+          backgroundImage:widget.backgroundImage,
         ),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -56,22 +55,25 @@ class _WidgetsUserStoryProfileState extends State<WidgetsUserStoryProfile>
                   renderBox.globalToLocal(details.globalPosition);
               final size = renderBox.size;
               rect = Rect.fromLTWH(
-                  localPosition.dx, localPosition.dy, size.width, size.height,
-                );
+                localPosition.dx,
+                localPosition.dy,
+                size.width,
+                size.height,
+              );
               widget.setRectPoint(rect);
             },
             child: const SizedBox(
               width: 70,
               height: 70,
               child: SimpleCircularProgressBar(
-                fullProgressGradient:SweepGradient(
+                fullProgressGradient: SweepGradient(
                   tileMode: TileMode.decal,
-                  colors:  [
+                  colors: [
                     Color(0xFF02b5e7),
                     Color(0xFF003366),
                     Color(0xFF02b5e7),
                   ],
-                ),                 
+                ),
                 size: 70,
                 progressStrokeWidth: 4,
                 backColor: Colors.white,
@@ -144,27 +146,27 @@ class WidgetDisplayMenuStoryState extends State<WidgetDisplayMenuStory> {
     });
   }
 
-Future<void> pickImage(BuildContext context) async {
-  final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+  Future<void> pickImage(BuildContext context) async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
 
-  if (pickedFile != null) {
-    // Set the selectedImagePath
-    selectedImagePath = pickedFile.path;
+    if (pickedFile != null) {
+      // Set the selectedImagePath
+      selectedImagePath = pickedFile.path;
 
-    // Use `context` directly within the asynchronous call
-    Future.delayed(Duration.zero, () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => WidgetsStoryEditImage(
-            selectedImage: File(selectedImagePath!),
+      // Use `context` directly within the asynchronous call
+      Future.delayed(Duration.zero, () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => WidgetsStoryEditImage(
+              selectedImage: File(selectedImagePath!),
+            ),
           ),
-        ),
-      );
-    });
+        );
+      });
+    }
   }
-}
-
 
   Widget buildContainer({
     required int index,
@@ -207,13 +209,13 @@ Future<void> pickImage(BuildContext context) async {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(    
+                Container(
                   height: 45,
                   width: 45,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     color: Color(0xFFf1f1f1),
-                  ),            
+                  ),
                   child: Icon(
                     icon,
                     size: MediaQuery.of(context).size.width * 0.06,
@@ -226,12 +228,10 @@ Future<void> pickImage(BuildContext context) async {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CustomFontAileronBold(
-                        text: title
-                      ),  
+                      CustomFontAileronBold(text: title),
                       CustomFontAileronRegular2(
                         text: subtitle,
-                      ), 
+                      ),
                     ],
                   ),
                 ),

@@ -52,8 +52,7 @@ dependencies:
   fluttertoast: ^8.2.4 
   form_validator: ^2.1.1
   shared_preferences: ^2.2.2
-  google_sign_in: ^6.2.1
-  flutter_facebook_auth: ^6.0.4 
+  google_sign_in: ^6.2.1  
   contacts_service: ^0.6.3
   flutter_carousel_slider: ^1.1.0
   badges: ^3.1.2
@@ -70,17 +69,21 @@ dependencies:
   grpc: 3.2.3
   youtube_player_flutter: ^9.0.0
   flutter_downloader: ^1.11.6
-  image_gallery_saver: ^2.0.3
-
+  image_gallery_saver: ^2.0.3 
+  flutter_dotenv: ^5.0.2
+  auth0_flutter: ^1.5.0
+  flutter_facebook_auth: 6.1.1
   
   
-
-  
-  
-
   
 
-dev_dependencies: 
+  
+  
+
+  
+
+dev_dependencies:
+  build_runner: ^2.1.8
   flutter_test:
     sdk: flutter
 
@@ -91,12 +94,15 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.1
+  mockito: ^5.1.0
+  test: ^1.16.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
-flutter:
+flutter:  
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -107,8 +113,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
    assets:
+    - .env 
     - lib/protos/service.proto
-    - lib/data/screens/main.dart
+    - lib/main.dart    
     - assets/images/logo1.png
     - assets/images/logo2.png
     - assets/images/images_login/casa.png

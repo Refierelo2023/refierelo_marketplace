@@ -83,18 +83,19 @@ class _ErrorAlertState extends State<ErrorAlert> {
                     ],
                   ),
                   ),
-                  Column(children: [
-                    SizedBox(height: size.height * 0.05),
-                    SizedBox(
-                      height: size.height*0.15,
-                      width: size.width*0.36,
-                      child: const Image(image: AssetImage('assets/images/error/error.png'), fit: BoxFit.cover,),
-                    )
-                  ])
-                ],
-              ),
+                Column(children: [
+                  SizedBox(height: size.height * 0.05),
+                  SizedBox(
+                    height: size.height*0.15,
+                    width: size.width*0.36,
+                    child: const Image(image: AssetImage('assets/images/error/error.png'), fit: BoxFit.cover,),
+                  )
+                ]
+              )
             ],
           ),
-        );
+        ],
+      ),
+    );
   }
 }

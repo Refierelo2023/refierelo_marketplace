@@ -5,7 +5,7 @@ import 'package:refierelo_marketplace/data/screens/Login/nueva_clave_screen.dart
 import 'package:refierelo_marketplace/data/screens/Register/components/components.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
 import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
+
 
 
 class CodeScreen extends StatefulWidget {
@@ -30,17 +30,17 @@ class _CodeScreenState extends State<CodeScreen> {
     msisdn = widget.msisdn;
   }
 
-  Future<String> checkOTP(otp) async {
-    var channel = getChannel();
+  // Future<String> checkOTP(otp) async {
+  //   var channel = getChannel();
 
-    var response = await ServiceClient(channel).checkOtp(checkOtpRequest()
-      ..msisdn = msisdn
-      ..otp = otp);
-    channel.shutdown();
+  //   var response = await ServiceClient(channel).checkOtp(checkOtpRequest()
+  //     ..msisdn = msisdn
+  //     ..otp = otp);
+  //   channel.shutdown();
 
-    print(response.message);
-    return (response.message);
-  }
+  //   print(response.message);
+  //   return (response.message);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -104,58 +104,58 @@ class _CodeScreenState extends State<CodeScreen> {
                                 fontWeight: FontWeight.w400))
                       ])),
               SizedBox(height: size.height * 0.05),
-              BtnNext(
-                  press: () async {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) =>
-                    //             NuevaClaveScreen(msisdn: widget.msisdn, otp:_controllerOtp.text,)),
-                    //   );
-                    // return;
-                    final response = await checkOTP(_controllerOtp.text);
-                    if (response == '0') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                          NuevaClaveScreen(msisdn: msisdn, otp:_controllerOtp.text,)
-                        ),
-                      );
-                    } else {
-                      Fluttertoast.showToast(
-                      msg: "Código ingresado incorrecto",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.red,
-                      textColor: Colors.white,
-                      fontSize: 16.0);
-                    }
-                  },
-                  title: 'Siguiente'),
+              // BtnNext(
+              //     press: () async {
+              //       // Navigator.push(
+              //       //     context,
+              //       //     MaterialPageRoute(
+              //       //         builder: (context) =>
+              //       //             NuevaClaveScreen(msisdn: widget.msisdn, otp:_controllerOtp.text,)),
+              //       //   );
+              //       // return;
+              //       // final response = await checkOTP(_controllerOtp.text);
+              //       if (response == '0') {
+              //         Navigator.push(
+              //           context,
+              //           MaterialPageRoute(
+              //             builder: (context) =>
+              //             NuevaClaveScreen(msisdn: msisdn, otp:_controllerOtp.text,)
+              //           ),
+              //         );
+              //       } else {
+              //         Fluttertoast.showToast(
+              //         msg: "Código ingresado incorrecto",
+              //         toastLength: Toast.LENGTH_SHORT,
+              //         gravity: ToastGravity.BOTTOM,
+              //         timeInSecForIosWeb: 1,
+              //         backgroundColor: Colors.red,
+              //         textColor: Colors.white,
+              //         fontSize: 16.0);
+              //       }
+              //     },
+              //     title: 'Siguiente'),
               SizedBox(height: size.height * 0.05),
-              TextButton(onPressed: () async {
-                try {
-                      var channel = getChannel();
-                      var response = await ServiceClient(channel).otp(otpRequest(msisdn: widget.msisdn, login: true));
-                      channel.shutdown();
+              // TextButton(onPressed: () async {
+              //   try {
+              //         var channel = getChannel();
+              //         var response = await ServiceClient(channel).otp(otpRequest(msisdn: widget.msisdn, login: true));
+              //         channel.shutdown();
 
-                      if (response.message == '0') {
-                        toast('Código reenviado nuevamente.', Colors.green);
-                      } else {
-                        toast("Ocurrio un error al tratar de enviar el mensaje de verificación", Colors.red);
-                      }
-                    } on GrpcError catch (e) {
-                                 toast(e.message.toString(), Colors.red);
-                    } on Exception catch (_) {
-                            toast('Ha ocurrido un error', Colors.red);
-                    }
-              }, child: const Text(
-                '¿No recibiste el código?',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                ),
-              ),
+              //         if (response.message == '0') {
+              //           toast('Código reenviado nuevamente.', Colors.green);
+              //         } else {
+              //           toast("Ocurrio un error al tratar de enviar el mensaje de verificación", Colors.red);
+              //         }
+              //       } on GrpcError catch (e) {
+              //                    toast(e.message.toString(), Colors.red);
+              //       } on Exception catch (_) {
+              //               toast('Ha ocurrido un error', Colors.red);
+              //       }
+              // }, child: const Text(
+              //   '¿No recibiste el código?',
+              //     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              //   ),
+              // ),
             ],
           ),
         ),

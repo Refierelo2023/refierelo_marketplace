@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_session_manager/flutter_session_manager.dart';
-import 'package:grpc/grpc.dart';
-import 'package:provider/provider.dart';
-import 'package:refierelo_marketplace/data/screens/Dialogs/dialog_three.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/terms_check.dart';
 import 'package:refierelo_marketplace/data/screens/Register/register_screen.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
-import 'package:refierelo_marketplace/data/screens/componentscopy/error_alert.dart';
-import 'package:refierelo_marketplace/data/screens/main.dart';
 import 'package:refierelo_marketplace/data/screens/sugerencias/input_sugerencia.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
-import 'package:refierelo_marketplace/providers/referente_provider.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
-import '../Register/components/components.dart';
+
 
 class RefiereEmpresaScreen extends StatefulWidget {
   const RefiereEmpresaScreen({super.key});
@@ -42,73 +34,73 @@ class _RefiereEmpresaScreenState extends State<RefiereEmpresaScreen> {
           toast('Debes aceptar las condiciones para continuar', Colors.red);
           return;
         }
-        if (!formKey.currentState!.validate()) {
-          return;
-        }
+        // if (!formKey.currentState!.validate()) {
+        //   return;
+        // }
 
-        onLoading(navigatorKey.currentContext!, texto: 'Registrando empresa.');
+        // onLoading(navigatorKey.currentContext!, texto: 'Registrando empresa.');
 
-        try {
-          var channel = getChannel();
-          var response = await ServiceClient(channel).saveRefEmpresa(
-              saveRefEmpresaRequest(
-                  sessionString: await SessionManager().get('sessionString'),
-                  estadoRefEmpresa: '0',
-                  identificacionEmpresa: identificacionEmpresa.text,
-                  nombreContacto: nombreContacto.text,
-                  nombreEmpresa: nombreEmpresa.text,
-                  telefonoEmpresa: telefonoEmpresa.text));
-          channel.shutdown();
-          // context.read<ReferenteProvider>().actualizarPuntos(int.tryParse(response.puntos.toString())??0);
-          context.read<ReferenteProvider>().referenteGlobal?.puntosEnProceso +=
-              (int.tryParse(response.puntosGanados.toString()) ?? 0);
+        // try {
+        //   var channel = getChannel();
+        //   var response = await ServiceClient(channel).saveRefEmpresa(
+        //       saveRefEmpresaRequest(
+        //           sessionString: await SessionManager().get('sessionString'),
+        //           estadoRefEmpresa: '0',
+        //           identificacionEmpresa: identificacionEmpresa.text,
+        //           nombreContacto: nombreContacto.text,
+        //           nombreEmpresa: nombreEmpresa.text,
+        //           telefonoEmpresa: telefonoEmpresa.text));
+        //   channel.shutdown();
+        //   // context.read<ReferenteProvider>().actualizarPuntos(int.tryParse(response.puntos.toString())??0);
+        //   context.read<ReferenteProvider>().referenteGlobal?.puntosEnProceso +=
+        //       (int.tryParse(response.puntosGanados.toString()) ?? 0);
 
-          Navigator.of(navigatorKey.currentContext!).pop();
+        //   Navigator.of(navigatorKey.currentContext!).pop();
 
-          identificacionEmpresa.clear();
-          nombreContacto.clear();
-          nombreEmpresa.clear();
-          telefonoEmpresa.clear();
+        //   identificacionEmpresa.clear();
+        //   nombreContacto.clear();
+        //   nombreEmpresa.clear();
+        //   telefonoEmpresa.clear();
 
-          showDialog(
-              context: context,
-              builder: (context) {
-                return const DialogThree();
-              }).then((value) {
-            FocusScope.of(context).requestFocus(focusNode);
-          });
-          // if ((int.tryParse(response.puntos)??0)>0) {
-          //   toast('Ganaste ${response.puntos} puntos.', Colors.green);
-          // }
-          // Navigator.pop(context);
-          // showDialog(
-          //     context: context,
-          //     builder: (context) {
-          //       return const DialogThree();
-          //     });
-        } on GrpcError catch (e) {
-          Navigator.of(context).pop();
-          // toast(e.message ?? 'Hubo un error', Colors.red);
-          showDialog(
-              context: context,
-              builder: (context) {
-                return ErrorAlert(
-                  mensaje: e.message ??
-                      'Tu referido no quedó registrado, intentalo nuevamente.',
-                );
-              });
-        } on Exception {
-          Navigator.of(context).pop();
-          // toast('Hubo un error', Colors.red);
-          showDialog(
-              context: context,
-              builder: (context) {
-                return const ErrorAlert(
-                  mensaje:
-                      'Tu referido no quedó registrado, intentalo nuevamente.',
-                );
-              });
-        }
+        //   showDialog(
+        //       context: context,
+        //       builder: (context) {
+        //         return const DialogThree();
+        //       }).then((value) {
+        //     FocusScope.of(context).requestFocus(focusNode);
+        //   });
+        //   // if ((int.tryParse(response.puntos)??0)>0) {
+        //   //   toast('Ganaste ${response.puntos} puntos.', Colors.green);
+        //   // }
+        //   // Navigator.pop(context);
+        //   // showDialog(
+        //   //     context: context,
+        //   //     builder: (context) {
+        //   //       return const DialogThree();
+        //   //     });
+        // } on GrpcError catch (e) {
+        //   Navigator.of(context).pop();
+        //   // toast(e.message ?? 'Hubo un error', Colors.red);
+        //   showDialog(
+        //       context: context,
+        //       builder: (context) {
+        //         return ErrorAlert(
+        //           mensaje: e.message ??
+        //               'Tu referido no quedó registrado, intentalo nuevamente.',
+        //         );
+        //       });
+        // } on Exception {
+        //   Navigator.of(context).pop();
+        //   // toast('Hubo un error', Colors.red);
+        //   showDialog(
+        //       context: context,
+        //       builder: (context) {
+        //         return const ErrorAlert(
+        //           mensaje:
+        //               'Tu referido no quedó registrado, intentalo nuevamente.',
+        //         );
+        //       });
+        // }
       },
       child: MouseRegion(
         cursor: SystemMouseCursors.click,

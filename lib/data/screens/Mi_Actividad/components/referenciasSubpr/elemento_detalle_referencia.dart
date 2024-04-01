@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
+
 import 'package:refierelo_marketplace/models/enums.dart';
 import '../../../helpers/helpers.dart';
 
 class ElementoDetalleReferencia extends StatefulWidget {
-  final referenciaSubproducto item;
+  final  item;
   const ElementoDetalleReferencia({super.key, required this.item});
 
   @override

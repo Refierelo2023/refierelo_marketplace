@@ -8,7 +8,7 @@
             "name": "refierelo_marketplace",
             "request": "launch",
             "type": "dart",
-            "program": "lib/data/screens/main.dart",
+            "program": "lib/main.dart",
         },
         {
             "name": "refierelo_marketplace (profile mode)",

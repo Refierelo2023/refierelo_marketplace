@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:grpc/grpc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:refierelo_marketplace/data/screens/Register/components/components.dart';
 import 'package:refierelo_marketplace/data/screens/Register/register_screen.dart';
-import 'package:refierelo_marketplace/data/screens/otp/code_screen.dart';
-import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
+
+
 
 class InsertNumberScreen extends StatefulWidget {
   const InsertNumberScreen({super.key});
@@ -109,72 +105,72 @@ class _InsertNumberScreenState extends State<InsertNumberScreen> {
               SizedBox(
                 height: size.height * 0.04,
               ),
-              BtnNext(
-                press: () async {
-                  if (_controllerMsisdn.text == '') {
-                    Fluttertoast.showToast(
-                        msg: 'Ingrese un número válido.',
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.red,
-                        textColor: Colors.white,
-                        fontSize: 16.0);
-                    return;
-                  }
-                  // Almacena el contexto antes de la operación asíncrona
-                  BuildContext currentContext = context;
-                  try {
-                    var channel = getChannel();
-                    var response = await ServiceClient(channel).otp(otpRequest(
-                        msisdn: _controllerMsisdn.text, login: false));
-                    channel.shutdown();
+              // BtnNext(
+              //   press: () async {
+              //     if (_controllerMsisdn.text == '') {
+              //       Fluttertoast.showToast(
+              //           msg: 'Ingrese un número válido.',
+              //           toastLength: Toast.LENGTH_SHORT,
+              //           gravity: ToastGravity.BOTTOM,
+              //           timeInSecForIosWeb: 1,
+              //           backgroundColor: Colors.red,
+              //           textColor: Colors.white,
+              //           fontSize: 16.0);
+              //       return;
+              //     }
+              //     // Almacena el contexto antes de la operación asíncrona
+              //     BuildContext currentContext = context;
+              //     try {
+              //       var channel = getChannel();
+              //       var response = await ServiceClient(channel).otp(otpRequest(
+              //           msisdn: _controllerMsisdn.text, login: false));
+              //       channel.shutdown();
 
-                    if (response.message == '0') {
-                      // Usa un Future.microtask para ejecutar el código después de la operación asíncrona
-                      Future.microtask(() {
-                        // Usa el contexto almacenado después de la operación asíncrona
-                        Navigator.push(
-                          currentContext,
-                          MaterialPageRoute(
-                            builder: (context) => CodeScreen(
-                              msisdn: _controllerMsisdn.text,
-                            ),
-                          ),
-                        );
-                      });
-                    } else {
-                      Fluttertoast.showToast(
-                        msg:"Ocurrió un error al tratar de enviar el mensaje de verificación",
-                        toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.CENTER,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.red,
-                      textColor: Colors.white,
-                      fontSize: 16.0);
-                    }
-                  } on GrpcError catch (e) {
-                    Fluttertoast.showToast(
-                        msg: e.message.toString(),
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.red,
-                        textColor: Colors.white,
-                        fontSize: 16.0);
-                  } on Exception {
-                    Fluttertoast.showToast(
-                      msg: 'Ha ocurrido un error',
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                    backgroundColor: Colors.red,
-                    textColor: Colors.white,
-                    fontSize: 16.0);
-                  }
-                },
-                title: 'Siguiente',
-              )
+              //       if (response.message == '0') {
+              //         // Usa un Future.microtask para ejecutar el código después de la operación asíncrona
+              //         Future.microtask(() {
+              //           // Usa el contexto almacenado después de la operación asíncrona
+              //           Navigator.push(
+              //             currentContext,
+              //             MaterialPageRoute(
+              //               builder: (context) => CodeScreen(
+              //                 msisdn: _controllerMsisdn.text,
+              //               ),
+              //             ),
+              //           );
+              //         });
+              //       } else {
+              //         Fluttertoast.showToast(
+              //           msg:"Ocurrió un error al tratar de enviar el mensaje de verificación",
+              //           toastLength: Toast.LENGTH_SHORT,
+              //         gravity: ToastGravity.CENTER,
+              //         timeInSecForIosWeb: 1,
+              //         backgroundColor: Colors.red,
+              //         textColor: Colors.white,
+              //         fontSize: 16.0);
+              //       }
+              //     } on GrpcError catch (e) {
+              //       Fluttertoast.showToast(
+              //           msg: e.message.toString(),
+              //           toastLength: Toast.LENGTH_SHORT,
+              //           gravity: ToastGravity.BOTTOM,
+              //           timeInSecForIosWeb: 1,
+              //           backgroundColor: Colors.red,
+              //           textColor: Colors.white,
+              //           fontSize: 16.0);
+              //     } on Exception {
+              //       Fluttertoast.showToast(
+              //         msg: 'Ha ocurrido un error',
+              //         toastLength: Toast.LENGTH_SHORT,
+              //         gravity: ToastGravity.BOTTOM,
+              //         timeInSecForIosWeb: 1,
+              //       backgroundColor: Colors.red,
+              //       textColor: Colors.white,
+              //       fontSize: 16.0);
+              //     }
+              //   },
+              //   title: 'Siguiente',
+              // )
             ],
           ),
         ),

@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/data/screens/donation/pop_donation.dart';
 import 'package:refierelo_marketplace/data/screens/screen_reward_user/btn_recompesas.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/providers/referente_provider.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import '../Register/components/components.dart';
@@ -28,17 +27,17 @@ class _RecompensasTabState extends State<RecompensasTab> {
     onLoading(context);
     try {
       var channel = getChannel();
-      var response = await ServiceClient(channel).getReferente(
-          getReferenteRequest(
-              sessionString: (await SessionManager().get('sessionString'))));
+      // var response = await ServiceClient(channel).getReferente(
+      //     getReferenteRequest(
+      //         sessionString: (await SessionManager().get('sessionString'))));
       channel.shutdown();
 
-      setState(() {
-        context.read<ReferenteProvider>().referenteGlobal!.puntosEnProceso =
-            response.puntosEnProceso;
-        context.read<ReferenteProvider>().referenteGlobal!.puntos =
-            int.tryParse(response.puntos) ?? 0;
-      });
+      // setState(() {
+      //   context.read<ReferenteProvider>().referenteGlobal!.puntosEnProceso =
+      //       response.puntosEnProceso;
+      //   context.read<ReferenteProvider>().referenteGlobal!.puntos =
+      //       int.tryParse(response.puntos) ?? 0;
+      // });
     } on GrpcError catch (e) {
       toast(e.message ?? 'Hubo un error.', Colors.red);
     } on Exception {

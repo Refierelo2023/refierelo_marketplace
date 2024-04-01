@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_session_manager/flutter_session_manager.dart';
-import 'package:grpc/grpc.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:refierelo_marketplace/data/screens/Mi_Actividad/components/mensajeContacto/elemento_detalle_mensaje.dart';
-import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
-import '../../../Register/components/components.dart';
+
 
 class MiActividadDetalleScreen extends StatefulWidget {
   final String imgTitutulo;
@@ -19,51 +13,51 @@ class MiActividadDetalleScreen extends StatefulWidget {
 }
 
 class _MiActividadDetalleScreenState extends State<MiActividadDetalleScreen> with TickerProviderStateMixin {
-  List<getMensajeContactosResponse> mensajeContactos = [];
+  // List<getMensajeContactosResponse> mensajeContactos = [];
 
   int totalGanado = 0;
 
   TextEditingController term = TextEditingController();
 
-  final PagingController<int, mensajeContacto> _pagingController = PagingController(firstPageKey: 1);
+  // final PagingController<int, mensajeContacto> _pagingController = PagingController(firstPageKey: 1);
 
-  @override
-  void initState() {
-    _pagingController.addPageRequestListener((pageKey) {
-      getMensajeContactos(pageKey);
-    });
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   _pagingController.addPageRequestListener((pageKey) {
+  //     // getMensajeContactos(pageKey);
+  //   });
+  //   super.initState();
+  // }
 
 
-  Future<void> getMensajeContactos(int pageKey) async {
-    var channel = getChannel();
-    try {
-    var response = await ServiceClient(channel).getMensajeContactos(getMensajeContactosRequest(
-            sessionString: await SessionManager().get('sessionString'), pageKey: pageKey.toString(), term: term.text));
+  // Future<void> getMensajeContactos(int pageKey) async {
+  //   var channel = getChannel();
+  //   try {
+  //   var response = await ServiceClient(channel).getMensajeContactos(getMensajeContactosRequest(
+  //           sessionString: await SessionManager().get('sessionString'), pageKey: pageKey.toString(), term: term.text));
 
-    setState(() {
-      totalGanado = response.puntosGanados;
-    });
+  //   setState(() {
+  //     totalGanado = response.puntosGanados;
+  //   });
 
-    // final isLastPage = response.data.length < response.sizePage;
-    final isLastPage = response.more == false;
-      if (isLastPage) {
-        _pagingController.appendLastPage(response.data);
-      } else {
-        final nextPageKey = pageKey + 1;
-        _pagingController.appendPage(response.data, nextPageKey);
-      }
-    } on GrpcError catch (e) {
-      toast(e.message??'Hubo un error', Colors.red);
-      _pagingController.error = e;
-    } on Exception catch (e) {
-      toast('Hubo un error', Colors.red);
-      _pagingController.error = e;
-    } finally {
-      channel.shutdown();
-    }
-  }
+  //   // final isLastPage = response.data.length < response.sizePage;
+  //   final isLastPage = response.more == false;
+  //     if (isLastPage) {
+  //       _pagingController.appendLastPage(response.data);
+  //     } else {
+  //       final nextPageKey = pageKey + 1;
+  //       _pagingController.appendPage(response.data, nextPageKey);
+  //     }
+  //   } on GrpcError catch (e) {
+  //     toast(e.message??'Hubo un error', Colors.red);
+  //     _pagingController.error = e;
+  //   } on Exception catch (e) {
+  //     toast('Hubo un error', Colors.red);
+  //     _pagingController.error = e;
+  //   } finally {
+  //     channel.shutdown();
+  //   }
+  // }
 
 
   @override
@@ -128,7 +122,7 @@ class _MiActividadDetalleScreenState extends State<MiActividadDetalleScreen> wit
                   child: TextFormField(
                     controller: term,
                     onFieldSubmitted: ((value) {
-                      refresh();
+                      // refresh();
                       }),
                     decoration: const InputDecoration(
                       hintText: 'Buscar',
@@ -140,31 +134,31 @@ class _MiActividadDetalleScreenState extends State<MiActividadDetalleScreen> wit
                   ),
                 ),
                 SizedBox(height: size.height * 0.02),
-                Expanded(
-                child:  Container(
-                width: MediaQuery.of(context).size.width,
-                margin: const EdgeInsets.only(left: 10, right: 10),
-                child: RefreshIndicator(
-                    onRefresh: refresh,
-                    child: PagedListView<int, mensajeContacto>(
-                      pagingController: _pagingController,
-                      builderDelegate: PagedChildBuilderDelegate<mensajeContacto>(
-                          noItemsFoundIndicatorBuilder: ((context) {
-                            return const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                              Text('No se encontraron registros', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),),
-                            ],);
-                          }),
-                          itemBuilder: (context, item, index) =>
-                              ElementoDetalleMensaje(item: item),
-                          firstPageProgressIndicatorBuilder: (_) =>
-                              const Center(child: CircularProgressIndicator()),
-                          newPageProgressIndicatorBuilder: (_) =>
-                              const Center(child: CircularProgressIndicator()),
-                              ),
-                    ),
-                    )))
+                // Expanded(
+                // child:  Container(
+                // width: MediaQuery.of(context).size.width,
+                // margin: const EdgeInsets.only(left: 10, right: 10),
+                // child: RefreshIndicator(
+                    
+                //     child: PagedListView(
+                //       pagingController: 
+                //       builderDelegate: PagedChildBuilderDelegate(
+                //           noItemsFoundIndicatorBuilder: ((context) {
+                //             return const Column(
+                //               mainAxisAlignment: MainAxisAlignment.center,
+                //               children: [
+                //               Text('No se encontraron registros', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),),
+                //             ],);
+                //           }),
+                //           itemBuilder: (context, item, index) =>
+                //               ElementoDetalleMensaje(item: item),
+                //           firstPageProgressIndicatorBuilder: (_) =>
+                //               const Center(child: CircularProgressIndicator()),
+                //           newPageProgressIndicatorBuilder: (_) =>
+                //               const Center(child: CircularProgressIndicator()),
+                //               ),
+                //     ),
+                //     )))
             ],
           ),)
         )),
@@ -172,17 +166,17 @@ class _MiActividadDetalleScreenState extends State<MiActividadDetalleScreen> wit
     );
   }
 
-   Future refresh() async {
-    setState(() {
-      // _pagingController.dispose();
-      // _pagingController = PagingController(firstPageKey: 1);
-      _pagingController.refresh();
-    });
-  }
+  //  Future refresh() async {
+  //   setState(() {
+  //     // _pagingController.dispose();
+  //     // _pagingController = PagingController(firstPageKey: 1);
+  //     _pagingController.refresh();
+  //   });
+  // }
 
-    @override
-  void dispose() {
-    _pagingController.dispose();
-    super.dispose();
-  }
+  //   @override
+  // void dispose() {
+  //   _pagingController.dispose();
+  //   super.dispose();
+  // }
 }

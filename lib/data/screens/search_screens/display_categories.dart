@@ -5,15 +5,17 @@ import 'package:refierelo_marketplace/widgets/search_box.dart';
 import 'package:refierelo_marketplace/widgets/widget_botton_select.dart';
 
 
-class WidgetDisplayCategories extends StatefulWidget {  
-  const WidgetDisplayCategories({super.key,});
+class WidgetDisplayCategories extends StatefulWidget { 
+    final void Function(String) onCategorySelected;
+
+  const WidgetDisplayCategories({super.key, required this.onCategorySelected});
 
   @override
   WidgetDisplayCategoriesState createState() => WidgetDisplayCategoriesState();
 }
 
 class WidgetDisplayCategoriesState extends State<WidgetDisplayCategories> {
-  List<bool> isSelectedList = List.filled(38, false);
+  List<bool> isSelectedList = List.filled(49, false);
   List<String> displayedCategories = [];
   TextEditingController searchController = TextEditingController();
 
@@ -78,6 +80,7 @@ class WidgetDisplayCategoriesState extends State<WidgetDisplayCategories> {
                           isSelectedList[i] = i == index;
                         }
                       });
+                      widget.onCategorySelected(displayedCategories[index]);
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(right: 10.0),

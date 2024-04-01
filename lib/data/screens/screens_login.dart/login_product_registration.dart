@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:refierelo_marketplace/data/screens/main.dart';
+import 'package:refierelo_marketplace/main.dart';
 import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_points_calculate.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_points_calculate2.dart';

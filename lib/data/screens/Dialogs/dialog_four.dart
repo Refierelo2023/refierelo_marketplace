@@ -84,13 +84,14 @@ class _DialogFourState extends State<DialogFour> {
                 ),
                 Image.asset(
                   'assets/images/pop_referir/emoji.png',
-                  width: size.width * 0.5,
-                  // height: size.height * 0.6,
-                  fit: BoxFit.fitHeight,
-                )
-              ],
-            )
-          ],
-        ));
+                width: size.width * 0.5,
+                // height: size.height * 0.6,
+                fit: BoxFit.fitHeight,
+              )
+            ],
+          )
+        ],
+      )
+    );
   }
 }

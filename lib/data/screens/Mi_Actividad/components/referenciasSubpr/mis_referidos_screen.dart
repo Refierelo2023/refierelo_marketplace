@@ -4,7 +4,6 @@ import 'package:grpc/grpc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:refierelo_marketplace/data/screens/Mi_Actividad/components/referenciasSubpr/elemento_detalle_referencia.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import '../../../Register/components/components.dart';
 
 class MisReferidosScreen extends StatefulWidget {
@@ -16,50 +15,50 @@ class MisReferidosScreen extends StatefulWidget {
 
 class _MisReferidosScreenState extends State<MisReferidosScreen> {
 
-  List<referenciaSubproducto> referenciasSubproductos = [];
+  // List<referenciaSubproducto> referenciasSubproductos = [];
 
   int totalGanado = 0;
 
   TextEditingController term = TextEditingController();
 
-  final PagingController<int, referenciaSubproducto> _pagingController = PagingController(firstPageKey: 1);
+  // final PagingController<int, referenciaSubproducto> _pagingController = PagingController(firstPageKey: 1);
 
-  @override
-  void initState() {
-    super.initState();
-    _pagingController.addPageRequestListener((pageKey) {
-      getReferenciasSubproductos(pageKey);
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _pagingController.addPageRequestListener((pageKey) {
+  //     getReferenciasSubproductos(pageKey);
+  //   });
+  // }
 
-  Future<void> getReferenciasSubproductos(int pageKey) async {
-    var channel = getChannel();
-    try {
-    var response = await ServiceClient(channel).getReferenciasSubpr(getReferenciasSubprRequest(
-            sessionString: await SessionManager().get('sessionString'), pageKey: pageKey.toString(), term: term.text));
+  // Future<void> getReferenciasSubproductos(int pageKey) async {
+  //   var channel = getChannel();
+  //   try {
+  //   var response = await ServiceClient(channel).getReferenciasSubpr(getReferenciasSubprRequest(
+  //           sessionString: await SessionManager().get('sessionString'), pageKey: pageKey.toString(), term: term.text));
 
-    setState(() {
-      totalGanado = response.puntosGanados;
-    });
+  //   setState(() {
+  //     totalGanado = response.puntosGanados;
+  //   });
 
-    // final isLastPage = response.data.length < response.sizePage;
-    final isLastPage = response.more == false;
-      if (isLastPage) {
-        _pagingController.appendLastPage(response.data);
-      } else {
-        final nextPageKey = pageKey + 1;
-        _pagingController.appendPage(response.data, nextPageKey);
-      }
-    } on GrpcError catch (e) {
-      toast(e.message??'Hubo un error', Colors.red);
-      _pagingController.error = e;
-    } on Exception catch (e) {
-      toast('Hubo un error', Colors.red);
-      _pagingController.error = e;
-    } finally {
-      channel.shutdown();
-    }
-  }
+  //   // final isLastPage = response.data.length < response.sizePage;
+  //   final isLastPage = response.more == false;
+  //     if (isLastPage) {
+  //       _pagingController.appendLastPage(response.data);
+  //     } else {
+  //       final nextPageKey = pageKey + 1;
+  //       _pagingController.appendPage(response.data, nextPageKey);
+  //     }
+  //   } on GrpcError catch (e) {
+  //     toast(e.message??'Hubo un error', Colors.red);
+  //     _pagingController.error = e;
+  //   } on Exception catch (e) {
+  //     toast('Hubo un error', Colors.red);
+  //     _pagingController.error = e;
+  //   } finally {
+  //     channel.shutdown();
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +121,7 @@ class _MisReferidosScreenState extends State<MisReferidosScreen> {
                     ),
                     child: TextFormField(
                       onFieldSubmitted: ((value) {
-                        refresh();
+                        // refresh();
                         }),
                         controller: term,
                       decoration: const InputDecoration(
@@ -136,31 +135,31 @@ class _MisReferidosScreenState extends State<MisReferidosScreen> {
                   ),
                   SizedBox(height: size.height * 0.02),
           
-                  Expanded(
-                  child:  Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: const EdgeInsets.only(left: 10, right: 10),
-                  child: RefreshIndicator(
-                      onRefresh: refresh,
-                      child: PagedListView<int, referenciaSubproducto>(
-                        pagingController: _pagingController,
-                        builderDelegate: PagedChildBuilderDelegate<referenciaSubproducto>(
-                            noItemsFoundIndicatorBuilder: ((context) {
-                              return const Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                Text('No se encontraron registros', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),),
-                              ],);
-                            }),
-                            itemBuilder: (context, item, index) =>
-                                ElementoDetalleReferencia(item: item),
-                            firstPageProgressIndicatorBuilder: (_) =>
-                                const Center(child: CircularProgressIndicator()),
-                            newPageProgressIndicatorBuilder: (_) =>
-                                const Center(child: CircularProgressIndicator()),
-                                ),
-                      ),
-                      )))
+                  // Expanded(
+                  // child:  Container(
+                  // width: MediaQuery.of(context).size.width,
+                  // margin: const EdgeInsets.only(left: 10, right: 10),
+                  // child: RefreshIndicator(
+                  //     onRefresh: refresh,
+                  //     child: PagedListView<int, referenciaSubproducto>(
+                  //       pagingController: _pagingController,
+                  //       builderDelegate: PagedChildBuilderDelegate<referenciaSubproducto>(
+                  //           noItemsFoundIndicatorBuilder: ((context) {
+                  //             return const Column(
+                  //               mainAxisAlignment: MainAxisAlignment.center,
+                  //               children: [
+                  //               Text('No se encontraron registros', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),),
+                  //             ],);
+                  //           }),
+                  //           itemBuilder: (context, item, index) =>
+                  //               ElementoDetalleReferencia(item: item),
+                  //           firstPageProgressIndicatorBuilder: (_) =>
+                  //               const Center(child: CircularProgressIndicator()),
+                  //           newPageProgressIndicatorBuilder: (_) =>
+                  //               const Center(child: CircularProgressIndicator()),
+                  //               ),
+                  //     ),
+                  //     )))
               ],
             ),
           ),
@@ -169,11 +168,11 @@ class _MisReferidosScreenState extends State<MisReferidosScreen> {
     );
   }
 
-   Future refresh() async {
-    setState(() {
-      // _pagingController.dispose();
-      // _pagingController = PagingController(firstPageKey: 1);
-      _pagingController.refresh();
-    });
-  }
+  //  Future refresh() async {
+  //   setState(() {
+  //     // _pagingController.dispose();
+  //     // _pagingController = PagingController(firstPageKey: 1);
+  //     _pagingController.refresh();
+  //   });
+  // }
 }

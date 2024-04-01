@@ -7,14 +7,18 @@ import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_scre
 import 'package:refierelo_marketplace/data/screens/screens_profile.dart/screens_buy_points.dart';
 import 'package:refierelo_marketplace/data/screens/screens_profile.dart/screens_profile_tabbar.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
+import 'package:refierelo_marketplace/widgets/productos_usuario.dart';
+import 'package:refierelo_marketplace/widgets/story_feed/widget_botton_circular.dart';
+import 'package:refierelo_marketplace/widgets/story_feed/widget_list_categories_avatar.dart';
 import 'package:refierelo_marketplace/widgets/story_feed/widgets_story_feed.dart';
 import 'package:refierelo_marketplace/widgets/story_feed/widgets_user_story_profile.dart';
-import 'package:refierelo_marketplace/widgets/widget_productos_comprar.dart';
-import 'package:refierelo_marketplace/widgets/widget_productos_referir.dart';
-import 'package:refierelo_marketplace/widgets/story_feed/widgets_user_story.dart';
 
 class ProfileScreensUser extends StatefulWidget {
-  const ProfileScreensUser({super.key});
+  final Map<String, IconData> categoryIcons;
+  const ProfileScreensUser({
+    super.key,
+    required this.categoryIcons,
+  });
 
   @override
   ProfileScreensUserState createState() => ProfileScreensUserState();
@@ -25,6 +29,9 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
   late AnimationController storyAnimationController;
   late Animation<Color?> storyColorAnimation;
   Rect? rect;
+  String selectedCategory = '';
+
+  List<String> selectedCategories = [];
 
   final List<String> _stories = [
     "Product 1",
@@ -80,13 +87,20 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
 
   @override
   Widget build(BuildContext context) {
+    final selectedCategory =
+        Provider.of<SelectedCategory>(context).selectedCategory;
+    if (selectedCategory.isNotEmpty &&
+        !selectedCategories.contains(selectedCategory)) {
+      selectedCategories.add(selectedCategory);
+    }
     double buttonPaddingHorizontalPercentage = 0.015;
 
     final userData = Provider.of<UserDataProvider>(context).userData;
+
     // print("Building WidgetDisplayMenuStory");
     return DefaultTabController(
-      initialIndex: 1,
-      length: 2,
+      initialIndex: 0,
+      length: 1,
       child: Stack(children: [
         Scaffold(
           backgroundColor: Colors.white,
@@ -103,6 +117,10 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
                           fit: FlexFit.tight,
                           flex: 3,
                           child: WidgetsUserStoryProfile(
+                            index: 1,
+                            onStoryItemTap: (rect, index) {},
+                            backgroundImage: const NetworkImage(
+                                "https://res.cloudinary.com/pozters/image/upload/w_700/v1535554479/prod_uploads/59R7X261y7zE1j8gnd0lq"),
                             setRectPoint: (rectPoint) {
                               setState(() {
                                 rect = rectPoint;
@@ -110,15 +128,13 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
                               int index = _stories.indexOf("");
                               onStoryItemTap(rect, index);
                             },
-                            index: 0,
-                            onStoryItemTap: onStoryItemTap,
                           ),
                         ),
                         Flexible(
                           fit: FlexFit.tight,
                           flex: 3,
                           child: GestureDetector(
-                            onTap: () {                             
+                            onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -132,7 +148,7 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
                               children: [
                                 CustomFontAileronBold(text: "2.000"),
                                 CustomFontAileronRegular(
-                                  text: "Recompensas",
+                                  text: "Seguidores",
                                 ),
                               ],
                             ),
@@ -142,7 +158,7 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
                           fit: FlexFit.tight,
                           flex: 3,
                           child: GestureDetector(
-                            onTap: () {                             
+                            onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -275,8 +291,9 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const RegisterForm(msisdn: '',),
+                                  builder: (context) => const RegisterForm(
+                                    msisdn: '',
+                                  ),
                                 ),
                               );
                             },
@@ -372,51 +389,112 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 110,
-                    child: ListView.builder(
-                      itemCount: _stories.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return WidgetsUserStory(
-                          index: index,
-                          setRectPoint: (reactPoint) {
-                            setState(() {
-                              rect = reactPoint;
-                            });
-                            onStoryItemTap(rect, index);
-                          },
-                          onStoryItemTap: onStoryItemTap,
-                        );
-                      },
-                    ),
+                  const SizedBox(height: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.star_border_rounded),
+                          CustomFontAileronSemiBold(
+                            text: " Mis favoritos",
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        height: 110,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context)
+                                  .size
+                                  .width, // Ancho finito para el Container
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: ListView.builder(
+                                      itemCount: selectedCategories.length +
+                                          1, // +1 para agregar el WidgetBottonCircular
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) {
+                                        if (index < selectedCategories.length) {
+                                          final category =
+                                              selectedCategories[index];
+                                          // Obtener el icono correspondiente de _getIconForCategory
+                                          final IconData icon =
+                                              _getIconForCategory(category);
+                                          return WidgetListCategoriesAvatar(
+                                            icon:icon, // Pasar el icono obtenido
+                                            nameCategorie: category,
+                                            isSelected: true,
+                                            categoryIcons: widget.categoryIcons, // Puedes inicializarlo aquí o pasarlo desde fuera
+                                          );
+                                        } else {
+                                          // Agregar el WidgetBottonCircular al final de la lista
+                                          return const WidgetBottonCircular();
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
+
+                  // SizedBox(
+                  //   height: 110,
+                  //   child: ListView.builder(
+                  //     itemCount: _stories.length,
+                  //     scrollDirection: Axis.horizontal,
+                  //     itemBuilder: (context, index) {
+                  //       return WidgetsUserStory(
+                  //         index: index,
+                  //         setRectPoint: (reactPoint) {
+                  //           setState(() {
+                  //             rect = reactPoint;
+                  //           });
+                  //           onStoryItemTap(rect, index);
+                  //         },
+                  //         onStoryItemTap: onStoryItemTap,
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                   ///////////////////////////////////////////////////////////////////////////////////
                   //Referir y Comprar
                   const TabBar(
                     labelColor: Color(0xFF003366),
                     unselectedLabelColor: Colors.black,
-                    indicatorColor: Color(0xFF003366),
+                    indicatorColor: Colors.transparent,
                     tabs: <Widget>[
                       Tab(
-                          icon: Text(
-                        "Referir",
-                        style: TextStyle(fontFamily: "Aileron", fontSize: 17),
-                      )),
-                      Tab(
-                          icon: Text(
-                        "Comprar",
-                        style: TextStyle(fontFamily: "Aileron", fontSize: 17),
-                      ))
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                             Icon(Icons.auto_awesome),
+                            CustomFontAileronSemiBold(
+                                text: " Productos que Recomiendo"),
+                          ],
+                        ),
+                      ),
+                      // Tab(
+                      //     icon: Icon(Icons.library_books_outlined)
+                      // )
                     ],
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 2.2,
                     child: const TabBarView(children: [
                       Center(
-                        child: WidgetProductosReferir(),
+                        child: ProductosUsuario(),
                       ),
-                      Center(child: WidgetProductosComprar())
                     ]),
                   ),
                 ], //children
@@ -444,5 +522,71 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
         ),
       ),
     );
+  }
+
+  IconData _getIconForCategory(String category) {
+    Map<String, IconData> categoryIcons = {
+      'Agricultura / ganadería': Icons.eco,
+      'Artista': Icons.perm_contact_cal,
+      'Belleza / cosmética': Icons.face,
+      'Bancos': Icons.account_balance_rounded,
+      'Cine / tv': Icons.movie,
+      'Centros comerciales': Icons.business_outlined,
+      'Compras y ventas': Icons.shopping_cart,
+      'Comercio electrónico': Icons.phone_android_outlined,
+      'Consultorio odontológico': Icons.badge_outlined,
+      'Creador digital': Icons.photo_camera_front,
+      'Editor': Icons.edit,
+      'Educación': Icons.school,
+      'Electrónica e informática': Icons.computer,
+      'Emprendedor(a)': Icons.lightbulb_outline,
+      'Espectáculos / eventos': Icons.event,
+      'Farmacia y Droguería': Icons.local_pharmacy,
+      'Ferretería y Construcción': Icons.build,
+      'Fotógrafo(a)': Icons.camera_alt,
+      'Hoteles y turismo': Icons.hotel,
+      'Industria o manufactura': Icons.build_circle,
+      'Licorería': Icons.local_drink,
+      'Medio Ambiente': Icons.south_america_outlined,
+      'Músico / Banda': Icons.music_note,
+      'Medios de comunicación': Icons.live_tv_rounded,
+      'Papelería / Miscelánea': Icons.article,
+      'Productos de limpieza': Icons.clean_hands,
+      'Peluquería': Icons.cut_rounded,
+      'Restaurantes': Icons.restaurant,
+      'Regalos sorpresa': Icons.card_giftcard,
+      'Ropa (marca)': Icons.shopify_rounded,
+      'Zapatos y accesorios': Icons.snowshoeing_rounded,
+      'Salud / belleza': Icons.spa,
+      'Servicio a vehículos': Icons.directions_car_filled_rounded,
+      'Transporte y logística': Icons.local_shipping,
+      'Servicios profesionales': Icons.business,
+      'Servicios financieros': Icons.account_balance,
+      'Supermercado': Icons.local_grocery_store,
+      'Seguros': Icons.health_and_safety_rounded,
+      'Taller automotriz': Icons.build_circle_outlined,
+      'Teatro': Icons.contact_emergency_rounded,
+      'Tienda comestibles': Icons.food_bank,
+      'Tienda de mascotas': Icons.pets,
+      'Tienda naturista': Icons.eco_outlined,
+      'Venta Juguetes / libros': Icons.toys,
+      'Venta de textiles': Icons.texture,
+      'Venta por catálogo': Icons.view_list,
+      'Otro': Icons.category,
+    };
+    // Obtener el icono correspondiente a la categoría
+    IconData selectedIcon = categoryIcons[category] ?? Icons.category;
+    return selectedIcon;
+  }
+}
+
+class SelectedCategory extends ChangeNotifier {
+  String _selectedCategory = '';
+
+  String get selectedCategory => _selectedCategory;
+
+  void setSelectedCategory(String category) {
+    _selectedCategory = category;
+    notifyListeners();
   }
 }

@@ -85,7 +85,8 @@ class _DialogOneState extends State<DialogOne> {
                               child: Image.asset(
                             'assets/images/pop_referir/whatsapp.png',
                             height: 15,
-                          ))
+                            ),
+                          ),
                         ],
                       ),
                     )
@@ -108,18 +109,20 @@ class _DialogOneState extends State<DialogOne> {
                           );
                         }
                       );
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(left: size.width * 0.2),
-                    child: const Text(
-                      'Continuar',
-                      style: TextStyle(
-                          color: Colors.white,
-                          decoration: TextDecoration.underline),
-                    ),
-                  ),
-                ))
-          ],
-        ));
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(left: size.width * 0.2),
+                  child: const Text(
+                  'Continuar',
+                  style: TextStyle(
+                  color: Colors.white,
+                  decoration: TextDecoration.underline),
+                ),
+              ),
+            )
+          )
+        ],
+      )
+    );
   }
 }

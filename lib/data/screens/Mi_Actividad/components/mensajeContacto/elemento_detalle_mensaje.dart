@@ -1,11 +1,10 @@
 
 import 'package:flutter/material.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/models/enums.dart';
 import '../../../helpers/helpers.dart';
 
 class ElementoDetalleMensaje extends StatefulWidget {
-  final mensajeContacto item;
+  final  item;
   const ElementoDetalleMensaje({super.key, required this.item});
 
   @override

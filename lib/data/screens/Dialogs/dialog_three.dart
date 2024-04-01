@@ -49,8 +49,8 @@ class _DialogThreeState extends State<DialogThree> {
                     )
                   ],
                 ),
-              ),),
-
+              ),
+            ),
               Positioned(
               left: 0,
               top: 50,
@@ -83,19 +83,20 @@ class _DialogThreeState extends State<DialogThree> {
                     ),
                     SizedBox(height: size.height*0.01,),
                     Image.asset(
-                            'assets/images/pop_referir/whatsapp.png',
-                            height: 18,
-                          )
-                  ],
+                         'assets/images/pop_referir/whatsapp.png',
+                          height: 18,
+                        )
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: Image(image: const AssetImage('assets/images/pop_referir/super_referente.png'),
-                      width: size.width*0.47,))
-            ],
-          ),);
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: Image(image: const AssetImage('assets/images/pop_referir/super_referente.png'),
+            width: size.width*0.47,))
+        ],
+      ),
+    );
   }
 }

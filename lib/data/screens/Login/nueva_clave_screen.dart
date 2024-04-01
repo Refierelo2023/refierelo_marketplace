@@ -6,7 +6,6 @@ import 'package:refierelo_marketplace/app/helper/helpers/helpers.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/components.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
 import 'package:refierelo_marketplace/data/screens/main_screen.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Register/components/custom_input.dart';
@@ -54,7 +53,7 @@ class _NuevaClaveScreenState extends State<NuevaClaveScreen> {
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                  child: Container(
+                  child: SizedBox(
                     height: size.height,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -107,68 +106,68 @@ class _NuevaClaveScreenState extends State<NuevaClaveScreen> {
                       ocultarTexto: true,
                     ),
                     SizedBox(height: size.height * 0.02),
-                    Container(
-                      height: size.height * 0.05,
-                      width: size.width * 0.4,
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Color(0xffCE8F21), Color(0xffF8E43E)],
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          if (!_formKey.currentState!.validate()) {
-                            return;
-                          }
+                    // Container(
+                    //   height: size.height * 0.05,
+                    //   width: size.width * 0.4,
+                    //   decoration: BoxDecoration(
+                    //     gradient: const LinearGradient(
+                    //       colors: [Color(0xffCE8F21), Color(0xffF8E43E)],
+                    //     ),
+                    //     borderRadius: BorderRadius.circular(20),
+                    //   ),
+                    //   child: ElevatedButton(
+                    //     onPressed: () async {
+                    //       if (!_formKey.currentState!.validate()) {
+                    //         return;
+                    //       }
 
-                          var sessionString = generateSessionString();
-                          var channel = getChannel();
+                    //       var sessionString = generateSessionString();
+                    //       var channel = getChannel();
 
-                          try {
-                            onLoading(context, texto: 'Guardando clave');
-                            await ServiceClient(channel).refCambiarClave(
-                                refCambiarClaveRequest(
-                                    sessionString: sessionString,
-                                    clave: nuevaClave.text,
-                                    msisdn: widget.msisdn,
-                                    otp: widget.otp));
+                    //       try {
+                    //         onLoading(context, texto: 'Guardando clave');
+                    //         await ServiceClient(channel).refCambiarClave(
+                    //             refCambiarClaveRequest(
+                    //                 sessionString: sessionString,
+                    //                 clave: nuevaClave.text,
+                    //                 msisdn: widget.msisdn,
+                    //                 otp: widget.otp));
 
-                            await SessionManager()
-                                .set("sessionString", sessionString);
-                            final prefs =
-                                await SharedPreferences.getInstance();
-                            await prefs.setBool('repeat', true);
+                    //         await SessionManager()
+                    //             .set("sessionString", sessionString);
+                    //         final prefs =
+                    //             await SharedPreferences.getInstance();
+                    //         await prefs.setBool('repeat', true);
 
-                            toast('Tu clave se actualizó correctamente.',
-                                Colors.green);
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const MainScreen()),
-                                (Route<dynamic> route) => false);
-                          } on GrpcError catch (e) {
-                            Navigator.of(context).pop();
-                            toast(e.message ?? 'No se pudo cambiar tu clave.',
-                                Colors.red);
-                            return;
-                          } on Exception {
-                            Navigator.of(context).pop();
-                            toast('No se pudo cambiar tu clave.', Colors.red);
-                            return;
-                          } finally {
-                            channel.shutdown();
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                        ),
-                        child: const CustomFontAileronRegularWhite(text: "Guardar")
-                      ),
-                    ),
+                    //         toast('Tu clave se actualizó correctamente.',
+                    //             Colors.green);
+                    //         Navigator.pushAndRemoveUntil(
+                    //             context,
+                    //             MaterialPageRoute(
+                    //                 builder: (context) => const MainScreen()),
+                    //             (Route<dynamic> route) => false);
+                    //       } on GrpcError catch (e) {
+                    //         Navigator.of(context).pop();
+                    //         toast(e.message ?? 'No se pudo cambiar tu clave.',
+                    //             Colors.red);
+                    //         return;
+                    //       } on Exception {
+                    //         Navigator.of(context).pop();
+                    //         toast('No se pudo cambiar tu clave.', Colors.red);
+                    //         return;
+                    //       } finally {
+                    //         channel.shutdown();
+                    //       }
+                    //     },
+                    //     style: ElevatedButton.styleFrom(
+                    //       backgroundColor: Colors.transparent,
+                    //       shadowColor: Colors.transparent,
+                    //       shape: RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.circular(20)),
+                    //     ),
+                    //     child: const CustomFontAileronRegularWhite(text: "Guardar")
+                    //   ),
+                    // ),
                     SizedBox(height: size.height * 0.02),
                   ],
                 ),

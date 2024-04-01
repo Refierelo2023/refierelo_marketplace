@@ -97,7 +97,7 @@ class SearchScreensState extends State<SearchScreens> with SingleTickerProviderS
                           showModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
-                              return const WidgetDisplayCategories(
+                              return WidgetDisplayCategories(onCategorySelected: (String ) {  },
                               );// llamando contenedor vertical
                             },
                           );

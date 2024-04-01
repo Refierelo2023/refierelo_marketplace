@@ -5,6 +5,7 @@ pluginManagement {
         def flutterSdkPath = properties.getProperty("flutter.sdk")
         assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
         return flutterSdkPath
+        apply from: "$flutterSdkPath/packages/flutter_tools/gradle/app_plugin_loader.gradle"
     }
     settings.ext.flutterSdkPath = flutterSdkPath()
 
@@ -26,4 +27,4 @@ plugins {
     id "com.android.application" version "7.3.0" apply false
 }
 
-include ":app"
+include ':app', ':flutter_dotenv'

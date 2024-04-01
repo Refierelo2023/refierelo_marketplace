@@ -8,7 +8,6 @@ import 'package:refierelo_marketplace/data/screens/Login/otp/insert_number_scree
 import 'package:refierelo_marketplace/data/screens/Register/components/components.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
 import 'package:refierelo_marketplace/data/screens/main_screen.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Register/components/custom_input.dart';
@@ -112,12 +111,12 @@ class _LogueoFormScreenState extends State<LogueoFormScreen> {
                       var channel = getChannel();
                       try {
                         onLoading(context, texto: 'Iniciando sesión');
-                        await ServiceClient(channel).referenteLogin(
-                            referenteLoginRequest(
-                                clave: clave.text,
-                                idTipoCuentaReferente: '1',
-                                usuario: msisdn.text,
-                                sessionString: sessionString));
+                        // await ServiceClient(channel).referenteLogin(
+                        //     referenteLoginRequest(
+                        //         clave: clave.text,
+                        //         idTipoCuentaReferente: '1',
+                        //         usuario: msisdn.text,
+                        //         sessionString: sessionString));
                         await SessionManager()
                             .set("sessionString", sessionString);
                         final prefs = await SharedPreferences.getInstance();

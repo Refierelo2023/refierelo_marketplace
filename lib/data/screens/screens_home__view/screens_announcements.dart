@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:refierelo_marketplace/data/screens/home/scroll_marcas_sugeridas.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 
 class ScreensAnnouncements extends StatelessWidget {
@@ -70,6 +71,36 @@ class MyScreen extends StatelessWidget {
             ),
             const SizedBox(
               height: 20,
+            ),
+            const SizedBox(
+              width: 220,
+              height: 330,
+              child: ScrollMarcasSugeridas()
+              ),
+              _buildProductWidget(
+              imagePath: "assets/images/usuario3/logo.png",
+              username: "Kfc",
+              category: "Entretenimiento",
+              coverImage: "assets/images/usuario3/kfc09.png",
+              imageList: [
+                "assets/images/usuario3/kfc06.png",
+                "assets/images/usuario3/kfc07.png",
+                "assets/images/usuario3/kfc08.png",
+                "assets/images/usuario3/kfc09.png",
+              ],
+            ),
+            _buildProductWidget(
+              imagePath: "assets/images/usuario2/logo.png",
+              username: "Body Tech",
+              category: "Salud",
+              coverImage: "assets/images/usuario2/bodymarketplace6.png",
+              imageList: [
+                "assets/images/usuario2/body1.jpeg",
+                "assets/images/usuario2/bodymarketplace5.png",
+                "assets/images/usuario2/bodymarketplace6.png",
+                "assets/images/usuario2/bodymarketplace7.png",
+                "assets/images/usuario2/bodymarketplace8.png",
+              ],
             ),
             // Otros widgets
           ],

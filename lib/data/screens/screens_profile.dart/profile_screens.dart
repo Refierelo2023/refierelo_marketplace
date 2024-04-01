@@ -101,7 +101,8 @@ class ProfileScreensState extends State<ProfileScreens>
                         Flexible(
                           fit: FlexFit.tight,
                           flex: 3,
-                          child: WidgetsUserStoryProfile(
+                          child: WidgetsUserStoryProfile( 
+                            backgroundImage: const NetworkImage("https://i.pinimg.com/474x/6e/d0/b5/6ed0b51833ee7affe0dfd37a531b2431.jpg"),
                             setRectPoint: (rectPoint) {
                               setState(() {
                                 rect = rectPoint;

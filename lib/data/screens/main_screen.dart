@@ -8,9 +8,7 @@ import 'package:refierelo_marketplace/data/screens/home/components/sidebar.dart'
 import 'package:refierelo_marketplace/data/screens/screen_reward_user/widget_tabbar.dart';
 import 'package:refierelo_marketplace/data/screens/screens_home__view/screens_home_view.dart';
 import 'package:refierelo_marketplace/data/screens/screens_profile.dart/profile_screen_user.dart';
-import 'package:refierelo_marketplace/data/screens/screens_profile.dart/profile_screens.dart';
 import 'package:refierelo_marketplace/data/screens/display_refiere_aqui/display_refiere_aqui.dart';
-import 'package:refierelo_marketplace/data/screens/screens_profile_referir.dart';
 import 'package:refierelo_marketplace/data/screens/search_screens/search_screens.dart';
 import 'package:refierelo_marketplace/providers/referente_provider.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
@@ -29,9 +27,9 @@ class _MainScreenState extends State<MainScreen> {
   static final List<Widget> _listOptions = <Widget>[
     const ScreensHomeView(),
     const SearchScreens(),
-    const ScreenProfileReferir(),
+    const Spacer(),
     const MiActividadTab(),
-    const ProfileScreensUser(),
+    const ProfileScreensUser(categoryIcons: {},),
   ];
 
   final List<String> _imagePaths = [
@@ -48,7 +46,8 @@ class _MainScreenState extends State<MainScreen> {
     "assets/images/images_main/logocircular.png",
     "assets/images/images_main/estadisticas2.png",
     "assets/images/images_main/recompensas2.png",
-  ];
+  ];  
+
 
   @override
   Widget build(BuildContext context) {  
@@ -85,18 +84,20 @@ class _MainScreenState extends State<MainScreen> {
                   ),
               ],
             ),
-            Positioned(
-              bottom: 16,
-              child: GestureDetector(
-                onTap: () {
-                  _showRefiereAquiOverlay(context);
-                },
-                child: Transform.scale(
-                  scale: 1.5,
-                  child: Image.asset(
-                    "assets/images/images_main/logocircular.png",
-                    height: 30,
-                    width: 30,
+            InkWell(
+              child: Positioned(
+                bottom: 16,
+                child: GestureDetector(
+                  onTap: () {
+                    _showRefiereAquiOverlay(context);
+                  },
+                  child: Transform.scale(
+                    scale: 1.5,
+                    child: Image.asset(
+                      "assets/images/images_main/logocircular.png",
+                      height: 30,
+                      width: 30,
+                    ),
                   ),
                 ),
               ),
@@ -105,7 +106,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
     );
-  }
+  }  
 
   void _onItemTapped(int index) {
     setState(() {

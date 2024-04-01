@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:refierelo_marketplace/data/screens/Welcome/welcome_screen.dart';
-import 'package:refierelo_marketplace/data/screens/main.dart';
+import 'package:refierelo_marketplace/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 

@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/bottom_dialog.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/error_register_dialog.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/providers/referente_provider.dart';
 import '../Register/components/components.dart';
 
@@ -167,47 +166,47 @@ class _WelcomeDialogState extends State<WelcomeDialog>
                                       onLoading(context,
                                           texto: 'Validando número..');
                                       var channel = getChannel();
-                                      var response = await ServiceClient(
-                                              getChannel())
-                                          .refAppRecomendado(
-                                              refAppRecomendadoRequest(
-                                                  idreferente: context
-                                                      .read<ReferenteProvider>()
-                                                      .referenteGlobal
-                                                      ?.idreferente
-                                                      .toString(),
-                                                  sessionString:
-                                                      (await SessionManager()
-                                                          .get(
-                                                              'sessionString')),
-                                                  msisdnRecomendado:
-                                                      msisdnRecomendado.text,
-                                                  date: DateFormat('yyyy-MM-dd')
-                                                      .format(DateTime.now())))
-                                          .whenComplete(() {
-                                        channel.shutdown();
-                                        if (mounted) { 
-                                          Navigator.of(context).pop();
-                                        }
-                                      });
+                                      // var response = await ServiceClient(
+                                      //         getChannel())
+                                          // .refAppRecomendado(
+                                          //     refAppRecomendadoRequest(
+                                          //         idreferente: context
+                                          //             .read<ReferenteProvider>()
+                                          //             .referenteGlobal
+                                          //             ?.idreferente
+                                          //             .toString(),
+                                          //         sessionString:
+                                          //             (await SessionManager()
+                                          //                 .get(
+                                          //                     'sessionString')),
+                                          //         msisdnRecomendado:
+                                          //             msisdnRecomendado.text,
+                                          //         date: DateFormat('yyyy-MM-dd')
+                                          //             .format(DateTime.now())))
+                                      //     .whenComplete(() {
+                                      //   channel.shutdown();
+                                      //   if (mounted) { 
+                                      //     Navigator.of(context).pop();
+                                      //   }
+                                      // });
 
-                                      context
-                                          .read<ReferenteProvider>()
-                                          .actualizarPuntos(int.tryParse(
-                                                  response.puntos.toString()) ??
-                                              0);
-                                      if (mounted) {
-                                        var referente = context
-                                            .read<ReferenteProvider>()
-                                            .referenteGlobal;
-                                        referente!.msisdnRecomendado =
-                                            msisdnRecomendado.text;
-                                        context
-                                            .read<ReferenteProvider>()
-                                            .set(referente);
-                                        Navigator.of(context)
-                                            .pop(response.puntos.toString());
-                                      }
+                                      // context
+                                          // .read<ReferenteProvider>()
+                                          // .actualizarPuntos(int.tryParse(
+                                          //         response.puntos.toString()) ??
+                                          //     0);
+                                      // if (mounted) {
+                                      //   var referente = context
+                                      //       .read<ReferenteProvider>()
+                                      //       .referenteGlobal;
+                                      //   referente!.msisdnRecomendado =
+                                      //       msisdnRecomendado.text;
+                                      //   context
+                                      //       .read<ReferenteProvider>()
+                                      //       .set(referente);
+                                      //   Navigator.of(context)
+                                      //       .pop(response.puntos.toString());
+                                      // }
                                     } on GrpcError catch (e) {
                                       if (e.code == 3) {
                                         Fluttertoast.showToast(

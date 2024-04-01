@@ -235,8 +235,9 @@ void didChangeDependencies() {
         ),
         gradient: LinearGradient(
           colors: colors,
-        ),
-      );
-    });
+          ),
+        );
+      }
+    );
   }
 }

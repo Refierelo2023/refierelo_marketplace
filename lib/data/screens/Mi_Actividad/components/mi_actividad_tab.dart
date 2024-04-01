@@ -10,7 +10,7 @@ import 'package:refierelo_marketplace/data/screens/Mi_Actividad/components/refer
 import 'package:refierelo_marketplace/data/screens/Mi_Actividad/components/referenciasSubpr/mi_actividad_section_referencia.dart';
 import 'package:refierelo_marketplace/data/screens/Mi_Actividad/components/referenciasSubpr/mis_referidos_screen.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
+
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import '../../Register/components/components.dart';
 
@@ -25,7 +25,7 @@ class MiActividadTab extends StatefulWidget {
 
 class _MiActividadTabState extends State<MiActividadTab> {
 
-  getMetricasResponse? metricas;
+
   
   @override
   void initState() {
@@ -35,29 +35,29 @@ class _MiActividadTabState extends State<MiActividadTab> {
 
   @override
   void dispose() {
-    metricas = null;
+   
     super.dispose();
   }
 
 
-  Future<void> getMetricas() async {
-    var channel = getChannel();
-    try {
-    var response = await ServiceClient(channel).getMetricas(getMetricasRequest(
-            sessionString: await SessionManager().get('sessionString')));
+  // Future<void> getMetricas() async {
+  //   var channel = getChannel();
+  //   try {
+  //   var response = await ServiceClient(channel).getMetricas(getMetricasRequest(
+  //           sessionString: await SessionManager().get('sessionString')));
 
-    setState(() {
-      metricas = response;
-    });
+  //   setState(() {
+  //     metricas = response;
+  //   });
       
-    } on GrpcError catch (e) {
-      toast(e.message??'Hubo un error', Colors.red);
-    } on Exception {
-      toast('Hubo un error', Colors.red);
-    } finally {
-      channel.shutdown();
-    }
-  }
+  //   } on GrpcError catch (e) {
+  //     toast(e.message??'Hubo un error', Colors.red);
+  //   } on Exception {
+  //     toast('Hubo un error', Colors.red);
+  //   } finally {
+  //     channel.shutdown();
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +98,7 @@ class _MiActividadTabState extends State<MiActividadTab> {
                 SizedBox(height: size.height * 0.04),
                 MiActividadSection(imgTitutulo: 'assets/images/mi_actividad/4.png', titulo: 'Compartiste ofertas', totalPuntos: '+15', press: (){},),
                 SizedBox(height: size.height * 0.04),
-                if(metricas!=null) MetricasSection(metricas: metricas!,),
+                // if(metricas!=null) MetricasSection(metricas: metricas!,),
                 SizedBox(height: size.height*0.09,)
               ],
             ),

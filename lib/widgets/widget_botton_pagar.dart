@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:refierelo_marketplace/data/screens/screens_profile_referir.dart';
+import 'package:refierelo_marketplace/data/screens/home/scroll_marcas_sugeridas.dart';
 
 class CustomButtonPagar extends StatelessWidget {
   const CustomButtonPagar({super.key});
@@ -13,7 +13,7 @@ class CustomButtonPagar extends StatelessWidget {
       onTap: () {
         Navigator.push(   
           context,
-          MaterialPageRoute(builder: (context) => const ScreenProfileReferir()),
+          MaterialPageRoute(builder: (context) => const ScrollMarcasSugeridas()),
         );
       },
       child: MouseRegion(

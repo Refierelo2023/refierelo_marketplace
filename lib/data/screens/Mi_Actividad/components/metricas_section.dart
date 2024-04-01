@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 
 class MetricasSection extends StatelessWidget {
   const MetricasSection({super.key, required this.metricas});
 
-  final getMetricasResponse metricas;
+  final metricas;
 
   @override
   Widget build(BuildContext context) {

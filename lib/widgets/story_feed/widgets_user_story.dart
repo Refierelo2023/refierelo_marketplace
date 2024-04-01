@@ -90,6 +90,7 @@ class _WidgetsUserStoryState extends State<WidgetsUserStory>
               ),
             )
           ],
-        ));
+        )
+      );
   }
 }

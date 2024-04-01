@@ -1,32 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:grpc/grpc.dart';
-import 'package:provider/provider.dart';
-import 'package:refierelo_marketplace/constants.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/premio_diario_dialog.dart';
-import 'package:refierelo_marketplace/data/screens/Ofertas/ofertas_screen.dart';
 import 'package:refierelo_marketplace/data/screens/Stories/stories_screen.dart';
+import 'package:refierelo_marketplace/data/screens/componentscopy/body.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
-import 'package:refierelo_marketplace/data/screens/home/components/carousel_normal.dart';
-import 'package:refierelo_marketplace/data/screens/main.dart';
-import 'package:refierelo_marketplace/data/screens/refiere_una_empresa/refiere_empresa_screen.dart';
-import 'package:refierelo_marketplace/data/screens/screens_home__view/screens_announcements.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
-import 'package:refierelo_marketplace/providers/referente_provider.dart';
+import 'package:refierelo_marketplace/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Dialogs/reward_dialog.dart';
 import '../Dialogs/welcome_dialog.dart';
 import '../Register/components/components.dart';
 
-
-
-// Imagenes para carrusel numero 3
-final List<String> imgListCarousel_3 = [
-  'assets/images/images_display_comprar.dart/black1.jpeg',
-  'assets/images/images_display_comprar.dart/black3.jpeg',
-];
 
 class Homev extends StatefulWidget {
   const Homev({super.key, required this.setTab});
@@ -43,7 +26,7 @@ class HomevState extends State<Homev> {
   List<UserModel> sampleUsers = [];
 
   // Listas con las imagenes para cada carrusel
-  List<producto> imgLists = [];
+  // List<producto> imgLists = [];
 
   bool storiesVistas = true;
 
@@ -57,7 +40,7 @@ class HomevState extends State<Homev> {
 void initState() {
   super.initState();
   _showDialog();
-  getRecursos();
+  // getRecursos();
   getProductos().then((value) {
     validateDatetimeModal();
   });
@@ -113,18 +96,18 @@ void initState() {
   Future<void> getProductos() async {
   try {
     var channel = getChannel();
-    var response = await ServiceClient(channel).getProductos(
-        getProductosRequest(
-            sessionString: await SessionManager().get('sessionString')));
+    // var response = await ServiceClient(channel).getProductos(
+    //     getProductosRequest(
+    //         sessionString: await SessionManager().get('sessionString')));
 
-    setState(() {
-      imgLists = response.productos;
-      textoNegrita = response.textoNegrita;
-      texto = response.texto;
-      textoColor = response.textoColor;
-      fecha = response.fecha;
-      storiesVistas = response.storiesVistas;
-    });
+    // setState(() {
+    //   imgLists = response.productos;
+    //   textoNegrita = response.textoNegrita;
+    //   texto = response.texto;
+    //   textoColor = response.textoColor;
+    //   fecha = response.fecha;
+    //   storiesVistas = response.storiesVistas;
+    // });
 
     channel.shutdown();
   } on GrpcError catch (e) {
@@ -137,58 +120,42 @@ void initState() {
 }
 
 
-  Future<void> getRecursos() async {
-    List<StoryModel> recursos = [];
-    var channel = getChannel();
+  // Future<void> getRecursos() async {
+  //   List<StoryModel> recursos = [];
+  //   var channel = getChannel();
 
-    ServiceClient(channel)
-        .getRecursos(recursosRequest(
-            idComponente: 1,
-            sessionString: await SessionManager().get('sessionString'),
-            idreferente:
-                context.read<ReferenteProvider>().referenteGlobal?.idreferente))
-        .listen((value) {
-      recursos.add(StoryModel(value.path, value.configCodigo, value.idRecurso));
-      if (value.compartido == 0) {
-        setState(() {
-          // compartidos = 0;
-        });
-      }
-    }).onDone(() {
-      recursos = recursos;
-      recursos = recursos;
+  //   // ServiceClient(channel)
+  //       .getRecursos(recursosRequest(
+  //           idComponente: 1,
+  //           sessionString: await SessionManager().get('sessionString'),
+  //           idreferente:
+  //               context.read<ReferenteProvider>().referenteGlobal?.idreferente))
+  //       .listen((value) {
+  //     recursos.add(StoryModel(value.path, value.configCodigo, value.idRecurso));
+  //     if (value.compartido == 0) {
+  //       setState(() {
+  //         // compartidos = 0;
+  //       });
+  //     }
+  //   }).onDone(() {
+  //     recursos = recursos;
+  //     recursos = recursos;
 
-      setState(() {
-        sampleUsers = [
-          UserModel(
-            recursos,
-            '',
-            '',
-          )
-        ];
-      });
-      channel.shutdown();
-    });
-  }
+  //     setState(() {
+  //       sampleUsers = [
+  //         UserModel(
+  //           recursos,
+  //           '',
+  //           '',
+  //         )
+  //       ];
+  //     });
+  //     channel.shutdown();
+  //   });
+  // }
 
 // get Referente information
-Future<String> getConfig() async {
-  // String sessionSecret = await SessionManager().get("sessionString");
 
-  final channel = ClientChannel(
-    // '18.188.244.114',
-    host,
-    port: getPort(),
-    options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
-  );
-
-    //Guardando el mensaje en la sesión
-    //await SessionManager().set("msg", welcomMsg);
-    //
-
-    await channel.shutdown();
-    return "data";
-  }
 
   _showDialog() async {
     final prefs = await SharedPreferences.getInstance();
@@ -254,49 +221,49 @@ Future<String> getConfig() async {
                                                     sampleUsers:
                                                         sampleUsers)),
                                       ).then((value) async {
-                                        if (value != null) {
-                                          try {
-                                            var channel = getChannel();
-                                            var response = await ServiceClient(
-                                                    getChannel())
-                                                .registerVistaStories(
-                                                    registerVistaStoriesRequest(
-                                                        sessionString:
-                                                            (await SessionManager()
-                                                                    .get(
-                                                                        'sessionString'))
-                                                                .toString()))
-                                                .whenComplete(() {
-                                              channel.shutdown();
-                                            });
+                                        // if (value != null) {
+                                        //   try {
+                                        //     var channel = getChannel();
+                                        //     var response = await ServiceClient(
+                                        //             getChannel())
+                                        //         .registerVistaStories(
+                                        //             registerVistaStoriesRequest(
+                                        //                 sessionString:
+                                        //                     (await SessionManager()
+                                        //                             .get(
+                                        //                                 'sessionString'))
+                                        //                         .toString()))
+                                        //         .whenComplete(() {
+                                        //       channel.shutdown();
+                                        //     });
           
-                                            context
-                                                .read<ReferenteProvider>()
-                                                .actualizarPuntos(
-                                                    int.tryParse(response
-                                                            .puntosGanados
-                                                            .toString()) ??
-                                                        0);
-                                            if (mounted &&
-                                                response.puntosGanados > 0) {
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return RewardDialog(
-                                                      puntos: response
-                                                          .puntosGanados
-                                                          .toString(),
-                                                    );
-                                                  });
+                                        //     context
+                                        //         .read<ReferenteProvider>()
+                                        //         .actualizarPuntos(
+                                        //             int.tryParse(response
+                                        //                     .puntosGanados
+                                        //                     .toString()) ??
+                                        //                 0);
+                                        //     if (mounted &&
+                                        //         response.puntosGanados > 0) {
+                                        //       showDialog(
+                                        //           context: context,
+                                        //           builder: (context) {
+                                        //             return RewardDialog(
+                                        //               puntos: response
+                                        //                   .puntosGanados
+                                        //                   .toString(),
+                                        //             );
+                                        //           });
           
-                                              setState(() {
-                                                storiesVistas = value;
-                                              });
-                                            }
-                                          } catch (e) {
-                                            // Manejar la excepción aquí
-                                          }
-                                        }
+                                        //       setState(() {
+                                        //         storiesVistas = value;
+                                        //       });
+                                        //     }
+                                        //   } catch (e) {
+                                        //     // Manejar la excepción aquí
+                                        //   }
+                                        // }
                                         // getRecursos();
                                       });
                                     },
@@ -336,14 +303,14 @@ Future<String> getConfig() async {
                         )
                       ],
                     ),
-                    if (imgLists.isNotEmpty)
+                    // if (imgLists.isNotEmpty)
                    
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const OfertasScreen()),
+                              builder: (context) => Body()),
                         );
                       },
                       child: Container(
@@ -353,39 +320,29 @@ Future<String> getConfig() async {
                         ),
                       ),
                     ),                    
-           
-                    SizedBox(height: size.height * 0.02),
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const RefiereEmpresaScreen()),
-                          );
-                        },
-                        child: BannerComponent(paths: imgListCarousel_3)),
                     SizedBox(
                       height: size.height * 0.068,
-                    )
-                  ],
+                        )
+                      ],
+                    ),
+                  )
                 ),
-              )),
-            ],
-          )),
-        ),
-        Positioned(
-          top: 70.w,
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: const IndexedStack(
-            index: 0,
-            children: [
-              ScreensAnnouncements(),
-            ],
+              ],
+            )
           ),
         ),
+        // Positioned(
+        //   top: 70.w,
+        //   bottom: 0,
+        //   left: 0,
+        //   right: 0,
+        //   child: const IndexedStack(
+        //     index: 0,
+        //     children: [
+        //       ScreensAnnouncements(),
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }

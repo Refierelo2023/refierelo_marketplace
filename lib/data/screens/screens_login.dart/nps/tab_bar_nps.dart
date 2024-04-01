@@ -8,7 +8,7 @@ import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/answer
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/answer_two_nps_option1.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/question_one_nps.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/registration_costumer_nps.dart';
-import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/registration_costumer_nps_phone.dart';
+
 
 
 class TabBarNps extends StatefulWidget {

@@ -1,206 +1,158 @@
+import 'package:auth0_flutter/auth0_flutter.dart';
+import 'package:auth0_flutter/auth0_flutter_web.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:flutter_session_manager/flutter_session_manager.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:grpc/grpc.dart';
-import 'package:intl/intl.dart';
-import 'package:refierelo_marketplace/app/helper/helpers/helpers.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/dialog_register.dart';
-import 'package:refierelo_marketplace/data/screens/Register/components/components.dart';
 import 'package:refierelo_marketplace/data/screens/Register/register_form.dart';
-import 'package:refierelo_marketplace/data/screens/componentscopy/body.dart';
-import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
 import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/data/screens/otp/insert_number_screen.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:refierelo_marketplace/constants.dart';
+
 
 class OptionsRegisterScreen extends StatefulWidget {
-  final String msisdn;
-  const OptionsRegisterScreen({super.key, required this.msisdn});
+  final Auth0? auth0;
+ 
+  const OptionsRegisterScreen({
+    super.key,
+    this.auth0
+  });
 
   @override
   State<OptionsRegisterScreen> createState() => _OptionsRegisterScreenState();
 }
 
 class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
-  String msisdn = '';
+  UserProfile? _user; // agregado nuevo
+
+  late Auth0 auth0;  
+  late Auth0Web auth0Web; // agregado nuevo
+
   @override
   void initState() {
-    // ignore: todo
-    // TODO: implement initState
     super.initState();
-    msisdn = widget.msisdn;
-  }
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-      scopes: [
-         'email',
-      'https://www.googleapis.com/auth/calendar',
-      'https://www.googleapis.com/auth/drive',
-      'https://www.googleapis.com/auth/gmail.readonly',
-      'https://www.googleapis.com/auth/youtube',
-      'https://www.googleapis.com/auth/photoslibrary',
-      'https://www.googleapis.com/auth/contacts.readonly',
-      'https://www.googleapis.com/auth/tasks',      
-        ]
-      );
+    auth0 = widget.auth0 ??
+        Auth0(dotenv.env['AUTH0_DOMAIN']!, dotenv.env['AUTH0_CLIENT_ID']!);
+        auth0Web = 
+        Auth0Web(dotenv.env['AUTH0_DOMAIN']!, dotenv.env['AUTH0_CLIENT_ID']!);
 
-     Future<void> iniciarSesionGoogle() async {
+    if (kIsWeb) {
+      auth0Web.onLoad().then((final credentials) => setState(() {
+            _user = credentials?.user;
+          }));
+    }
+  }
+
+  Future<void> login() async {
+    try {
+      if (kIsWeb) {
+        return auth0Web.loginWithRedirect(redirectUrl: 'http://localhost:3000');
+      } 
+       var credentials = await auth0
+            .webAuthentication(scheme: dotenv.env['AUTH0_CUSTOM_SCHEME'])
+            .login();
+
+        setState(() {
+          _user = credentials.user;
+        });      
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      if (kIsWeb) {
+        await auth0Web.logout(returnToUrl: 'http://localhost:3000');
+      } else {
+        await auth0
+            .webAuthentication(scheme: dotenv.env['AUTH0_CUSTOM_SCHEME'])
+            .logout();
+        setState(() {
+          _user = null;
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: [
+    'email',
+    'https://www.googleapis.com/auth/calendar',
+    'https://www.googleapis.com/auth/drive',
+    'https://www.googleapis.com/auth/gmail.readonly',
+    'https://www.googleapis.com/auth/youtube',
+    'https://www.googleapis.com/auth/photoslibrary',
+    'https://www.googleapis.com/auth/contacts.readonly',
+    'https://www.googleapis.com/auth/tasks',
+  ]);
+  
+    Future<void> iniciarSesionGoogle(BuildContext context) async {
   try {
-    await _googleSignIn.signIn();
-    // Si el inicio de sesión es exitoso, navegamos al MainScreen
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => Body()),
-      (Route<dynamic> route) => false,
-    );
+    // Obtener las credenciales de Google
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    if (googleUser != null) {
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      try {
+        // Inicia sesión en Auth0
+        if (kIsWeb) {
+          await auth0Web.loginWithRedirect(redirectUrl: 'http://localhost:3000');
+        } else {
+          var credentials = await auth0
+              .webAuthentication(scheme: dotenv.env['AUTH0_CUSTOM_SCHEME'])
+              .login();
+          setState(() {
+            _user = credentials.user;
+          });
+        }
+      } catch (e) {
+        print(e);
+      }
+    } else {
+      // El usuario canceló el inicio de sesión con Google
+      print('Inicio de sesión cancelado');
+    }
   } catch (error) {
-    print('Error signing in: $error');
+    // Manejar cualquier error que pueda ocurrir durante el inicio de sesión con Google
+    print('Error durante el inicio de sesión con Google: $error');
   }
 }
 
-  // void iniciarSesionGoogle() async {
-  //   var userData = await _googleSignIn.signIn();
 
-  //   if (userData != null) {
-  //     var sessionString = generateSessionString();
 
-  //     var pass = '${keyRedes}g${userData.id.toString()}';
 
-  //     var existente = await ServiceClient(getChannel()).getReferenteByEmail(
-  //         getReferenteByEmailRequest(mail: userData.email.toString()));
-
-  //     if (existente.mail.isNotEmpty && existente.idTipoCuentaReferente != '3') {
-  //     if (existente.mail.isNotEmpty) {
-  //       Fluttertoast.showToast(
-  //           msg: "Este correo ya existe en nuestros registros.",
-  //           toastLength: Toast.LENGTH_SHORT,
-  //           gravity: ToastGravity.BOTTOM,
-  //           timeInSecForIosWeb: 1,
-  //           backgroundColor: Colors.red,
-  //           textColor: Colors.white,
-  //           fontSize: 16.0);
-  //       return;
-  //     }
-
-  //     if (existente.mail.isEmpty) {
-  //       try {
-  //         await ServiceClient(getChannel())
-  //             .referenteRegister(referenteRegisterRequest()
-  //               ..msisdn = msisdn
-  //               ..apellidos = ''
-  //               ..nombres = userData.displayName.toString()
-  //               ..mail = userData.email
-  //               ..fechaNacimiento =
-  //                   DateFormat('yyyy-MM-dd').format(DateTime.now())
-  //               ..ciudad = ''
-  //               ..mediosPagos = ''
-  //               ..entidadFinanciera = ''
-  //               ..tipoCuenta = '3'
-  //               ..clave = pass
-  //               ..sessionString = sessionString
-  //               ..date = DateFormat('yyyy-MM-dd').format(DateTime.now()));
-  //       } on GrpcError catch (e) {
-  //         toast(e.message ?? 'No se pudo iniciar sesión.', Colors.red);
-  //         return;
-  //       } on Exception {
-  //         toast('No se pudo iniciar sesión.', Colors.red);
-  //         return;
-  //       } finally {
-  //         Navigator.of(context).pop();
-  //       }
-  //     } else {
-  //       sessionString = existente.sessionString;
-  //       final prefs = await SharedPreferences.getInstance();
-  //       await prefs.setBool('repeat', true);
-  //     }
-  //     await SessionManager().set("sessionString", sessionString);
-
-  //     Navigator.pushAndRemoveUntil(
-  //         context,
-  //         MaterialPageRoute(builder: (context) => const MainScreen()),
-  //         (Route<dynamic> route) => false);
-  //   } else {
-  //     Navigator.pop(context);
-  //   }
-  // }
-
-  void iniciarSesionFacebook() async {
+  void iniciarSesionFacebook(BuildContext context) async {
+  try {
+    // Iniciar sesión con Facebook y solicitar los permisos necesarios
     final LoginResult result = await FacebookAuth.instance
         .login(permissions: ['public_profile', 'email']);
 
+    // Verificar si la autenticación fue exitosa
     if (result.status == LoginStatus.success) {
-      // you are logged
-      // final AccessToken accessToken = result.accessToken!;
-      var userData = await FacebookAuth.instance.getUserData();
+      // Si la autenticación con Facebook es exitosa, obtenemos los datos del usuario
+      final AccessToken accessToken = result.accessToken!;
 
-      var pass = '${keyRedes}f${userData['id'].toString()}';
+      // Aquí puedes utilizar accessToken para obtener más información del usuario si lo deseas
+      print('Token de acceso de Facebook: ${accessToken.token}');
 
-      var sessionString = generateSessionString();
-
-      var existente = await ServiceClient(getChannel()).getReferenteByEmail(
-          getReferenteByEmailRequest(mail: userData['email'].toString()));
-
-      // if (existente.mail.isNotEmpty && existente.idTipoCuentaReferente != '2') {
-      if (existente.mail.isNotEmpty) {
-        Fluttertoast.showToast(
-            msg: "Este correo ya existe en nuestros registros.",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
-        return;
-      }
-
-      if (existente.mail.isEmpty) {
-        try {
-          await ServiceClient(getChannel())
-              .referenteRegister(referenteRegisterRequest()
-                ..msisdn = msisdn
-                ..apellidos = ''
-                ..nombres = userData['name'].toString()
-                ..mail = userData['email'].toString()
-                ..fechaNacimiento =
-                    DateFormat('yyyy-MM-dd').format(DateTime.now())
-                ..ciudad = ''
-                ..mediosPagos = ''
-                ..entidadFinanciera = ''
-                ..tipoCuenta = '2'
-                ..clave = pass
-                ..sessionString = sessionString
-                ..date = DateFormat('yyyy-MM-dd').format(DateTime.now()));
-        } on GrpcError catch (e) {
-          toast(e.message ?? 'No se pudo iniciar sesión.', Colors.red);
-          return;
-        } on Exception {
-          toast('No se pudo iniciar sesión.', Colors.red);
-          return;
-        } finally {
-          Navigator.of(context).pop();
-        }
-      } else {
-        sessionString = existente.sessionString;
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setBool('repeat', true);
-      }
-      await SessionManager().set("sessionString", sessionString);
-
+      // Navegar al siguiente pantalla, por ejemplo, MainScreen
       Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const MainScreen()),
-          (Route<dynamic> route) => false);
-      // print("referenteRegister response: " + response.message);
-      // return (response.message);
+        context,
+        MaterialPageRoute(builder: (context) => const MainScreen()),
+        (Route<dynamic> route) => false,
+      );
     } else {
-      print(result.status);
-      print(result.message);
+      // Manejar el caso en el que la autenticación con Facebook falló
+      print('La autenticación con Facebook falló');
     }
+  } catch (error) {
+    // Manejar cualquier error que pueda ocurrir durante el inicio de sesión con Facebook
+    print('Error durante el inicio de sesión con Facebook: $error');
   }
+}  
 
   @override
   Widget build(BuildContext context) {
@@ -257,7 +209,7 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
                       ],
                     ),
                   ),
-                ),
+                ),                
                 SizedBox(height: size.height * 0.2),
                 const Center(
                   child: CustomFontAileronRegularWhite(
@@ -295,7 +247,7 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => RegisterForm(msisdn: msisdn)),
+                  builder: (context) => const RegisterForm(msisdn: "msisdn")),
             );
           },
           child: Row(
@@ -314,15 +266,14 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
               const Expanded(
                 flex: 7,
                 child: Padding(
-                padding: EdgeInsets.only(left: 2),
-                child: CustomFontAileronRegularWhite(
-                  text: 'Continuar con tus datos',
+                  padding: EdgeInsets.only(left: 2),
+                  child: CustomFontAileronRegularWhite(
+                    text: 'Continuar con tus datos',
+                  ),
                 ),
               ),
-            ),
-          ],
-        )
-      ),
+            ],
+          )),
     );
   }
 
@@ -337,11 +288,12 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
           style: TextButton.styleFrom(foregroundColor: Colors.white),
           onPressed: () {
             showDialog(
-              context: context,
-              builder: (context) {
-                return DialogRegister(pressContinue: iniciarSesionFacebook);
-              }
-            );
+                context: context,
+                builder: (context) {
+                  return DialogRegister(
+                    pressContinue: () => iniciarSesionFacebook(context),
+                  );
+                });
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -351,7 +303,7 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8),
                   child: Image.asset(
-                      'assets/images/option_login_screens/facebook_blanco.png',
+                    'assets/images/option_login_screens/facebook_blanco.png',
                     height: size.height * 0.05,
                     fit: BoxFit.fitHeight,
                   ),
@@ -360,15 +312,15 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
               const Expanded(
                 flex: 7,
                 child: Padding(
-                padding: EdgeInsets.only(left: 2),
-                child: CustomFontAileronRegularWhite(
-                  text: 'Continuar con Facebook',
+                  padding: EdgeInsets.only(left: 2),
+                  child: CustomFontAileronRegularWhite(
+                    text: 'Continuar con Facebook',
+                  ),
                 ),
               ),
-            ),
-          ],
-        )
-      ),
+            ],
+          )
+        ),
     );
   }
 
@@ -384,10 +336,11 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
           onPressed: () async {
             showDialog(
                 context: context,
-              builder: (context) {
-                return DialogRegister(pressContinue: iniciarSesionGoogle);
-              }
-            );
+                builder: (context) {
+                  return DialogRegister(
+                    pressContinue: () => login()
+                  );
+                });
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -407,15 +360,15 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
               const Expanded(
                 flex: 7,
                 child: Padding(
-                padding: EdgeInsets.only(left: 2),
-                child: CustomFontAileronRegular(
-                  text: 'Continuar con Google',
+                  padding: EdgeInsets.only(left: 2),
+                  child: CustomFontAileronRegular(
+                    text: 'Continuar con Google',
+                  ),
                 ),
               ),
-            ),
-          ],
-        )
-      ),
+            ],
+          )
+        ),
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:refierelo_marketplace/data/screens/main.dart';
+import 'package:refierelo_marketplace/main.dart';
 
 
 class WelcomeScreen extends StatelessWidget{

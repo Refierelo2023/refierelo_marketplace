@@ -1,15 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grpc/grpc.dart';
 // import 'package:image_downloader/image_downloader.dart';
-import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
-import 'package:refierelo_marketplace/data/screens/main.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
+import 'package:refierelo_marketplace/main.dart';
 import 'package:refierelo_marketplace/providers/referente_provider.dart';
 import 'package:story/story.dart';
 import 'package:http/http.dart' as http;
@@ -208,16 +205,16 @@ class _StoriesScreenState extends State<StoriesScreen> {
                         if (result.status == ShareResultStatus.success) {
                           try {
                             var channel = getChannel();
-                            var response = await ServiceClient(getChannel())
-                                .asignarPuntos(asignarPuntosRequest(
-                                    sessionString: (await SessionManager()
-                                        .get('sessionString')),
-                                    configCodigo:
-                                        user.stories[storyIndex].configCodigo,
-                                    date: DateFormat('yyyy-MM-dd')
-                                        .format(DateTime.now()),
-                                    idRecurso:
-                                        user.stories[storyIndex].idRecurso));
+                            // var response = await ServiceClient(getChannel())
+                            //     .asignarPuntos(asignarPuntosRequest(
+                            //         sessionString: (await SessionManager()
+                            //             .get('sessionString')),
+                            //         configCodigo:
+                            //             user.stories[storyIndex].configCodigo,
+                            //         date: DateFormat('yyyy-MM-dd')
+                            //             .format(DateTime.now()),
+                            //         idRecurso:
+                            //             user.stories[storyIndex].idRecurso));
 
                             channel.shutdown();
 
@@ -227,8 +224,8 @@ class _StoriesScreenState extends State<StoriesScreen> {
                               listen: false,
                             );
 
-                            referenteProvider.actualizarPuntos( // se usa referenteProvider
-                                int.tryParse(response.puntos.toString()) ?? 0);
+                            // referenteProvider.actualizarPuntos( // se usa referenteProvider
+                            //     int.tryParse(response.puntos.toString()) ?? 0);
                           } on GrpcError catch (e) {
                             Fluttertoast.showToast(
                                 msg: e.message ?? 'Hubo un error.',

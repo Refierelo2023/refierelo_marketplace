@@ -2,10 +2,8 @@
 import 'dart:io';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:grpc/grpc.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
-import 'package:refierelo_marketplace/generated/service.pbgrpc.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Register/components/components.dart';
@@ -76,15 +74,15 @@ class _ContactUserState extends State<ContactUser> {
                 }
 
                 var channel = getChannel();
-                var response = await ServiceClient(getChannel())
-                    .mensajeContactosRegister(mensajeContactosRequest(
-                        sessionString:
-                            (await SessionManager().get('sessionString')),
-                        nombreContacto: widget.nameContact.toString(),
-                        numeroTelefono: widget.phoneContact.first.value.toString()));
+                // var response = await ServiceClient(getChannel())
+                //     .mensajeContactosRegister(mensajeContactosRequest(
+                //         sessionString:
+                //             (await SessionManager().get('sessionString')),
+                //         nombreContacto: widget.nameContact.toString(),
+                //         numeroTelefono: widget.phoneContact.first.value.toString()));
 
                 channel.shutdown();
-                toast(response.mensaje, Colors.green);
+                // toast(response.mensaje, Colors.green);
               } on GrpcError catch (e) {
                 toast(e.message ?? 'Hubo un error.', Colors.red);
               } on Exception {

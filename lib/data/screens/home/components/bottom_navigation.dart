@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:refierelo_marketplace/data/screens/Mi_Actividad/components/mi_actividad_tab.dart';
 import 'package:refierelo_marketplace/data/screens/screens_home__view/screens_home_view.dart';
 import 'package:refierelo_marketplace/data/screens/screens_profile.dart/profile_screens.dart';
-import 'package:refierelo_marketplace/data/screens/screens_profile_referir.dart';
+import 'package:refierelo_marketplace/data/screens/home/scroll_marcas_sugeridas.dart';
 import 'package:refierelo_marketplace/data/screens/search_screens/search_screens.dart';
 
 class BottomNavigation extends StatefulWidget {
@@ -19,7 +19,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     // Aquí puedes colocar las pantallas correspondientes a cada ícono
     const ScreensHomeView(),
     const SearchScreens(),
-    const ScreenProfileReferir(),
+    const ScrollMarcasSugeridas(),
     const MiActividadTab(),
     const ProfileScreens(),
   ];

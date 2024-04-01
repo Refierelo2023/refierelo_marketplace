@@ -29,10 +29,6 @@ class BtnWelcome extends StatelessWidget {
               title,
               textAlign: TextAlign.center,
               style: const CustomFontAileronRegularWhite(text:" ",).getTextStyle(context),
-              
-              
-              
-             
             ),
           ),
         ),
