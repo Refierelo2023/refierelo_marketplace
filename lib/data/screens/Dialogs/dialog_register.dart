@@ -1,12 +1,19 @@
+import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/custom_input.dart';
+import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 
 class DialogRegister extends StatefulWidget {
   final VoidCallback pressContinue;
+  final UserProfile user;
 
-  const DialogRegister({super.key, required this.pressContinue});
+  const DialogRegister({
+    super.key,
+    required this.pressContinue,
+    required this.user,
+  });
 
   @override
   State<DialogRegister> createState() => _DialogRegisterState();
@@ -14,6 +21,18 @@ class DialogRegister extends StatefulWidget {
 
 class _DialogRegisterState extends State<DialogRegister> {
   bool isChecked = false;
+
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    firstNameController.text = widget.user.givenName ?? '';
+    lastNameController.text = widget.user.familyName ?? '';
+    // Puedes continuar con otros campos según sea necesario
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,13 +75,13 @@ class _DialogRegisterState extends State<DialogRegister> {
                             RichText(
                               textAlign: TextAlign.justify,
                               text: TextSpan(
-                                text: 'Queremos concerte mejor\n',
+                                text: 'Nos gustaría confirmar tu información\n',
                                 style: const CustomFontAileronSemiBoldWhite(
                                   text: "",
                                 ).getTextStyle(context),
                                 children: [
                                   TextSpan(
-                                    text: ' antes de ',
+                                    text: 'antes de ',
                                     style: const CustomFontAileronSemiBoldWhite(
                                       text: " ",
                                     ).getTextStyle(context),
@@ -79,87 +98,22 @@ class _DialogRegisterState extends State<DialogRegister> {
                             SizedBox(height: size.height * 0.02),
                             CustomInput(
                               placeholder: 'Nombres',
-                              // controller: _firstNameController,
+                              controller: firstNameController,
                               validator: ValidationBuilder().required().build(),
                             ),
                             SizedBox(height: size.height * 0.02),
                             CustomInput(
                               placeholder: 'Apellidos',
-                              // controller: _lastNameController,
+                              controller: lastNameController,
                               validator: ValidationBuilder().required().build(),
                             ),
-                            // SizedBox(height: size.height * 0.02),
-                            // CustomInput(
-                            //   placeholder: 'identificación',
-                            //   texto: false,
-                            //   // controller: identificacion,
-                            //   tipo: TextInputType.number,
-                            // ),
                             SizedBox(height: size.height * 0.02),
                             CustomInput(
                               placeholder: "Celular",
+                              controller: phoneNumberController,
                               texto: false,
                               tipo: TextInputType.number,
                             ),
-                            // SizedBox(height: size.height * 0.02),
-                            // CustomInput(
-                            //   placeholder: 'Mail',
-                            //   // controller: _emailController,
-                            //   validator: ValidationBuilder().required().build(),
-                            // ),
-                            // SizedBox(height: size.height * 0.02),
-                            // CustomInput(
-                            //   placeholder: 'Fecha de Nacimiento',
-                            //   // controller: _fechaNacController,
-                            //   isDisabled: true,
-                            //   tipo: TextInputType.datetime,
-                            //   validator: ValidationBuilder().required().build(),
-                            //   onTap: (() async {
-                            //     var pickedDate = await showDatePicker(
-                            //         context: context,
-                            //         initialDate: DateTime.now(),
-                            //         firstDate: DateTime(1900),
-                            //         lastDate: DateTime(2100));
-                            //     if (pickedDate != null) {
-                            //       setState(() {
-                            //         // _fechaNacController.text =
-                            //         DateFormat('yyyy-MM-dd').format(pickedDate);
-                            //       });
-                            //     }
-                            //   }),
-                            // ),
-                            // SizedBox(height: size.height * 0.02),
-                            // Row(
-                            //   crossAxisAlignment: CrossAxisAlignment.start,
-                            //   children: [
-                            //     Flexible(
-                            //       fit: FlexFit.tight,
-                            //       flex: 5,
-                            //       child: CustomInput(
-                            //         placeholder: 'Clave 4 dígitos',
-                            //         texto: false,
-                            //         ocultarTexto: true,
-
-                            //         validator:
-                            //             ValidationBuilder().required().build(),
-                            //         tipo: TextInputType.number,
-                            //       ),
-                            //     ),
-                            //     SizedBox(height: size.height * 0.02),
-                            //     Flexible(
-                            //       fit: FlexFit.tight,
-                            //       flex: 5,
-                            //       child: CustomInput(
-                            //         placeholder: 'Confirmala',
-                            //         texto: false,
-                            //         ocultarTexto: true,
-                            //         validator:
-                            //             ValidationBuilder().required().build(),
-                            //         tipo: TextInputType.number,
-                            //       ),
-                            //     ),
-                            //   ],
-                            // ),
                             Padding(
                               padding: const EdgeInsets.only(
                                 left: 15,
@@ -256,9 +210,17 @@ class _DialogRegisterState extends State<DialogRegister> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 GestureDetector(
-                                  onTap: (isChecked)
-                                      ? widget.pressContinue
-                                      : () {},
+                                  onTap: () async {
+                                   {
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => const MainScreen(),
+                                        ), 
+                                        (route) => false,
+                                      );
+                                    }
+                                  },
                                   child: Material(
                                     borderRadius: BorderRadius.circular(10),
                                     child: Container(
@@ -289,6 +251,7 @@ class _DialogRegisterState extends State<DialogRegister> {
                                 ),
                               ],
                             ),
+
                             SizedBox(height: size.height * 0.01),
                           ],
                         ),

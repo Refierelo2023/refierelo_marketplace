@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:refierelo_marketplace/data/screens/screens_profile.dart/profile_screen_user.dart';
+import 'package:refierelo_marketplace/data/screens/screens_profile_user/profile_screen_user.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
-import 'package:refierelo_marketplace/widgets/story_feed/widget_display_favorites.dart';
+import 'package:refierelo_marketplace/data/screens/screens_profile_user/widget_display_favorites.dart';
 
 class WidgetListCategoriesAvatar extends StatefulWidget {
   final IconData icon;
   final String nameCategorie;
-  final bool isSelected;  
+  final bool isSelected;
+  final Function()? onTap;
   final Map<String, IconData> categoryIcons;
 
   const WidgetListCategoriesAvatar({
@@ -15,6 +16,7 @@ class WidgetListCategoriesAvatar extends StatefulWidget {
     required this.nameCategorie,
     required this.isSelected,
     required this.categoryIcons,
+    this.onTap,
     super.key,
   });
 
@@ -23,12 +25,12 @@ class WidgetListCategoriesAvatar extends StatefulWidget {
       _WidgetListCategoriesAvatarState();
 }
 
-void _onCategorySelected(BuildContext context, String categoryName) {
-  final selectedCategory = Provider.of<SelectedCategory>(context, listen: false);
-  
+void onCategorySelected(BuildContext context, String categoryName) {
+  final selectedCategory =
+      Provider.of<SelectedCategory>(context, listen: false);
+
   selectedCategory.setSelectedCategory(categoryName);
 }
-
 
 class _WidgetListCategoriesAvatarState
     extends State<WidgetListCategoriesAvatar> {
@@ -62,13 +64,13 @@ class _WidgetListCategoriesAvatarState
           showModalBottomSheet(
             context: context,
             builder: (BuildContext context) {
-              return  WidgetDisplayFavorites(
+              return WidgetDisplayFavorites(
                 selectedIcon: widget.icon,
-                 nameCategorie: widget.nameCategorie,
-                 ); // Aquí se llama al widget
+                nameCategorie: widget.nameCategorie,
+              ); // Aquí se llama al widget
             },
           );
-          print('Tapped $nameCategorie');
+          // print('Tapped $nameCategorie');
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,

@@ -6,10 +6,10 @@ class ScreensDonar extends StatefulWidget {
   const ScreensDonar({super.key});
 
   @override
-  _ScreensDonarState createState() => _ScreensDonarState();
+  ScreensDonarState createState() => ScreensDonarState();
 }
 
-class _ScreensDonarState extends State<ScreensDonar> {
+class ScreensDonarState extends State<ScreensDonar> {
   double _sliderValue = 1000;
 
   @override

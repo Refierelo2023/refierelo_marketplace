@@ -17,9 +17,9 @@ class RegisterScreen extends StatelessWidget {
 
     final respuesta = await http.post(url, body: data);
     if (respuesta.statusCode == 200) {
-      print('Webhook enviado con éxito');
+      // print('Webhook enviado con éxito');
     } else {
-      print('Error al enviar el webhook: ${respuesta.statusCode}');
+      // print('Error al enviar el webhook: ${respuesta.statusCode}');
     }
   }
 
@@ -53,7 +53,7 @@ class RegisterScreen extends StatelessWidget {
                   ),
                 );
                 await enviarWebhook("referente");
-                print('Webhook enviado para referente');
+                // print('Webhook enviado para referente');
               },
               child: cardReferente(context, () => null),
             ),

@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_session_manager/flutter_session_manager.dart';
+
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/bottom_dialog.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/error_register_dialog.dart';
 import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
-import 'package:refierelo_marketplace/providers/referente_provider.dart';
-import '../Register/components/components.dart';
+
 
 class WelcomeDialog extends StatefulWidget {
   const WelcomeDialog({super.key});
@@ -165,7 +162,7 @@ class _WelcomeDialogState extends State<WelcomeDialog>
                                       }
                                       onLoading(context,
                                           texto: 'Validando número..');
-                                      var channel = getChannel();
+                                      // var channel = getChannel();
                                       // var response = await ServiceClient(
                                       //         getChannel())
                                           // .refAppRecomendado(

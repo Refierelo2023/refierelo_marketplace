@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:refierelo_marketplace/data/screens/Preguntas_Frecuentes/preguntas_frecuentes.dart';
 import 'package:refierelo_marketplace/data/screens/Register/register_form.dart';
@@ -142,7 +143,11 @@ class _SidebarState extends State<Sidebar> {
 }
 
 class DisplaySidebarVertical extends StatefulWidget {
-  const DisplaySidebarVertical({super.key});
+
+  const DisplaySidebarVertical({
+    super.key,
+     
+    });
 
   @override
   DisplaySidebarVerticalState createState() => DisplaySidebarVerticalState();
@@ -151,6 +156,7 @@ class DisplaySidebarVertical extends StatefulWidget {
 class DisplaySidebarVerticalState extends State<DisplaySidebarVertical> {
   late List<bool> isButtonSelectedList;
   bool _isVisible = false;
+  UserProfile? _user; 
 
   @override
   void initState() {
@@ -191,8 +197,9 @@ class DisplaySidebarVerticalState extends State<DisplaySidebarVertical> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const RegisterForm(
+                builder: (context) => RegisterForm(
                   msisdn: '',
+                  user: _user!,
                 ),
               ),
             );

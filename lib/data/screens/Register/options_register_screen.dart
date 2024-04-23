@@ -11,14 +11,10 @@ import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/data/screens/otp/insert_number_screen.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 
-
 class OptionsRegisterScreen extends StatefulWidget {
   final Auth0? auth0;
- 
-  const OptionsRegisterScreen({
-    super.key,
-    this.auth0
-  });
+
+  const OptionsRegisterScreen({super.key, this.auth0});
 
   @override
   State<OptionsRegisterScreen> createState() => _OptionsRegisterScreenState();
@@ -27,7 +23,7 @@ class OptionsRegisterScreen extends StatefulWidget {
 class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
   UserProfile? _user; // agregado nuevo
 
-  late Auth0 auth0;  
+  late Auth0 auth0;
   late Auth0Web auth0Web; // agregado nuevo
 
   @override
@@ -35,7 +31,7 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
     super.initState();
     auth0 = widget.auth0 ??
         Auth0(dotenv.env['AUTH0_DOMAIN']!, dotenv.env['AUTH0_CLIENT_ID']!);
-        auth0Web = 
+    auth0Web =
         Auth0Web(dotenv.env['AUTH0_DOMAIN']!, dotenv.env['AUTH0_CLIENT_ID']!);
 
     if (kIsWeb) {
@@ -49,14 +45,30 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
     try {
       if (kIsWeb) {
         return auth0Web.loginWithRedirect(redirectUrl: 'http://localhost:3000');
-      } 
-       var credentials = await auth0
+      } else {
+        var credentials = await auth0
             .webAuthentication(scheme: dotenv.env['AUTH0_CUSTOM_SCHEME'])
             .login();
 
         setState(() {
           _user = credentials.user;
-        });      
+        });
+
+        if (_user != null) {
+          // Navegar a MainScreen si el usuario no es nulo
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DialogRegister(
+                      pressContinue: () {
+                        Navigator.pop(context);
+                      },
+                      user: _user!,
+                    )),
+            (Route<dynamic> route) => false,
+          );
+        }
+      }
     } catch (e) {
       print(e);
     }
@@ -89,70 +101,81 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
     'https://www.googleapis.com/auth/contacts.readonly',
     'https://www.googleapis.com/auth/tasks',
   ]);
-  
-    Future<void> iniciarSesionGoogle(BuildContext context) async {
-  try {
-    // Obtener las credenciales de Google
-    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-    if (googleUser != null) {
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      try {
-        // Inicia sesión en Auth0
-        if (kIsWeb) {
-          await auth0Web.loginWithRedirect(redirectUrl: 'http://localhost:3000');
-        } else {
-          var credentials = await auth0
-              .webAuthentication(scheme: dotenv.env['AUTH0_CUSTOM_SCHEME'])
-              .login();
-          setState(() {
-            _user = credentials.user;
-          });
+
+  void iniciarSesionGoogle(BuildContext context) async {
+    // print('Iniciando sesión con Google...');
+    try {
+      // Obtener las credenciales de Google
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
+        try {
+          // Iniciar sesión en Auth0 solo si no estás en la web
+          if (!kIsWeb) {
+            var credentials = await auth0
+                .webAuthentication(scheme: dotenv.env['AUTH0_CUSTOM_SCHEME'])
+                .login();
+            setState(() {
+              _user = credentials.user;
+            });
+            // print('Usuario autenticado correctamente: $_user');
+            // Navegar a MainScreen si el usuario no es nulo
+            if (_user != null) {
+              // print('El usuario no es nulo: $_user');
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const MainScreen()),
+                (Route<dynamic> route) => false,
+              );
+            } else {
+              // print('El usuario es nulo después de la autenticación');
+            }
+          } else {
+            // Si estás en la web, puedes manejar la redirección según tus necesidades
+          }
+        } catch (e) {
+          // print('Error durante la autenticación con Auth0: $e');
         }
-      } catch (e) {
-        print(e);
+      } else {
+        // El usuario canceló el inicio de sesión con Google
+        // print('Inicio de sesión cancelado');
       }
-    } else {
-      // El usuario canceló el inicio de sesión con Google
-      print('Inicio de sesión cancelado');
+    } catch (error) {
+      // Manejar cualquier error que pueda ocurrir durante el inicio de sesión con Google
+      // print('Error durante el inicio de sesión con Google: $error');
     }
-  } catch (error) {
-    // Manejar cualquier error que pueda ocurrir durante el inicio de sesión con Google
-    print('Error durante el inicio de sesión con Google: $error');
   }
-}
-
-
-
 
   void iniciarSesionFacebook(BuildContext context) async {
-  try {
-    // Iniciar sesión con Facebook y solicitar los permisos necesarios
-    final LoginResult result = await FacebookAuth.instance
-        .login(permissions: ['public_profile', 'email']);
+    try {
+      // Iniciar sesión con Facebook y solicitar los permisos necesarios
+      final LoginResult result = await FacebookAuth.instance
+          .login(permissions: ['public_profile', 'email']);
 
-    // Verificar si la autenticación fue exitosa
-    if (result.status == LoginStatus.success) {
-      // Si la autenticación con Facebook es exitosa, obtenemos los datos del usuario
-      final AccessToken accessToken = result.accessToken!;
+      // Verificar si la autenticación fue exitosa
+      if (result.status == LoginStatus.success) {
+        // Si la autenticación con Facebook es exitosa, obtenemos los datos del usuario
+        final AccessToken accessToken = result.accessToken!;
 
-      // Aquí puedes utilizar accessToken para obtener más información del usuario si lo deseas
-      print('Token de acceso de Facebook: ${accessToken.token}');
+        // Aquí puedes utilizar accessToken para obtener más información del usuario si lo deseas
+        print('Token de acceso de Facebook: ${accessToken.token}');
 
-      // Navegar al siguiente pantalla, por ejemplo, MainScreen
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const MainScreen()),
-        (Route<dynamic> route) => false,
-      );
-    } else {
-      // Manejar el caso en el que la autenticación con Facebook falló
-      print('La autenticación con Facebook falló');
+        // Navegar al siguiente pantalla, por ejemplo, MainScreen
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const MainScreen()),
+          (Route<dynamic> route) => false,
+        );
+      } else {
+        // Manejar el caso en el que la autenticación con Facebook falló
+        print('La autenticación con Facebook falló');
+      }
+    } catch (error) {
+      // Manejar cualquier error que pueda ocurrir durante el inicio de sesión con Facebook
+      print('Error durante el inicio de sesión con Facebook: $error');
     }
-  } catch (error) {
-    // Manejar cualquier error que pueda ocurrir durante el inicio de sesión con Facebook
-    print('Error durante el inicio de sesión con Facebook: $error');
   }
-}  
 
   @override
   Widget build(BuildContext context) {
@@ -209,7 +232,7 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
                       ],
                     ),
                   ),
-                ),                
+                ),
                 SizedBox(height: size.height * 0.2),
                 const Center(
                   child: CustomFontAileronRegularWhite(
@@ -247,7 +270,9 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const RegisterForm(msisdn: "msisdn")),
+                  builder: (context) => RegisterForm(
+                    msisdn: "msisdn", 
+                    user: _user ?? const UserProfile(sub: ""))),
             );
           },
           child: Row(
@@ -287,13 +312,13 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
       child: TextButton(
           style: TextButton.styleFrom(foregroundColor: Colors.white),
           onPressed: () {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return DialogRegister(
-                    pressContinue: () => iniciarSesionFacebook(context),
-                  );
-                });
+            // showDialog(
+            //     context: context,
+            //     builder: (context) {
+            //       return DialogRegister(
+            //         pressContinue: () => iniciarSesionFacebook(context),
+            //       );
+            //     });
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -319,8 +344,7 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
                 ),
               ),
             ],
-          )
-        ),
+          )),
     );
   }
 
@@ -334,13 +358,7 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
       child: TextButton(
           style: TextButton.styleFrom(foregroundColor: Colors.white),
           onPressed: () async {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return DialogRegister(
-                    pressContinue: () => login()
-                  );
-                });
+            await login();
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -367,8 +385,7 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
                 ),
               ),
             ],
-          )
-        ),
+          )),
     );
   }
 }

@@ -1,3 +1,5 @@
+// import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:refierelo_marketplace/data/screens/screens_profile.dart/profile_screens.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
@@ -121,7 +123,7 @@ class ScreensUserSearchReferirState extends State<ScreensUserSearchReferir> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const ProfileScreens(),
+                builder: (context) => const ProfileScreens(selectedImageProduct: null,)
               ),
             );
           }

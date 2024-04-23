@@ -10,7 +10,7 @@ import 'package:refierelo_marketplace/data/screens/componentscopy/components.dar
 import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:refierelo_marketplace/constants.dart';
+
 
 class OptionsLoginScreen extends StatefulWidget {
   const OptionsLoginScreen({super.key});
@@ -79,10 +79,10 @@ class _OptionsLoginScreenState extends State<OptionsLoginScreen> {
     if (result.status == LoginStatus.success) {
       // you are logged
       // final AccessToken accessToken = result.accessToken!;
-      var userData = await FacebookAuth.instance.getUserData();
+      // var userData = await FacebookAuth.instance.getUserData();
 
-      var sessionString = generateSessionString();
-      var channel = getChannel();
+      // var sessionString = generateSessionString();
+      // var channel = getChannel();
 
       // try {
       //   await ServiceClient(channel).referenteLogin(referenteLoginRequest(

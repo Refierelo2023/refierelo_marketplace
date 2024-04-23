@@ -184,7 +184,7 @@ class WidgetCarruselNpsState extends State<WidgetCarruselNps> {
 class WidgetEmojiCategories extends StatefulWidget {
   final double? height;
 
-  const WidgetEmojiCategories({Key? key, this.height}) : super(key: key);
+  const WidgetEmojiCategories({super.key, this.height});
 
   @override
   _WidgetEmojiCategoriesState createState() => _WidgetEmojiCategoriesState();

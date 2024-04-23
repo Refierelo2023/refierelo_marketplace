@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,10 +20,12 @@ class UserDataModelUser {
   final String firstName;
   final String lastName;
   final String identificacion;
+  final String presentacion;
   final String celular;
   final String email;
   final String fechaNac;
   final String ciudad;
+  final String pais;
   final String pagos;
   final String entidadFinanciera;
   final String clave1;
@@ -32,10 +35,12 @@ class UserDataModelUser {
     required this.firstName,
     required this.lastName,
     required this.identificacion,
+    required this.presentacion,
     required this.celular,
     required this.email,
     required this.fechaNac,
     required this.ciudad,
+    required this.pais,
     required this.pagos,
     required this.entidadFinanciera,
     required this.clave1,
@@ -48,10 +53,12 @@ class UserDataProviderUser extends ChangeNotifier {
       firstName: '',
       lastName: '',
       identificacion: '',
+      presentacion: '',
       celular: '',
       email: '',
       fechaNac: '',
       ciudad: '',
+      pais: '',
       pagos: '',
       entidadFinanciera: '',
       clave1: '',
@@ -65,7 +72,13 @@ class UserDataProviderUser extends ChangeNotifier {
 
 class RegisterForm extends StatefulWidget {
   final String msisdn;
-  const RegisterForm({super.key, required this.msisdn});
+  final UserProfile user;
+
+  const RegisterForm({
+    super.key,
+    required this.msisdn,
+    required this.user,
+  });
 
   @override
   State<RegisterForm> createState() => _RegisterFormState();
@@ -74,15 +87,15 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController identificacionController =
-      TextEditingController();
+  final TextEditingController identificacionController = TextEditingController();
+  final TextEditingController presentacionController = TextEditingController();
   final TextEditingController celularController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController fechaNacController = TextEditingController();
   final TextEditingController ciudadController = TextEditingController();
+  final TextEditingController paisController = TextEditingController();
   final TextEditingController pagosController = TextEditingController();
-  final TextEditingController entidadFinancieraController =
-      TextEditingController();
+  final TextEditingController entidadFinancieraController = TextEditingController();
   final TextEditingController clave1Controller = TextEditingController();
   final TextEditingController clave2Controller = TextEditingController();
   final ImagePicker _imagePicker = ImagePicker();
@@ -105,6 +118,7 @@ class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
 
   String idMediopago = '';
+  String? _selectedGender;
 
   @override
   void initState() {
@@ -121,10 +135,12 @@ class _RegisterFormState extends State<RegisterForm> {
     firstNameController.text = userData.firstName;
     lastNameController.text = userData.lastName;
     identificacionController.text = userData.identificacion;
+    presentacionController.text = userData.presentacion;
     celularController.text = userData.celular;
     emailController.text = userData.email;
     fechaNacController.text = userData.fechaNac;
     ciudadController.text = userData.ciudad;
+    paisController.text = userData.pais;
     pagosController.text = userData.pagos;
     entidadFinancieraController.text = userData.entidadFinanciera;
     clave1Controller.text = userData.clave1;
@@ -137,6 +153,7 @@ class _RegisterFormState extends State<RegisterForm> {
     firstNameController.dispose();
     lastNameController.dispose();
     identificacionController.dispose();
+    presentacionController.dispose();
     celularController.dispose();
     emailController.dispose();
     fechaNacController.dispose();
@@ -149,18 +166,18 @@ class _RegisterFormState extends State<RegisterForm> {
   }
 
   Future<void> _pickImage() async {
-  try {
-    final pickedImage = await _imagePicker.pickImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
-      setState(() {
-        XFile? _pickedImage;
-      });
+    try {
+      final pickedImage =
+          await _imagePicker.pickImage(source: ImageSource.gallery);
+      if (pickedImage != null) {
+        setState(() {
+          _pickedImage = PickedFile(pickedImage.path);
+        });
+      }
+    } catch (e) {
+      print('Error al seleccionar la imagen: $e');
     }
-  } catch (e) {
-    print('Error al seleccionar la imagen: $e');
   }
-}
-
 
   Future<void> enviarWebhook() async {
     final url = Uri.parse("http://5.189.161.131:5000/webhook");
@@ -168,10 +185,12 @@ class _RegisterFormState extends State<RegisterForm> {
       'nombres': firstNameController.text,
       'apellidos': lastNameController.text,
       'identificación': identificacionController.text,
+      'Presentación': presentacionController.text,
       'celular': celularController.text,
       'email': emailController.text,
       "fecha de nacimiento": fechaNacController.text,
       'Ciudad': ciudadController.text,
+      'Pais': ciudadController.text,
       'medio para recibir pagos': pagosController.text,
       'entidad financiera': entidadFinancieraController.text,
       'clave4digitos': clave1Controller.text,
@@ -181,9 +200,9 @@ class _RegisterFormState extends State<RegisterForm> {
 
     final respuesta = await http.post(url, body: data);
     if (respuesta.statusCode == 200) {
-      print('Webhook enviado con éxito');
+      // print('Webhook enviado con éxito');
     } else {
-      print('Error al enviar el webhook: ${respuesta.statusCode}');
+      // print('Error al enviar el webhook: ${respuesta.statusCode}');
     }
   }
 
@@ -321,7 +340,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 children: [
                   const Center(
                     child: CustomFontAileronBold2(
-                      text: 'Tus Datos básicos',
+                      text: 'Datos de tu perfil',
                     ),
                   ),
                   SizedBox(height: size.height * 0.02),
@@ -381,7 +400,58 @@ class _RegisterFormState extends State<RegisterForm> {
                     texto: false,
                     controller: identificacionController,
                     tipo: TextInputType.number,
+                  ),             
+                  SizedBox(height: size.height * 0.015),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: Container(
+                      width: size.width * 0.93,
+                      height: size.height * 0.06,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: DropdownButton<String>(
+                            value:
+                                _selectedGender, // Usamos el valor seleccionado del estado
+                            isExpanded: true,
+                            hint: Text(
+                              'Sexo',
+                              style: const CustomFontAileronRegular(text: "").getTextStyle(context)
+                             
+                            ),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                _selectedGender =
+                                    newValue; // Actualizamos el estado con la opción seleccionada
+                              });
+                            },
+                            items: <String>['Masculino', 'Femenino', 'Binario']
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child:Text(
+                                  value,
+                                  style: const CustomFontAileronRegular(text: "").getTextStyle(context),
+                                  
+                                  
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
+                  SizedBox(height: size.height * 0.015),
+                  CustomInput(
+                      placeholder: 'Presentación',                  
+                      controller: presentacionController,
+                      validator: ValidationBuilder().required().build(),
+                    ),
                   SizedBox(height: size.height * 0.015),
                   CustomInput(
                     placeholder: "Celular",
@@ -417,44 +487,61 @@ class _RegisterFormState extends State<RegisterForm> {
                     }),
                   ),
                   SizedBox(height: size.height * 0.015),
-                  CustomInput(
-                    placeholder: 'Ciudad',
-                    controller: ciudadController,
-                    validator: ValidationBuilder().required().build(),
-                  ),
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: CustomInput(
+                            placeholder: 'País',
+                            controller: paisController,
+                            validator: ValidationBuilder().required().build(),
+                          ),
+                        ),
+                        Expanded(
+                          child: CustomInput(
+                            placeholder: 'Ciudad',
+                            controller: ciudadController,
+                            validator: ValidationBuilder().required().build(),
+                          ),
+                        ),
+                      ],
+                    ),
                   // Lista desplegable
                   SizedBox(height: size.height * 0.015),
-                  Container(
-                    width: size.width * 0.93,
-                    height: size.height * 0.06,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15)),
-                    child: DropdownButtonHideUnderline(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: DropdownButton(
-                          value: idMediopago == '' ? null : idMediopago,
-                          isExpanded: true,
-                          hint: const CustomFontAileronRegular(
-                            text: 'Medio para recibir pagos',
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: Container(
+                      width: size.width * 0.93,
+                      height: size.height * 0.06,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: DropdownButtonHideUnderline(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: DropdownButton(
+                            value: idMediopago == '' ? null : idMediopago,
+                            isExpanded: true,
+                            hint: const CustomFontAileronRegular(
+                              text: 'Medio para recibir pagos',
+                            ),
+                            items: mediosPagos.map((item) {
+                              return DropdownMenuItem(
+                                  value: item.id,
+                                  child: CustomFontAileronRegular(
+                                    text: (item.nombre),
+                                  ));
+                            }).toList(),
+                            onChanged: (val) {
+                              setState(() {
+                                idMediopago = val.toString();
+                                pagosController.text = mediosPagos
+                                    .firstWhere(
+                                        (element) => element.id == idMediopago)
+                                    .nombre;
+                              });
+                            },
                           ),
-                          items: mediosPagos.map((item) {
-                            return DropdownMenuItem(
-                                value: item.id,
-                                child: CustomFontAileronRegular(
-                                  text: (item.nombre),
-                                ));
-                          }).toList(),
-                          onChanged: (val) {
-                            setState(() {
-                              idMediopago = val.toString();
-                              pagosController.text = mediosPagos
-                                  .firstWhere(
-                                      (element) => element.id == idMediopago)
-                                  .nombre;
-                            });                            
-                          },
                         ),
                       ),
                     ),
@@ -586,31 +673,34 @@ class _RegisterFormState extends State<RegisterForm> {
                             firstName: firstNameController.text,
                             lastName: lastNameController.text,
                             identificacion: identificacionController.text,
+                            presentacion: presentacionController.text ,
                             celular: celularController.text,
                             email: emailController.text,
                             fechaNac: fechaNacController.text,
                             ciudad: ciudadController.text,
+                            pais: paisController.text,
                             pagos: pagosController.text,
                             entidadFinanciera: entidadFinancieraController.text,
                             clave1: clave1Controller.text,
                             clave2: clave2Controller.text,
                           ),
                         );
-                        // Imprimir valores antes de enviar el webhook
-                        print('Nombres: ${firstNameController.text}');
-                        print('Apellidos: ${lastNameController.text}');
-                        print(
-                            'Identificación: ${identificacionController.text}');
-                        print('Celular: ${celularController.text}');
-                        print('Mail: ${emailController.text}');
-                        print(
-                            'fecha de Nacimiento: ${fechaNacController.text}');
-                        print('Ciudad: ${ciudadController.text}');
-                        print('Pagos: ${pagosController.text}');
-                        print(
-                            'entidad financiera: ${entidadFinancieraController.text}');
-                        print('clave4digitos: ${clave1Controller.text}');
-                        print('Confirmar: ${clave2Controller.text}');
+                        // // Imprimir valores antes de enviar el webhook
+                        // print('Nombres: ${firstNameController.text}');
+                        // print('Apellidos: ${lastNameController.text}');
+                        // print(
+                        //     'Identificación: ${identificacionController.text}');
+                        // print('Celular: ${celularController.text}');
+                        // print('Mail: ${emailController.text}');
+                        // print(
+                        //     'fecha de Nacimiento: ${fechaNacController.text}');
+                        // print('Pais: ${ciudadController.text}');
+                        // print('Ciudad: ${ciudadController.text}');
+                        // print('Pagos: ${pagosController.text}');
+                        // print(
+                        //     'entidad financiera: ${entidadFinancieraController.text}');
+                        // print('clave4digitos: ${clave1Controller.text}');
+                        // print('Confirmar: ${clave2Controller.text}');
                         enviarWebhook();
                         Navigator.push(
                           context,

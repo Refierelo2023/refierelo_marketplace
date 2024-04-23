@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:refierelo_marketplace/data/screens/Login/options_login_screen.dart';
@@ -18,16 +17,16 @@ class Body extends StatelessWidget {
   final url = Uri.parse("http://5.189.161.131:5000/webhook");
   final data = {'registrase': palabra};
   
-  print('Enviando webhook con datos: $data');
+  // print('Enviando webhook con datos: $data');
 
   http.post(url, body: data).then((respuesta) {
     if (respuesta.statusCode == 200) {
-      print('Webhook enviado con éxito');
+      // print('Webhook enviado con éxito');
     } else {
-      print('Error al enviar el webhook: ${respuesta.statusCode}');
+      // print('Error al enviar el webhook: ${respuesta.statusCode}');
     }
   }).catchError((error) {
-    print('Error al enviar el webhook: $error');
+    // print('Error al enviar el webhook: $error');
   });
 }
 

@@ -1,13 +1,13 @@
+import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/app/app_data/story_data.dart';
 import 'package:refierelo_marketplace/app/helper/page_animations/page_routes_animation.dart';
 import 'package:refierelo_marketplace/data/screens/Register/register_form.dart';
-import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens_data.dart';
 import 'package:refierelo_marketplace/data/screens/screens_profile.dart/screens_buy_points.dart';
 import 'package:refierelo_marketplace/data/screens/screens_profile.dart/screens_profile_tabbar.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
-import 'package:refierelo_marketplace/widgets/productos_usuario.dart';
+import 'package:refierelo_marketplace/data/screens/screens_profile_user/productos_usuario.dart';
 import 'package:refierelo_marketplace/widgets/story_feed/widget_botton_circular.dart';
 import 'package:refierelo_marketplace/widgets/story_feed/widget_list_categories_avatar.dart';
 import 'package:refierelo_marketplace/widgets/story_feed/widgets_story_feed.dart';
@@ -15,6 +15,7 @@ import 'package:refierelo_marketplace/widgets/story_feed/widgets_user_story_prof
 
 class ProfileScreensUser extends StatefulWidget {
   final Map<String, IconData> categoryIcons;
+  
   const ProfileScreensUser({
     super.key,
     required this.categoryIcons,
@@ -22,14 +23,19 @@ class ProfileScreensUser extends StatefulWidget {
 
   @override
   ProfileScreensUserState createState() => ProfileScreensUserState();
+  
 }
 
 class ProfileScreensUserState extends State<ProfileScreensUser>
+
     with TickerProviderStateMixin {
   late AnimationController storyAnimationController;
   late Animation<Color?> storyColorAnimation;
+  UserProfile? _user;
   Rect? rect;
   String selectedCategory = '';
+  
+
 
   List<String> selectedCategories = [];
 
@@ -85,17 +91,17 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
-    final selectedCategory =
-        Provider.of<SelectedCategory>(context).selectedCategory;
+    // final productData = Provider.of<ProductData>(context, listen: false);    
+    final selectedCategory = Provider.of<SelectedCategory>(context).selectedCategory;
     if (selectedCategory.isNotEmpty &&
         !selectedCategories.contains(selectedCategory)) {
       selectedCategories.add(selectedCategory);
     }
     double buttonPaddingHorizontalPercentage = 0.015;
-
-    final userData = Provider.of<UserDataProvider>(context).userData;
+    final userData = Provider.of<UserDataProviderUser>(context).userData;
 
     // print("Building WidgetDisplayMenuStory");
     return DefaultTabController(
@@ -201,7 +207,7 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
                     child: Align(
                       alignment: Alignment.bottomLeft,
                       child: CustomFontAileronBold2(
-                        text: userData.nombreComercial,
+                        text: userData.firstName,
                       ),
                     ),
                   ),
@@ -240,44 +246,44 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Row(children: [
-                        const Icon(
-                          Icons.link,
-                          color: Color(0xFF0000FF),
-                        ),
-                        const SizedBox(width: 8),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: CustomFontAileronRegularblue(
-                            text: userData.web,
-                          ),
-                        ),
-                      ]),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Row(children: [
-                        const Icon(
-                          Icons.link,
-                          color: Color(0xFF0000FF),
-                        ),
-                        const SizedBox(width: 8),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: CustomFontAileronRegularblue(
-                            text: userData.instagram,
-                          ),
-                        ),
-                      ]),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: 20.0),
+                  //   child: Align(
+                  //     alignment: Alignment.centerLeft,
+                  //     child: Row(children: [
+                  //       const Icon(
+                  //         Icons.link,
+                  //         color: Color(0xFF0000FF),
+                  //       ),
+                  //       const SizedBox(width: 8),
+                  //       Align(
+                  //         alignment: Alignment.centerLeft,
+                  //         child: CustomFontAileronRegularblue(
+                  //           text: userData.web,
+                  //         ),
+                  //       ),
+                  //     ]),
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: 20.0),
+                  //   child: Align(
+                  //     alignment: Alignment.centerLeft,
+                  //     child: Row(children: [
+                  //       const Icon(
+                  //         Icons.link,
+                  //         color: Color(0xFF0000FF),
+                  //       ),
+                  //       const SizedBox(width: 8),
+                  //       Align(
+                  //         alignment: Alignment.centerLeft,
+                  //         child: CustomFontAileronRegularblue(
+                  //           text: userData.instagram,
+                  //         ),
+                  //       ),
+                  //     ]),
+                  //   ),
+                  // ),
                   const SizedBox(height: 5),
                   // Botón "Editar Perfil" y "Compartir"
                   Row(
@@ -291,8 +297,9 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const RegisterForm(
+                                  builder: (context) => RegisterForm(
                                     msisdn: '',
+                                     user: _user ?? const UserProfile(sub: "")
                                   ),
                                 ),
                               );
@@ -416,21 +423,18 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
                                 children: [
                                   Expanded(
                                     child: ListView.builder(
-                                      itemCount: selectedCategories.length +
-                                          1, // +1 para agregar el WidgetBottonCircular
+                                      itemCount: selectedCategories.length + 1, // +1 para agregar el WidgetBottonCircular
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index) {
                                         if (index < selectedCategories.length) {
-                                          final category =
-                                              selectedCategories[index];
+                                          final category = selectedCategories[index];
                                           // Obtener el icono correspondiente de _getIconForCategory
-                                          final IconData icon =
-                                              _getIconForCategory(category);
+                                          final IconData icon = getIconForCategory(category);                                                 
                                           return WidgetListCategoriesAvatar(
                                             icon:icon, // Pasar el icono obtenido
                                             nameCategorie: category,
                                             isSelected: true,
-                                            categoryIcons: widget.categoryIcons, // Puedes inicializarlo aquí o pasarlo desde fuera
+                                            categoryIcons: widget.categoryIcons,                                            
                                           );
                                         } else {
                                           // Agregar el WidgetBottonCircular al final de la lista
@@ -447,7 +451,6 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
                       ),
                     ],
                   ),
-
                   // SizedBox(
                   //   height: 110,
                   //   child: ListView.builder(
@@ -493,7 +496,9 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
                     height: MediaQuery.of(context).size.height * 2.2,
                     child: const TabBarView(children: [
                       Center(
-                        child: ProductosUsuario(),
+                        child: ProductosUsuario(
+                          selectedCategories: [],
+                        ),
                       ),
                     ]),
                   ),
@@ -524,7 +529,7 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
     );
   }
 
-  IconData _getIconForCategory(String category) {
+  IconData getIconForCategory(String category) {
     Map<String, IconData> categoryIcons = {
       'Agricultura / ganadería': Icons.eco,
       'Artista': Icons.perm_contact_cal,
@@ -586,7 +591,7 @@ class SelectedCategory extends ChangeNotifier {
   String get selectedCategory => _selectedCategory;
 
   void setSelectedCategory(String category) {
-    _selectedCategory = category;
+    _selectedCategory = category;    
     notifyListeners();
   }
 }

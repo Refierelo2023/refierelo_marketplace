@@ -9,10 +9,10 @@ class BottomNavigation extends StatefulWidget {
   const BottomNavigation({Key? key});
 
   @override
-  _BottomNavigationState createState() => _BottomNavigationState();
+  BottomNavigationState createState() => BottomNavigationState();
 }
 
-class _BottomNavigationState extends State<BottomNavigation> {
+class BottomNavigationState extends State<BottomNavigation> {
   int _currentIndex = 0; // Índice del ícono actualmente seleccionado
 
   final List<Widget> _screens = [
@@ -21,7 +21,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     const SearchScreens(),
     const ScrollMarcasSugeridas(),
     const MiActividadTab(),
-    const ProfileScreens(),
+     const ProfileScreens(selectedImageProduct: null,)
   ];
 
   @override

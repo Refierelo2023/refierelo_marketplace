@@ -29,9 +29,9 @@ class _AnimationIsLikedState extends State<AnimationIsLiked> {
               child: Image.asset(
                 isHeartIconSelected
                     ? "assets/images/images_icons/heart2.png"
-                    : "assets/images/images_icons/heartWhite.png",
-                width: 27,
-                height: 27,
+                    : "assets/images/images_icons/HeartWhite100.png",
+                width: 28,
+                height: 28,
               ),
             ),
           const Padding(

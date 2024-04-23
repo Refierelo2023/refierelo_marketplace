@@ -60,7 +60,7 @@ class WidgetDisplayShareHistoryState extends State<WidgetDisplayShareHistory> {
             const Align(
               alignment: Alignment.center,
               child: CustomFontAileronBold(
-                text: "Publica esta historia en tus redes sociales",
+                text: "Comparte esta historia en tus redes sociales",
               ),
             ),
             const SizedBox(height: 20.0),
@@ -70,31 +70,31 @@ class WidgetDisplayShareHistoryState extends State<WidgetDisplayShareHistory> {
                 children: [
                   buildContainer(
                     index: 0,
-                    title: 'Publicar en Facebook',
+                    title: 'Compartir en Facebook',
                     subtitle: 'Historias >',
                   ),
                   SizedBox(height: MediaQuery.of(context).size.width * 0.03,),
                   buildContainer(
                     index: 1,
-                    title: 'Publicar en Instagram',
+                    title: 'Compartir en Instagram',
                     subtitle: 'Historias >',
                   ),
                   SizedBox(height: MediaQuery.of(context).size.width * 0.03,),
                   buildContainer(
                     index: 2,
-                    title: 'Publicar en WhatsApp',
+                    title: 'Compartir en WhatsApp',
                     subtitle: 'Historias >',
                   ),
                    SizedBox(height: MediaQuery.of(context).size.width * 0.03,),
                   buildContainer(
                     index: 3,
-                    title: 'Publicar en Telegram',
+                    title: 'Compartir en Telegram',
                     subtitle: 'Historias >',
                   ),
                   SizedBox(height: MediaQuery.of(context).size.width * 0.03,),
                   buildContainer(
                     index: 4,
-                    title: 'Publicar en Otro Canal',
+                    title: 'Compartir en Otro Canal',
                     subtitle: 'Mensaje >',
                   ),
                 ],

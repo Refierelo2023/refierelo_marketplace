@@ -260,15 +260,15 @@ class _WidgetsStoryFeedState extends State<WidgetsStoryFeed>
                         );
                       },
                       child: Image.asset(
-                        "assets/images/images_icons/compartirblanco.png",
-                        width: 25,
-                        height: 25,
+                        "assets/images/images_icons/comp2.png",
+                        width: 28,
+                        height: 28,
                       ),
                     ),
                     const Padding(
                       padding: EdgeInsets.only(top: 5),
                       child: CustomFontAileronRegularWhite(
-                        text: "Publicar",
+                        text: "Compartir",
                         fontSize: 0.028,
                       ),
                     ),

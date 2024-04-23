@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_product_registration.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
+
+// // 1. Modelo de Datos Recompensa Referente
+// class RewardReferente extends ChangeNotifier {
+//   double valueassigned = 0.0;
+//   int points = 0;
+
+//   void updateValueAssigned(double value) {
+//     valueassigned = value;
+//     // Calcular los puntos aquí
+//     points = value ~/ 25;
+//     notifyListeners();
+//   }
+// }
 
 class LoginPointsCalculate2 extends StatefulWidget {
   const LoginPointsCalculate2({super.key});
@@ -10,7 +25,6 @@ class LoginPointsCalculate2 extends StatefulWidget {
   LoginPointsCalculate2State createState() => LoginPointsCalculate2State();
 }
 
-
 // Método para mostrar el mensaje estilo burbuja
 void showBubbleMessage(BuildContext context) {
   showDialog(
@@ -18,7 +32,8 @@ void showBubbleMessage(BuildContext context) {
     builder: (BuildContext context) {
       return AlertDialog(
         title: const Text("¡ Importante !"),
-        content: const Text("Estos son los puntos que tu comunidad de Referentes gana cada vez que recomiendan un producto y tu lo vendes, * el 10% Refiérelo lo usa para recompensar las recomendaciones por el canal WhatsApp"),
+        content: const Text(
+            "Estos son los puntos que tu comunidad de Referentes gana cada vez que recomiendan un producto y tu lo vendes, * el 10% Refiérelo lo usa para recompensar las recomendaciones por el canal WhatsApp"),
         actions: [
           TextButton(
             onPressed: () {
@@ -42,7 +57,8 @@ class LoginPointsCalculate2State extends State<LoginPointsCalculate2> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    // return Consumer<RewardReferente>(builder: (context, rewardReferente, child) {
+      return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
@@ -84,12 +100,15 @@ class LoginPointsCalculate2State extends State<LoginPointsCalculate2> {
                       '\$${NumberFormat.decimalPattern('es').format(double.parse(value))}';
                   double parsedValue = double.tryParse(value) ?? 0;
                   double result = parsedValue / 25;
-    
                   double discountedResult = result - (result * 0.1);
-    
+
                   setState(() {
                     displayedValue = discountedResult.toStringAsFixed(0);
                     _controller.text = formattedValue;
+                    
+                     Provider.of<ProductModel>(context, listen: false)
+                        .updateRewardReferente(discountedResult.toInt());// Actualiza los puntos los lleva a ProducModel
+
                   });
                 } else {
                   setState(() {
@@ -131,7 +150,7 @@ class LoginPointsCalculate2State extends State<LoginPointsCalculate2> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text('Puntos'),                      
+                    const Text('Puntos'),
                     GestureDetector(
                       onTap: () {
                         // Llama al método para mostrar el mensaje estilo burbuja
@@ -140,8 +159,7 @@ class LoginPointsCalculate2State extends State<LoginPointsCalculate2> {
                       child: const Padding(
                         padding: EdgeInsets.only(
                           bottom: 9,
-                          right: 9
-                          ,
+                          right: 9,
                         ),
                         child: Icon(
                           Icons.error, // Icono de alerta
@@ -158,6 +176,7 @@ class LoginPointsCalculate2State extends State<LoginPointsCalculate2> {
         ),
       ],
     );
+    // });
   }
 
   @override
@@ -166,6 +185,7 @@ class LoginPointsCalculate2State extends State<LoginPointsCalculate2> {
     super.dispose();
   }
 }
+
 //
 class CustomDropdown extends StatelessWidget {
   final String labelText;

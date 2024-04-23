@@ -9,9 +9,8 @@ class WidgetBottonComprar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double buttonWidth = MediaQuery.of(context).size.width *
-        0.25; // El 25% del ancho del dispositivo
-    double buttonPaddingHorizontalPercentage = 0.015;
+    double buttonWidth = MediaQuery.of(context).size.width * 0.3; // El 25% del ancho del dispositivo
+    double buttonPaddingHorizontalPercentage = 0.020;
 
     return GestureDetector(
       onTap: () {
@@ -43,23 +42,17 @@ class WidgetBottonComprar extends StatelessWidget {
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
                 colors: [
-                  Color(0xFFce8f21),
-                  Color(0xFFf8e43e),
+                  Color(0xFF003366),
+                  Color(0xFF02b5e7),
                 ],
               ),
             ),
             child: SizedBox(
               width: buttonWidth, // Ancho del botón
-              child: const Text(
-                'Comprar',
-                style: TextStyle(
-                  fontFamily: 'Aileron',
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white,
+              child: const CustomFontAileronRegularWhite(
+                  text: "Comprar",
+                  textAlign: TextAlign.center,                  
                 ),
-                textAlign: TextAlign.center,
-              ),
             ),
           ),
         ),
@@ -157,8 +150,7 @@ class WidgetDisplayComprarState extends State<WidgetDisplayComprar> {
                             borderRadius: BorderRadius.all(
                                 Radius.circular(20)), // Bordes redondeados
                           ),
-                          width: MediaQuery.of(context).size.width *
-                              0.13, // Ancho de la línea
+                          width: MediaQuery.of(context).size.width *0.13, // Ancho de la línea
                         ),
                         Container(
                           margin: const EdgeInsets.symmetric(vertical: 2),

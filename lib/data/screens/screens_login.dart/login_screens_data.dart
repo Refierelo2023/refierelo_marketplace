@@ -123,7 +123,7 @@ class LoginScreensDataState extends State<LoginScreensData> {
           await _imagePicker.pickImage(source: ImageSource.gallery);
       if (pickedImage != null) {
         setState(() {
-          XFile? _pickedImage;
+          _pickedImage = PickedFile(pickedImage.path);
         });
       }
     } catch (e) {

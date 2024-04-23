@@ -218,9 +218,7 @@ class _StoriesScreenState extends State<StoriesScreen> {
 
                             channel.shutdown();
 
-                            final referenteProvider =
-                                Provider.of<ReferenteProvider>(
-                              navigatorKey.currentContext!,
+                            final referenteProvider =Provider.of<ReferenteProvider>(navigatorKey.currentContext!,
                               listen: false,
                             );
 

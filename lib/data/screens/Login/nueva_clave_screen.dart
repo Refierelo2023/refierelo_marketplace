@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:form_validator/form_validator.dart';
-import 'package:grpc/grpc.dart';
-import 'package:refierelo_marketplace/app/helper/helpers/helpers.dart';
-import 'package:refierelo_marketplace/data/screens/Register/components/components.dart';
-import 'package:refierelo_marketplace/data/screens/componentscopy/components.dart';
-import 'package:refierelo_marketplace/data/screens/main_screen.dart';
-import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import '../Register/components/custom_input.dart';
 
 class NuevaClaveScreen extends StatefulWidget {
@@ -24,7 +17,7 @@ class _NuevaClaveScreenState extends State<NuevaClaveScreen> {
   var nuevaClave = TextEditingController();
   var nuevaClaveConfirm = TextEditingController();
 
-  final _formKey = GlobalKey<FormState>();
+  // final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
