@@ -8,8 +8,7 @@ class WidgetBottonReferir extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double buttonWidth = MediaQuery.of(context).size.width *
-        0.25; // El 30% del ancho del dispositivo
+    // double buttonWidth = MediaQuery.of(context).size.width *0.25; // El 30% del ancho del dispositivo
     double buttonPaddingHorizontalPercentage = 0.019;
 
     return GestureDetector(
@@ -119,8 +118,7 @@ class WidgetDisplayReferirState extends State<WidgetDisplayReferir> {
                 borderRadius:
                     BorderRadius.all(Radius.circular(20)), // Bordes redondeados
               ),
-              width: MediaQuery.of(context).size.width *
-                  0.12, // Ancho de la línea (ejemplo: 50% del ancho de la pantalla)
+              width: MediaQuery.of(context).size.width * 0.12, // Ancho de la línea (ejemplo: 50% del ancho de la pantalla)
             ),
             const SizedBox(height: 10.0),
             const Align(

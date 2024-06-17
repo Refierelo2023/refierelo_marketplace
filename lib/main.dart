@@ -9,7 +9,6 @@ import 'package:refierelo_marketplace/data/screens/componentscopy/body.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_product_registration.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens_data.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/registration_costumer_nps.dart';
-import 'package:refierelo_marketplace/data/screens/screens_profile_user/product_data.dart';
 import 'package:refierelo_marketplace/data/screens/screens_profile_user/profile_screen_user.dart';
 import 'package:refierelo_marketplace/data/screens/sugerencias/sugerencias_screen.dart';
 import 'package:refierelo_marketplace/providers/referente_provider.dart';
@@ -37,7 +36,6 @@ void main() async {
         ChangeNotifierProvider(create: (_) => UserDataProviderSugerencias()),// Data UserDataSugerencias 
         ChangeNotifierProvider(create: (_) => SelectedCategory()),// Perfil Usuario contenedores categorias
         ChangeNotifierProvider(create: (_) => ProductModel()),// modelo de datos Login_product_registration 
-        ChangeNotifierProvider(create: (_) => ProductData()),// modelo de datos Login_product_registration 
         // ChangeNotifierProvider(create: (_) => RewardReferente()),// modelo de datos Login_product_registration/ login_points_calculate2 / Recompensa Referente
         // // ChangeNotifierProvider(create: (_) => PointsModel()),// modelo de datos LoginPointsCalculate precio de venta
       ],

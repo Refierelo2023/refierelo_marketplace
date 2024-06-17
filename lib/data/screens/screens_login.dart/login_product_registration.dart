@@ -1,32 +1,64 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_carousel_slider/carousel_slider.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/data/screens/screens_profile.dart/profile_screens.dart';
 import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_points_calculate.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_points_calculate2.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
+import 'package:http/http.dart' as http;
 
-// 1. Modelo de Datos
 class ProductModel extends ChangeNotifier {
+  Map<String, File> selectedImageProductMap = {};
   String productName = '';
-  String productDescription = '';
   double productPrice = 0.0;
-  List<String> productList = [];
-  Map<String, double> productPrices = {};
+  String productDescription = '';  
   int points = 0;
   int rewardPoints = 0;
+  List<String> productList = [];
+  Map<String, double> productPrices = {};
   final Map<String, int> productRewardPoints = {};
-  File? selectedImageProduct; 
-  // Mapa para asociar imágenes con nombres de productos
-  Map<String, File> selectedImageProductMap = {};
+  File? selectedImageProduct;
+  
 
+  Future<void> pickImages(BuildContext context) async {
+    List<XFile>? images = await ImagePicker().pickMultiImage(
+      maxWidth: 800,
+      maxHeight: 600,
+      imageQuality: 85,
+    );
+    if (images != null) {
+      // Limitar la cantidad de imágenes seleccionadas a cinco
+      if (selectedImageProductMap.length + images.length <= 5) {
+        for (var image in images) {
+          selectedImageProductMap[
+              'Image ${selectedImageProductMap.length + 1}'] = File(image.path);
+        }
+      } else {
+        // Muestra un mensaje de error si se excede el límite
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Error'),
+            content: const Text('No puedes seleccionar más de cinco imágenes.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+      notifyListeners();
+    }
+  }
 
   void updateProductName(String name) {
     productName = name;
-    
     notifyListeners();
   }
 
@@ -40,36 +72,48 @@ class ProductModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addProduct(String productName, double productPrice, int rewardPoints, File? selectedImageProduct) {
-  productList.add(productName);
-  productPrices[productName] = productPrice;
-  productRewardPoints[productName] = rewardPoints;  
-  if (selectedImageProduct != null) {
-    selectedImageProductMap[productName] = selectedImageProduct; // Añade la imagen asociada al producto
+  void addProduct(
+    String productName,
+    double productPrice,
+    int rewardPoints,
+    File? selectedCoverImage,
+    Map<String, File> selectedImageProductMap,
+  ) {
+    productList.add(productName);
+    productPrices[productName] = productPrice;
+    productRewardPoints[productName] = rewardPoints;
+
+    // Asignar la imagen de portada si está presente
+    if (selectedCoverImage != null) {
+      selectedImageProduct = selectedCoverImage;
+    }
+    // Asignar hasta cinco imágenes al carrusel si están presentes
+    int i = 1;
+    selectedImageProductMap.forEach((key, value) {
+      if (i <= 5) {
+        selectedImageProductMap['Image $i'] = value;
+        i++;
+      }
+    });
+
+    notifyListeners();
   }
-  
-  notifyListeners();
-}
 
   void updatePoints(int newPoints) {
-    // Método para actualizar los puntos equivalentes al precio de venta
     points = newPoints;
     notifyListeners();
   }
 
   void updateRewardReferente(int rewardPoints) {
-    // Método para actualizar recompensa Referente
     this.rewardPoints = rewardPoints;
     notifyListeners();
   }
+
   void updateSelectedImage(File? image) {
     selectedImageProduct = image;
     notifyListeners();
   }
-  
-
 }
-
 
 class LoginProductRegistration extends StatefulWidget {
   const LoginProductRegistration({super.key});
@@ -101,6 +145,63 @@ void showBubbleMessage(BuildContext context) {
 }
 
 class LoginProductRegistrationState extends State<LoginProductRegistration> {
+  TextEditingController nombreProductoController = TextEditingController();
+
+  @override
+  void dispose() {
+    // liberar los recursos de los controladores cuando el widget se elimine
+    nombreProductoController.dispose();
+    super.dispose();
+  }
+
+  Future<void> enviarWebhook() async {
+    final url = Uri.parse("http://5.189.161.131:5000/webhook");
+    final data = {
+      'nombreProducto': nombreProductoController.text,
+
+      // ... otras propiedades del formulario
+    };
+    final respuesta = await http.post(url, body: data);
+    if (respuesta.statusCode == 200) {
+      print('Webhook enviado con éxito');
+    } else {
+      print('Error al enviar el webhook: ${respuesta.statusCode}');
+    }
+  }
+
+  // List<XFile> _selectedImages = [];
+  // Future<void> _pickImages() async {
+  //   List<XFile>? images = await ImagePicker().pickMultiImage(
+  //     maxWidth: 800,
+  //     maxHeight: 600,
+  //     imageQuality: 85,
+  //   );
+  //   if (images != null) {
+  //     setState(() {
+  //       // Limitar la cantidad de imágenes seleccionadas a cinco
+  //       if (_selectedImages.length + images.length <= 5) {
+  //         _selectedImages.addAll(images);
+  //       } else {
+  //         // Muestra un mensaje de error si se excede el límite
+  //         showDialog(
+  //           context: context,
+  //           builder: (context) => AlertDialog(
+  //             title: const Text('Error'),
+  //             content:
+  //                 const Text('No puedes seleccionar más de cinco imágenes.'),
+  //             actions: [
+  //               TextButton(
+  //                 onPressed: () => Navigator.pop(context),
+  //                 child: const Text('OK'),
+  //               ),
+  //             ],
+  //           ),
+  //         );
+  //       }
+  //     });
+  //   }
+  // }
+
   Color borderColor3 =
       Colors.transparent; // Color inicial del borde del contenedor 3
   Color borderColor4 =
@@ -109,6 +210,9 @@ class LoginProductRegistrationState extends State<LoginProductRegistration> {
   bool switchValue = false; // bool para CupertunoSwitch
 
   String? selectedValue;
+  final ImagePicker _imagePicker = ImagePicker();
+  PickedFile? _pickedImage;
+  PickedFile? _pickedFile;
 
   // final TextEditingController _controller = TextEditingController();
 
@@ -222,6 +326,36 @@ class LoginProductRegistrationState extends State<LoginProductRegistration> {
     }
   }
 
+  Future<void> _pickImage() async {
+    try {
+      final pickedImage =
+          await _imagePicker.pickImage(source: ImageSource.gallery);
+      if (pickedImage != null) {
+        setState(() {
+          _pickedImage = PickedFile(pickedImage.path);
+        });
+      }
+    } catch (e) {
+      print('Error al seleccionar la imagen: $e');
+    }
+  }
+
+  Future<void> _pickImageOrVideo() async {
+    try {
+      final pickedFile = await ImagePicker().pickVideo(
+        source: ImageSource.gallery,
+      );
+
+      if (pickedFile == null) return;
+
+      setState(() {
+        _pickedFile = PickedFile(pickedFile.path);
+      });
+    } catch (e) {
+      print('Error al seleccionar la imagen o el video: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ProductModel>(builder: (context, productModel, child) {
@@ -245,49 +379,148 @@ class LoginProductRegistrationState extends State<LoginProductRegistration> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               // Imagen de perfil y texto
-              Row(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Stack(
-                    children: [
-                      Container(
-                        width: 180,
-                        height: 120,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          image: DecorationImage(
-                            image: AssetImage(
-                                'assets/images/images_login/product.png'),
-                            fit: BoxFit.cover,
+                  const SizedBox(width: 10),
+                  const Align(
+                    alignment: Alignment.center,
+                    child: CustomFontAileronBold2(
+                      text: "Producto 2",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    height: 160, // Altura fija para los elementos
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context)
+                              .size
+                              .width, // Ancho del ListView igual al ancho de la pantalla
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment
+                                .center, // Centra horizontalmente los elementos dentro del Row
+                            children: [
+                              GestureDetector(
+                                onTap: () async {
+                                  await productModel.pickImages(context);
+                                },
+                                child: Stack(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 5),
+                                      child: Container(
+                                        width: 160,
+                                        height: 160,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          borderRadius: BorderRadius.circular(
+                                              10), // Bordes redondeados
+                                          image: const DecorationImage(
+                                            image: AssetImage(
+                                              'assets/images/images_icons/product.png',
+                                            ),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      bottom: 5,
+                                      right: 15,
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          await productModel
+                                              .pickImages(context);
+                                        },
+                                        child: const Icon(
+                                          Icons.camera_alt,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: CarouselSlider.builder(
+                                  slideBuilder: (index) {
+                                    final List<String> keys = productModel
+                                        .selectedImageProductMap.keys
+                                        .toList();
+                                    final String productName = keys[index];
+                                    final File imageFile = productModel
+                                        .selectedImageProductMap[productName]!;
+                                    return GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          productModel.selectedImageProductMap;
+                                        });
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 2.0),
+                                        child: Stack(
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      20), // Bordes redondeados
+                                              child: Image.file(
+                                                imageFile,
+                                                width: 160,
+                                                height: 160,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            Positioned(
+                                              top: 5,
+                                              right: 5,
+                                              child: Container(
+                                                width: 30,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white
+                                                      .withOpacity(0.4),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      productModel
+                                                          .selectedImageProductMap;
+                                                    });
+                                                  },
+                                                  child: const Icon(
+                                                    Icons.close_rounded,
+                                                    color: Colors.white,
+                                                    size: 20,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  itemCount: productModel
+                                      .selectedImageProductMap.length,
+                                  viewportFraction:
+                                      0.60, // Fracción de la vista del carrusel
+                                  initialPage: 1, // Página inicial
+                                  scrollDirection: Axis.horizontal,
+                                  // Dirección de desplazamiento
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: GestureDetector(
-                          onTap: () {
-                            // Acción para cargar imagen desde la galería
-                            // (debes implementar la lógica para esto)
-                          },
-                          child: const Icon(Icons.camera_alt),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(width: 10), // Espacio entre la imagen y el texto
-                  GestureDetector(
-                    onTap: () {
-                      // Acción para abrir la galería
-                      // (debes implementar la lógica para esto)
-                    },
-                    child: const Align(
-                      alignment: Alignment.center,
-                      child: CustomFontAileronBold2(
-                        text: "Producto 1",
-                      ),
+                      ],
                     ),
                   ),
                 ],
@@ -295,7 +528,7 @@ class LoginProductRegistrationState extends State<LoginProductRegistration> {
               const SizedBox(height: 10),
               // TextField 1: Nombre Comercial
               TextField(
-                onChanged: (value) {
+                onChanged: (value) {                  
                   Provider.of<ProductModel>(context, listen: false)
                       .updateProductName(value);
                 },
@@ -420,7 +653,7 @@ class LoginProductRegistrationState extends State<LoginProductRegistration> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               if (!switchValue)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -478,52 +711,57 @@ class LoginProductRegistrationState extends State<LoginProductRegistration> {
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Padding(padding: EdgeInsets.only(right: 10)),
-                        Icon(
-                          Icons.warning_rounded,
-                          color: Color(0xFFCE8F21),
+                    Padding(padding: EdgeInsets.only(right: 10)),
+                    Icon(
+                      Icons.warning_rounded,
+                      color: Color(0xFFCE8F21),
+                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: CustomFontAileronRegular(
+                          text:
+                              "¡ Tu comunidad no podrá comprar tus productos con puntos !",
+                          fontSize: 0.035,
+                          textAlign: TextAlign.center,
                         ),
-                        SizedBox(width: 10),
-                        Align(
-                          child: CustomFontAileronRegular(
-                            text:
-                                "¡ Tu comunidad no podrá comprar tus productos !",
-                            fontSize: 0.035,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               // Contenedor de precio final //////////////////
-              // TextField(
-              //   decoration: InputDecoration(
-              //     labelText: 'Precio final',
-              //     border: OutlineInputBorder(
-              //       borderRadius: BorderRadius.circular(15),
-              //       borderSide: const BorderSide(color: Color(0xFF02B5E7)),
-              //     ),
-              //     focusedBorder: OutlineInputBorder(
-              //       borderRadius: BorderRadius.circular(15),
-              //       borderSide: const BorderSide(color: Color(0xFF02B5E7)),
-              //     ),
-              //     prefixIcon: const Icon(
-              //       Icons.monetization_on_outlined,
-              //       color: Color(0xFF003366),
-              //     ),
-              //     // fillColor: const Color(0xFFf4f4f4), // Color de fondo
-              //     // filled: true,
-              //     labelStyle: const TextStyle(
-              //         fontFamily: "Aileron",
-              //         fontSize: 14,
-              //         color: Color(0xFF003366)),
-              //     contentPadding: const EdgeInsets.symmetric(
-              //         vertical: 15.0, horizontal: 15.0),
-              //   ),
-              // ),
+              if (switchValue)
+                TextField(
+                  onChanged: (value) {
+                    Provider.of<ProductModel>(context, listen: false)
+                        .updateProductName(value);
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Link de tu producto si tienes marketplace',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: const BorderSide(color: Color(0xFF02B5E7)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: const BorderSide(color: Color(0xFF02B5E7)),
+                    ),
+                    prefixIcon: const Icon(
+                      Icons.link,
+                      color: Color(0xFF003366),
+                    ),
+                    // fillColor: const Color(0xFFf4f4f4), // Color de fondo
+                    // filled: true,
+                    labelStyle: const TextStyle(
+                        fontFamily: "Aileron",
+                        fontSize: 14,
+                        color: Color(0xFF003366)),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 15.0, horizontal: 15.0),
+                  ),
+                ),
               const SizedBox(height: 20),
               const Padding(padding: EdgeInsets.only(right: 15)),
               const CustomFontAileronRegular(
@@ -569,21 +807,23 @@ class LoginProductRegistrationState extends State<LoginProductRegistration> {
               ),
               const SizedBox(height: 0),
               GestureDetector(
-                onTap: () {
-                  // Acción para cargar imagen o video desde la galería
-                  // Implementa la lógica para cargar desde la galería
-                },
+                onTap: _pickImageOrVideo,
                 child: Container(
                   margin: const EdgeInsets.symmetric(
                       vertical: 20.0, horizontal: 90),
                   height: 320.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
-                    image: const DecorationImage(
-                      image: AssetImage(
-                          'assets/images/images_login/historias.png'),
-                      fit: BoxFit.cover,
-                    ),
+                    image: _pickedFile != null
+                        ? DecorationImage(
+                            image: FileImage(File(_pickedFile!.path)),
+                            fit: BoxFit.cover,
+                          )
+                        : const DecorationImage(
+                            image: AssetImage(
+                                'assets/images/images_login/historias.png'),
+                            fit: BoxFit.cover,
+                          ),
                   ),
                   child: const Align(
                     alignment: Alignment.bottomRight,
@@ -621,12 +861,14 @@ class LoginProductRegistrationState extends State<LoginProductRegistration> {
                 children: [
                   BtnNext(
                     press: () {
-                      Provider.of<ProductModel>(context, listen: false).addProduct(
+                      Provider.of<ProductModel>(context, listen: false)
+                          .addProduct(
                         productModel.productName,
-                        productModel.productPrice, 
+                        productModel.productPrice,
                         productModel.rewardPoints,
-                        productModel.selectedImageProduct                                              
-                        );
+                        productModel.selectedImageProduct,
+                        productModel.selectedImageProductMap,
+                      );
                       Navigator.push(
                         context,
                         MaterialPageRoute(

@@ -11,17 +11,17 @@ class RegisterScreen extends StatelessWidget {
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
 
-  Future<void> enviarWebhook(String tipo) async {
-    final url = Uri.parse("http://5.189.161.131:5000/webhook");
-    final data = {"tipo": tipo};
+  // Future<void> enviarWebhook(String tipo) async {
+  //   final url = Uri.parse("http://5.189.161.131:5000/webhook");
+  //   final data = {"tipo": tipo};
 
-    final respuesta = await http.post(url, body: data);
-    if (respuesta.statusCode == 200) {
-      // print('Webhook enviado con éxito');
-    } else {
-      // print('Error al enviar el webhook: ${respuesta.statusCode}');
-    }
-  }
+  //   final respuesta = await http.post(url, body: data);
+  //   if (respuesta.statusCode == 200) {
+  //     // print('Webhook enviado con éxito');
+  //   } else {
+  //     // print('Error al enviar el webhook: ${respuesta.statusCode}');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class RegisterScreen extends StatelessWidget {
                     ),
                   ),
                 );
-                await enviarWebhook("referente");
+                // await enviarWebhook("referente");
                 // print('Webhook enviado para referente');
               },
               child: cardReferente(context, () => null),
@@ -65,8 +65,8 @@ class RegisterScreen extends StatelessWidget {
                       builder: (context) => const LoginScreens(),
                     ),
                   );
-                  await enviarWebhook("comercio");
-                   print('Webhook enviado para Comercio');
+                  // await enviarWebhook("comercio");
+                  // // //  print('Webhook enviado para Comercio');
                 },
                 child: cardComercio(context, () => null)),
           ],

@@ -73,6 +73,13 @@ dependencies:
   flutter_dotenv: ^5.0.2
   auth0_flutter: ^1.5.0
   flutter_facebook_auth: 6.1.1
+  multi_image_picker_view: ^1.0.0
+  path: ^1.8.3
+  dio: ^5.4.3+1
+ 
+ 
+  
+
   
   
   
@@ -245,6 +252,8 @@ flutter:
     - assets/images/images_icons/heartWhite.png
     - assets/images/images_icons/HeartWhite100.png
     - assets/images/images_icons/starwhite100.png
+    - assets/images/images_icons/images.png
+    - assets/images/images_icons/product.png
    
 
     

@@ -31,7 +31,8 @@ class _MainScreenState extends State<MainScreen> {
     const SearchScreens(),
     const Spacer(),
     const ProfileScreens(selectedImageProduct: null,),
-    const ProfileScreensUser(categoryIcons: {},)
+    const ProfileScreensUser(
+      categoryIcons: {},)
   ];
 
   final List<String> _imagePaths = [

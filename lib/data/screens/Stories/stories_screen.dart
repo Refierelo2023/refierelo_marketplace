@@ -15,7 +15,11 @@ import '../Register/components/components.dart';
 
 // Usuario que sube historias
 class UserModel {
-  UserModel(this.stories, this.userName, this.imageUrl);
+  UserModel(
+    this.stories, 
+    this.userName, 
+    this.imageUrl
+    );
 
   final List<StoryModel> stories;
   final String userName;
@@ -24,7 +28,11 @@ class UserModel {
 
 // Historia
 class StoryModel {
-  StoryModel(this.imageUrl, this.configCodigo, this.idRecurso);
+  StoryModel(
+    this.imageUrl, 
+    this.configCodigo, 
+    this.idRecurso
+  );
 
   final String imageUrl;
   final String configCodigo;
@@ -32,7 +40,6 @@ class StoryModel {
 }
 
 // Pantalla donde se mostrarán las historias
-
 class StoriesScreen extends StatefulWidget {
   const StoriesScreen({super.key, required this.sampleUsers});
 
@@ -218,7 +225,9 @@ class _StoriesScreenState extends State<StoriesScreen> {
 
                             channel.shutdown();
 
-                            final referenteProvider =Provider.of<ReferenteProvider>(navigatorKey.currentContext!,
+                            final referenteProvider =
+                                Provider.of<ReferenteProvider>(
+                              navigatorKey.currentContext!,
                               listen: false,
                             );
 
@@ -253,7 +262,6 @@ class _StoriesScreenState extends State<StoriesScreen> {
                               textColor: Colors.white,
                               fontSize: 16.0);
                         }
-
                         // indicatorAnimationController.value =
                         // IndicatorAnimationCommand.resume;
                       },

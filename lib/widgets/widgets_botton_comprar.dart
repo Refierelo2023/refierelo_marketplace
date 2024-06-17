@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_product_registration.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:refierelo_marketplace/widgets/widget_botton_counter.dart';
 import 'package:refierelo_marketplace/widgets/widget_botton_pagar.dart';
@@ -12,13 +16,17 @@ class WidgetBottonComprar extends StatelessWidget {
     double buttonWidth = MediaQuery.of(context).size.width * 0.3; // El 25% del ancho del dispositivo
     double buttonPaddingHorizontalPercentage = 0.020;
 
+    final productModel = Provider.of<ProductModel>(context, listen: false);// Modelo de datos LoginProductRegistration
+
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
           builder: (BuildContext context) {
-            return const WidgetDisplayComprar();
+            return WidgetDisplayComprar(
+              imagePaths: productModel.selectedImageProductMap.values.map((file) => file.path).toList(),
+            );
           },
         );
       },
@@ -62,7 +70,12 @@ class WidgetBottonComprar extends StatelessWidget {
 }
 
 class WidgetDisplayComprar extends StatefulWidget {
-  const WidgetDisplayComprar({super.key});
+final List<String> imagePaths;
+
+  const WidgetDisplayComprar({
+    super.key,
+    required this.imagePaths,
+    });
 
   @override
   WidgetDisplayComprarState createState() => WidgetDisplayComprarState();
@@ -89,17 +102,16 @@ class WidgetDisplayComprarState extends State<WidgetDisplayComprar> {
     selectOnly(0);
   }
 
-  final List<String> imagePaths = [
-    'assets/images/images_display_comprar.dart/black3.jpeg',
-    'assets/images/images_display_comprar.dart/black1.jpeg',
-    'assets/images/images_display_comprar.dart/black2.jpeg',
-    'assets/images/images_display_comprar.dart/black4.jpeg',
-  ];
+  // final List<String> imagePaths = [
+  //   'assets/images/images_display_comprar.dart/black3.jpeg',
+  //   'assets/images/images_display_comprar.dart/black1.jpeg',
+  //   'assets/images/images_display_comprar.dart/black2.jpeg',
+  //   'assets/images/images_display_comprar.dart/black4.jpeg',
+  // ];
 
   @override
   Widget build(BuildContext context) {
-    int pageCount =
-        imagePaths.length; // Obtener el número de páginas (imágenes)
+    int pageCount = widget.imagePaths.length; // Obtener el número de páginas (imágenes)
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -130,8 +142,8 @@ class WidgetDisplayComprarState extends State<WidgetDisplayComprar> {
                           itemBuilder: (BuildContext context, int index) {
                             return Padding(
                               padding: const EdgeInsets.all(0),
-                              child: Image.asset(
-                                imagePaths[index],
+                              child: Image.file(
+                                File(widget.imagePaths[index]),
                                 fit: BoxFit.cover,
                               ),
                             );

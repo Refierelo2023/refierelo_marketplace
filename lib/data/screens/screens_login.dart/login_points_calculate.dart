@@ -96,25 +96,21 @@ class LoginPointsCalculateState extends State<LoginPointsCalculate> {
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
                   if (value.isNotEmpty) {
-                    String formattedValue =
-                        '\$${NumberFormat.decimalPattern('es').format(double.parse(value))}';
+                    String formattedValue ='\$${NumberFormat.decimalPattern('es').format(double.parse(value))}';
                     double parsedValue = double.tryParse(value) ?? 0;
                     double result = parsedValue / 25;
                     final productPrice = double.tryParse(value) ??0.0; // Obtener el precio del TextField
-                    Provider.of<ProductModel>(context, listen: false)
-                        .updateProductPrice(productPrice);
+                    Provider.of<ProductModel>(context, listen: false).updateProductPrice(productPrice);
 
                     setState(() {
-                      displayedValue = '${result.toInt()}';
-                      _controller.text = formattedValue;
-                      Provider.of<ProductModel>(context, listen: false)
-                        .updatePoints(result.toInt());// Actualiza los puntos los lleva a ProducModel
+                            displayedValue = NumberFormat('#,###', 'es').format(result.toInt());
+                            _controller.text = formattedValue;
+                      Provider.of<ProductModel>(context, listen: false).updatePoints(result.toInt());// Actualiza los puntos los lleva a ProducModel
                     });
                   } else {
                     setState(() {
                       displayedValue = '0';
-                      _controller
-                          .clear(); // Valor predeterminado si el campo está vacío
+                      _controller.clear(); // Valor predeterminado si el campo está vacío
                     });
                   }
                 },
@@ -133,9 +129,9 @@ class LoginPointsCalculateState extends State<LoginPointsCalculate> {
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(left: 5.0, right: 60, top: 15),
+              padding: const EdgeInsets.only(left: 5.0, right: 10, top: 15),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Center(
                     child: Align(

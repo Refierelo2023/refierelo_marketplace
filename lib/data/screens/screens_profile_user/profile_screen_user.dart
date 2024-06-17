@@ -18,7 +18,7 @@ class ProfileScreensUser extends StatefulWidget {
   
   const ProfileScreensUser({
     super.key,
-    required this.categoryIcons,
+    required this.categoryIcons, 
   });
 
   @override
@@ -125,8 +125,8 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
                           child: WidgetsUserStoryProfile(
                             index: 1,
                             onStoryItemTap: (rect, index) {},
-                            backgroundImage: const NetworkImage(
-                                "https://res.cloudinary.com/pozters/image/upload/w_700/v1535554479/prod_uploads/59R7X261y7zE1j8gnd0lq"),
+                            backgroundImage: NetworkImage(
+                                user.profileImageUrl),
                             setRectPoint: (rectPoint) {
                               setState(() {
                                 rect = rectPoint;
@@ -438,7 +438,10 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
                                           );
                                         } else {
                                           // Agregar el WidgetBottonCircular al final de la lista
-                                          return const WidgetBottonCircular();
+                                          return const Padding(
+                                            padding: EdgeInsets.only(left: 5,),
+                                            child: WidgetBottonCircular(),
+                                          );
                                         }
                                       },
                                     ),

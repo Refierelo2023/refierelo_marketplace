@@ -48,62 +48,62 @@ class ProfileScreensState extends State<ProfileScreens>
 
   final Duration animationDuration = const Duration(seconds: 1);
 
-  void onSaveImageProduct(String productName) {
-    final selectedImage = widget.selectedImageProduct;
-    if (selectedImage != null) {
-      Provider.of<ProductModel>(context, listen: false)
-          .selectedImageProductMap[productName] = selectedImage;
-    }
-    Navigator.of(context).popUntil((route) => route.isFirst);
-  }
+  // void onSaveImageProduct(String productName) {
+  //   final selectedImage = widget.selectedImageProduct;
+  //   if (selectedImage != null) {
+  //     Provider.of<ProductModel>(context, listen: false)
+  //         .selectedImageProductMap[productName] = selectedImage;
+  //   }
+  //   Navigator.of(context).popUntil((route) => route.isFirst);
+  // }
 
-  Future<void> uploadImageAndNavigate(BuildContext context) async {
-    try {
-      // Verificar si selectedImageProduct es nulo
-      if (widget.selectedImageProduct == null) {
-        // print('No hay ninguna imagen seleccionada.');
-        return;
-      }
-      // Abre el archivo de la imagen seleccionada
-      File? imageFile = widget.selectedImageProduct;
+  // Future<void> uploadImageAndNavigate(BuildContext context) async {
+  //   try {
+  //     // Verificar si selectedImageProduct es nulo
+  //     if (widget.selectedImageProduct == null) {
+  //       // print('No hay ninguna imagen seleccionada.');
+  //       return;
+  //     }
+  //     // Abre el archivo de la imagen seleccionada
+  //     File? imageFile = widget.selectedImageProduct;
 
-      // Convierte la imagen a bytes para enviar al servidor
-      List<int> imageBytes = await imageFile!.readAsBytes();
+  //     // Convierte la imagen a bytes para enviar al servidor
+  //     List<int> imageBytes = await imageFile!.readAsBytes();
 
-      // Codifica la imagen a base64
-      String base64Image = base64Encode(imageBytes);
+  //     // Codifica la imagen a base64
+  //     String base64Image = base64Encode(imageBytes);
 
-      // Configura la URL del servidor
-      Uri serverUrl = Uri.parse("http://5.189.161.131:5000/webhook");
+  //     // Configura la URL del servidor
+  //     Uri serverUrl = Uri.parse("http://5.189.161.131:5000/webhook");
 
-      // Configura el cuerpo de la solicitud
-      Map<String, dynamic> requestBody = {
-        "image": base64Image,
-        // Aquí puedes agregar más datos, como el usuario que subió la historia
-      };
+  //     // Configura el cuerpo de la solicitud
+  //     Map<String, dynamic> requestBody = {
+  //       "image": base64Image,
+  //       // Aquí puedes agregar más datos, como el usuario que subió la historia
+  //     };
 
-      // Realiza la solicitud POST al servidor
-      http.Response response = await http.post(
-        serverUrl,
-        body: json.encode(requestBody),
-        headers: {"Content-Type": "application/json"},
-      );
-      // Verifica si la solicitud fue exitosa (código de estado 200)
-      if (response.statusCode == 200) {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => WidgetCircleProduct(
-                nameproduct: "", imageProduct: widget.selectedImageProduct),
-          ),
-        );
-      } else {
-        // Maneja el caso en que la carga al servidor no fue exitosa
-        print("Error en la carga al servidor: ${response.statusCode}");
-      }
-    } catch (error) {
-      print("Error: $error");
-    }
-  }
+  //     // Realiza la solicitud POST al servidor
+  //     http.Response response = await http.post(
+  //       serverUrl,
+  //       body: json.encode(requestBody),
+  //       headers: {"Content-Type": "application/json"},
+  //     );
+  //     // Verifica si la solicitud fue exitosa (código de estado 200)
+  //     if (response.statusCode == 200) {
+  //       Navigator.of(context).push(
+  //         MaterialPageRoute(
+  //           builder: (context) => WidgetCircleProduct(
+  //               nameproduct: "", imageProduct: widget.selectedImageProduct),
+  //         ),
+  //       );
+  //     } else {
+  //       // Maneja el caso en que la carga al servidor no fue exitosa
+  //       print("Error en la carga al servidor: ${response.statusCode}");
+  //     }
+  //   } catch (error) {
+  //     print("Error: $error");
+  //   }
+  // }
 
   @override
   void initState() {
@@ -159,7 +159,8 @@ class ProfileScreensState extends State<ProfileScreens>
       return DefaultTabController(
         initialIndex: 1,
         length: 2,
-        child: Stack(children: [
+        child: Stack(
+          children: [
           Scaffold(
             backgroundColor: Colors.white,
             body: ListView(
@@ -175,8 +176,7 @@ class ProfileScreensState extends State<ProfileScreens>
                             fit: FlexFit.tight,
                             flex: 3,
                             child: WidgetsUserStoryProfile(
-                              backgroundImage:                               
-                              
+                              backgroundImage:
                               const NetworkImage(
                                   "https://i.pinimg.com/474x/6e/d0/b5/6ed0b51833ee7affe0dfd37a531b2431.jpg"),
                               setRectPoint: (rectPoint) {
@@ -477,8 +477,7 @@ class ProfileScreensState extends State<ProfileScreens>
                                     children: [
                                       for (String productName in productList)
                                         Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 5.0),
+                                          padding: const EdgeInsets.only(right: 5.0),
                                           child: WidgetCircleProduct(
                                             nameproduct: productName,
                                             imageProduct: Provider.of<
@@ -533,8 +532,7 @@ class ProfileScreensState extends State<ProfileScreens>
                 ),
               ],
             ),
-          ),
-          rippleAnimation()
+          ),          
         ]),
       );
     });

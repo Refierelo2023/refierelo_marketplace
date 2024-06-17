@@ -60,7 +60,7 @@ class WidgetDisplayShareHistoryState extends State<WidgetDisplayShareHistory> {
             const Align(
               alignment: Alignment.center,
               child: CustomFontAileronBold(
-                text: "Comparte esta historia en tus redes sociales",
+                text: "¡ Consigue nuevos Referidos en tus redes sociales !",
               ),
             ),
             const SizedBox(height: 20.0),

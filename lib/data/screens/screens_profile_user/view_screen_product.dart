@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_product_registration.dart';
 import 'package:refierelo_marketplace/data/screens/screens_profile_user/profile_screen_user.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:refierelo_marketplace/widgets/story_feed/animation_is_Liked.dart.dart';
@@ -38,16 +39,15 @@ class _ViewScreenProductState extends State<ViewScreenProduct>
         _controller.play(); // Comienza la reproducción automáticamente
       });
   }
-  
+
   void _onCategorySelected(String category) {
-  setState(() {
-    selectedCategories.add(category);
-  });
-}
+    setState(() {
+      selectedCategories.add(category);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.light,
@@ -59,155 +59,164 @@ class _ViewScreenProductState extends State<ViewScreenProduct>
     );
     var borderRadius = BorderRadius.circular(11.r);
     OutlineInputBorder(borderSide: borderside, borderRadius: borderRadius);
+
+    final productModel = Provider.of<ProductModel>(context, listen: false);// Modelo de datos LoginProductRegistration
+
     return Material(
-      child: Container(
-        color: Colors.black,
-        child: SafeArea(
-          child: Scaffold(
-            backgroundColor: Colors.black,
-            body: Stack(
-              children: [
-                Column(
-                  children: [
-                    Expanded(
-                      flex: 2, // Flex del contenedor superior (10%)
-                      child: Container(
-                        color: Colors.transparent,
+      child: ChangeNotifierProvider<ProductModel>(
+        create: (_) => productModel,
+        child: Container(
+          color: Colors.black,
+          child: SafeArea(
+            child: Scaffold(
+              backgroundColor: Colors.black,
+              body: Stack(
+                children: [
+                  Column(
+                    children: [
+                      Expanded(
+                        flex: 2, // Flex del contenedor superior (10%)
+                        child: Container(
+                          color: Colors.transparent,
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 88, // Flex de la imagen (80%)
-                      child: _controller.value.isInitialized
-                          ? ClipRRect(
-                              borderRadius: borderRadius,
-                              child: AspectRatio(
-                                aspectRatio: _controller.value.aspectRatio,
-                                child: VideoPlayer(_controller),
-                              ),
-                            )
-                          : Container(), // Placeholder para el video
-                    ),
-                    Expanded(
-                      flex: 7, // Flex del Row inferior (10%)
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Flexible(
-                            child: InkWell(
-                              onTap: () {
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return const WidgetDisplayReferir();
-                                  },
-                                );
-                              },
-                              child: const SizedBox(
-                                width: double.infinity,
-                                child: WidgetBottonReferir(),
+                      Expanded(
+                        flex: 88, // Flex de la imagen (80%)
+                        child: _controller.value.isInitialized
+                            ? ClipRRect(
+                                borderRadius: borderRadius,
+                                child: AspectRatio(
+                                  aspectRatio: _controller.value.aspectRatio,
+                                  child: VideoPlayer(_controller),
+                                ),
+                              )
+                            : Container(), // Placeholder para el video
+                      ),
+                      Expanded(
+                        flex: 7, // Flex del Row inferior (10%)
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Flexible(
+                              child: InkWell(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return const WidgetDisplayReferir();
+                                    },
+                                  );
+                                },
+                                child: const SizedBox(
+                                  width: double.infinity,
+                                  child: WidgetBottonReferir(),
+                                ),
                               ),
                             ),
-                          ),
-                          Flexible(
-                            child: InkWell(
-                              onTap: () {
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return const WidgetDisplayComprar();
-                                  },
-                                );
-                              },
-                              child: const SizedBox(
-                                width: double.infinity,
-                                child: WidgetBottonComprar(),
+                            Flexible(
+                              child: InkWell(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return WidgetDisplayComprar(
+                                        imagePaths: productModel.selectedImageProductMap.values.map((file) => file.path).toList(),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: const SizedBox(
+                                  width: double.infinity,
+                                  child: WidgetBottonComprar(),
+                                ),
                               ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10, bottom: 120),
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              // Acción para "Mi Favorito"
+                            },
+                            child: Column(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      isIconSelected = !isIconSelected;
+                                    });
+                                    showModalBottomSheet(
+                                      context: context,
+                                      backgroundColor: const Color(0xFFffffff),
+                                      isScrollControlled: true,
+                                      builder: (context) {
+                                        return CategorySelectionModal(
+                                          categoryIcons: const {},
+                                          selectedCategories: selectedCategories,
+                                          onCategorySelected: _onCategorySelected,
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Image.asset(
+                                    isIconSelected
+                                        ? "assets/images/images_icons/star2.png"
+                                        : "assets/images/images_icons/starwhite100.png",
+                                    width: 29,
+                                    height: 29,
+                                  ),
+                                ),
+                                const SizedBox(height: 3),
+                                const CustomFontAileronRegularWhite(
+                                  text: "Mi favorito",
+                                  fontSize: 0.028,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 25),
+                          const AnimationIsLiked(),
+                          const SizedBox(height: 25),
+                          InkWell(
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return const WidgetDisplayShareHistory(); // Ajusta según sea necesario
+                                },
+                              );
+                              // Acción para "Publicar"
+                            },
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  "assets/images/images_icons/comp2.png",
+                                  width: 28,
+                                  height: 28,
+                                ),
+                                const SizedBox(height: 3),
+                                const CustomFontAileronRegularWhite(
+                                  text: "Compartir",
+                                  fontSize: 0.028,
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 10, bottom: 120),
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            // Acción para "Mi Favorito"
-                          },
-                          child: Column(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    isIconSelected = !isIconSelected;
-                                  });
-                                  showModalBottomSheet(
-                                    context: context,
-                                    backgroundColor: const Color(0xFFffffff),
-                                    builder: (context) {
-                                      return CategorySelectionModal(
-                                          categoryIcons: const {},
-                                          selectedCategories:selectedCategories,
-                                          onCategorySelected: _onCategorySelected,
-                                      );
-                                    },
-                                  );
-                                },
-                                child: Image.asset(
-                                  isIconSelected
-                                      ? "assets/images/images_icons/star2.png"
-                                      : "assets/images/images_icons/starwhite100.png",
-                                  width: 29,
-                                  height: 29,
-                                ),
-                              ),
-                              const SizedBox(height: 3),
-                              const CustomFontAileronRegularWhite(
-                                text: "Mi favorito",
-                                fontSize: 0.028,
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 25),
-                        const AnimationIsLiked(),
-                        const SizedBox(height: 25),
-                        InkWell(
-                          onTap: () {
-                            showModalBottomSheet(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return const WidgetDisplayShareHistory(); // Ajusta según sea necesario
-                              },
-                            );
-                            // Acción para "Publicar"
-                          },
-                          child: Column(
-                            children: [
-                              Image.asset(
-                                "assets/images/images_icons/comp2.png",
-                                width: 28,
-                                height: 28,
-                              ),
-                              const SizedBox(height: 3),
-                              const CustomFontAileronRegularWhite(
-                                text: "Publicar",
-                                fontSize: 0.028,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -227,7 +236,6 @@ class CategorySelectionModal extends StatefulWidget {
   final List<String> selectedCategories;
   final Function(String) onCategorySelected;
 
-
   const CategorySelectionModal({
     required this.categoryIcons,
     required this.selectedCategories,
@@ -240,8 +248,6 @@ class CategorySelectionModal extends StatefulWidget {
 }
 
 class CategorySelectionModalState extends State<CategorySelectionModal> {
-
-
   @override
   Widget build(BuildContext context) {
     final selectedCategory =
@@ -250,48 +256,51 @@ class CategorySelectionModalState extends State<CategorySelectionModal> {
         !widget.selectedCategories.contains(selectedCategory)) {
       widget.selectedCategories.add(selectedCategory);
     }
-    return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+    return SingleChildScrollView(
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 9),
+                height: 5,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF666666),
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                ),
+                width: MediaQuery.of(context).size.width * 0.12,
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: widget.selectedCategories.length + 1,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, index) {
+                  if (index < widget.selectedCategories.length) {
+                    final category = widget.selectedCategories[index];
+                    final IconData icon = getIconForCategory(category);
+                    return WidgetDisplayFavoritesUser(
+                      icon: icon,
+                      nameCategorie: category,
+                      isSelected: true,
+                      categoryIcons: widget.categoryIcons,
+                    );
+                  } else {
+                    return const Padding(
+                      padding: EdgeInsets.only(left: 18, bottom: 5),
+                      child: WidgetBottonCircular(),
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
         ),
-      ),
-      child: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 9),
-            height: 5,
-            decoration: const BoxDecoration(
-              color: Color(0xFF666666),
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-            ),
-            width: MediaQuery.of(context).size.width * 0.12,
-          ),
-          Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: widget.selectedCategories.length + 1,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, index) {
-                if (index < widget.selectedCategories.length) {
-                  final category = widget.selectedCategories[index];
-                  final IconData icon = getIconForCategory(category);
-                  return WidgetDisplayFavoritesUser(
-                    icon: icon,
-                    nameCategorie: category,
-                    isSelected: true,
-                    categoryIcons: widget.categoryIcons,
-                  );
-                } else {
-                  return const WidgetBottonCircular();
-                }
-              },
-            ),
-          ),
-        ],
-      ),
     );
   }
 

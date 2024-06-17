@@ -4,7 +4,7 @@ import '../models/user_model.dart';
 User user = const User(
   name: 'Sin uso',
   profileImageUrl:
-      'http://m.gettywallpapers.com/wp-content/uploads/2021/03/Cool-HD-Wallpaper.jpg',
+      'https://www.lavanguardia.com/files/content_image_desktop_filter/uploads/2018/07/25/5fa43c9755611.jpeg',
 );
 
 List<Story> stories = [

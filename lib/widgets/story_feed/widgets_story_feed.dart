@@ -13,11 +13,16 @@ import 'package:refierelo_marketplace/widgets/story_feed/widgets_user_info.dart'
 import 'package:video_player/video_player.dart';
 
 class WidgetsStoryFeed extends StatefulWidget {
+  
   const WidgetsStoryFeed(
-      {super.key, required this.stories, required this.herotagString});
+      {super.key, 
+      required this.stories, 
+      required this.herotagString
+    });
 
   final List<dynamic> stories;
   final String herotagString;
+
   @override
   State<WidgetsStoryFeed> createState() => _WidgetsStoryFeedState();
 }

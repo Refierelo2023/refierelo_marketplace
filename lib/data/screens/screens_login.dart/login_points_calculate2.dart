@@ -103,18 +103,14 @@ class LoginPointsCalculate2State extends State<LoginPointsCalculate2> {
                   double discountedResult = result - (result * 0.1);
 
                   setState(() {
-                    displayedValue = discountedResult.toStringAsFixed(0);
-                    _controller.text = formattedValue;
-                    
-                     Provider.of<ProductModel>(context, listen: false)
-                        .updateRewardReferente(discountedResult.toInt());// Actualiza los puntos los lleva a ProducModel
-
+                            displayedValue = NumberFormat('#,###', 'es').format(result.toInt());
+                            _controller.text = formattedValue;
+                     Provider.of<ProductModel>(context, listen: false).updateRewardReferente(discountedResult.toInt());// Actualiza los puntos los lleva a ProducModel
                   });
                 } else {
                   setState(() {
                     displayedValue = '0';
-                    _controller
-                        .clear(); // Valor predeterminado si el campo está vacío
+                    _controller.clear(); // Valor predeterminado si el campo está vacío
                   });
                 }
               },
@@ -133,9 +129,9 @@ class LoginPointsCalculate2State extends State<LoginPointsCalculate2> {
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.only(left: 5.0, right: 60, top: 15),
+            padding: const EdgeInsets.only(left: 5.0, right: 10, top: 15),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Center(
                   child: Align(

@@ -102,50 +102,50 @@ class _OptionsRegisterScreenState extends State<OptionsRegisterScreen> {
     'https://www.googleapis.com/auth/tasks',
   ]);
 
-  void iniciarSesionGoogle(BuildContext context) async {
-    // print('Iniciando sesión con Google...');
-    try {
-      // Obtener las credenciales de Google
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      if (googleUser != null) {
-        final GoogleSignInAuthentication googleAuth =
-            await googleUser.authentication;
-        try {
-          // Iniciar sesión en Auth0 solo si no estás en la web
-          if (!kIsWeb) {
-            var credentials = await auth0
-                .webAuthentication(scheme: dotenv.env['AUTH0_CUSTOM_SCHEME'])
-                .login();
-            setState(() {
-              _user = credentials.user;
-            });
-            // print('Usuario autenticado correctamente: $_user');
-            // Navegar a MainScreen si el usuario no es nulo
-            if (_user != null) {
-              // print('El usuario no es nulo: $_user');
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const MainScreen()),
-                (Route<dynamic> route) => false,
-              );
-            } else {
-              // print('El usuario es nulo después de la autenticación');
-            }
-          } else {
-            // Si estás en la web, puedes manejar la redirección según tus necesidades
-          }
-        } catch (e) {
-          // print('Error durante la autenticación con Auth0: $e');
-        }
-      } else {
-        // El usuario canceló el inicio de sesión con Google
-        // print('Inicio de sesión cancelado');
-      }
-    } catch (error) {
-      // Manejar cualquier error que pueda ocurrir durante el inicio de sesión con Google
-      // print('Error durante el inicio de sesión con Google: $error');
-    }
-  }
+  // void iniciarSesionGoogle(BuildContext context) async {
+  //   // print('Iniciando sesión con Google...');
+  //   try {
+  //     // Obtener las credenciales de Google
+  //     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+  //     if (googleUser != null) {
+  //       final GoogleSignInAuthentication googleAuth =
+  //           await googleUser.authentication;
+  //       try {
+  //         // Iniciar sesión en Auth0 solo si no estás en la web
+  //         if (!kIsWeb) {
+  //           var credentials = await auth0
+  //               .webAuthentication(scheme: dotenv.env['AUTH0_CUSTOM_SCHEME'])
+  //               .login();
+  //           setState(() {
+  //             _user = credentials.user;
+  //           });
+  //           // print('Usuario autenticado correctamente: $_user');
+  //           // Navegar a MainScreen si el usuario no es nulo
+  //           if (_user != null) {
+  //             // print('El usuario no es nulo: $_user');
+  //             Navigator.pushAndRemoveUntil(
+  //               context,
+  //               MaterialPageRoute(builder: (context) => const MainScreen()),
+  //               (Route<dynamic> route) => false,
+  //             );
+  //           } else {
+  //             // print('El usuario es nulo después de la autenticación');
+  //           }
+  //         } else {
+  //           // Si estás en la web, puedes manejar la redirección según tus necesidades
+  //         }
+  //       } catch (e) {
+  //         // print('Error durante la autenticación con Auth0: $e');
+  //       }
+  //     } else {
+  //       // El usuario canceló el inicio de sesión con Google
+  //       // print('Inicio de sesión cancelado');
+  //     }
+  //   } catch (error) {
+  //     // Manejar cualquier error que pueda ocurrir durante el inicio de sesión con Google
+  //     // print('Error durante el inicio de sesión con Google: $error');
+  //   }
+  // }
 
   void iniciarSesionFacebook(BuildContext context) async {
     try {

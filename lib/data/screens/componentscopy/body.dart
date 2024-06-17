@@ -13,22 +13,22 @@ class Body extends StatelessWidget {
 
   Body({super.key});
 
-  void enviarWebhook(String palabra) {
-  final url = Uri.parse("http://5.189.161.131:5000/webhook");
-  final data = {'registrase': palabra};
+//   void enviarWebhook(String palabra) {
+//   final url = Uri.parse("http://5.189.161.131:5000/webhook");
+//   final data = {'registrase': palabra};
   
-  // print('Enviando webhook con datos: $data');
+//   // print('Enviando webhook con datos: $data');
 
-  http.post(url, body: data).then((respuesta) {
-    if (respuesta.statusCode == 200) {
-      // print('Webhook enviado con éxito');
-    } else {
-      // print('Error al enviar el webhook: ${respuesta.statusCode}');
-    }
-  }).catchError((error) {
-    // print('Error al enviar el webhook: $error');
-  });
-}
+//   http.post(url, body: data).then((respuesta) {
+//     if (respuesta.statusCode == 200) {
+//       // print('Webhook enviado con éxito');
+//     } else {
+//       // print('Error al enviar el webhook: ${respuesta.statusCode}');
+//     }
+//   }).catchError((error) {
+//     // print('Error al enviar el webhook: $error');
+//   });
+// }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +98,7 @@ class Body extends StatelessWidget {
                   children: [
                     BtnWelcome(
                       press: () {
-                        enviarWebhook("registrarse");
+                        // enviarWebhook("registrarse");
                         Navigator.push(
                           context,
                           MaterialPageRoute(

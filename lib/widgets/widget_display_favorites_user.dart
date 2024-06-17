@@ -29,20 +29,19 @@ void onCategorySelected(BuildContext context, String categoryName) {
   selectedCategory.setSelectedCategory(categoryName);
 }
 
-class WidgetDisplayFavoritesUserState
-    extends State<WidgetDisplayFavoritesUser> {
+class WidgetDisplayFavoritesUserState extends State<WidgetDisplayFavoritesUser> {
   late List<bool> isButtonSelectedList;
   bool _isVisible = false;
 
   @override
   void initState() {
     super.initState();
-    isButtonSelectedList = List.generate(2, (index) => false);
+    isButtonSelectedList = List.generate(1, (index) => false);
   }
 
   void selectOnly(int index) {
     setState(() {
-      for (int i = 0; i < isButtonSelectedList.length; i++) {
+       for (int i = 0; i < isButtonSelectedList.length; i++) {
         isButtonSelectedList[i] = (i == index);
       }
     });
@@ -67,17 +66,17 @@ class WidgetDisplayFavoritesUserState
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height *
-                    0.09, // Adjust the height as needed
-                child: _buildContainerC(
-                  index: 0,
-                  nameCategorie: widget.nameCategorie,
-                  subtitle: "Guardar Favoritos >        ",
-                  icon: widget.icon,
-                ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.08,
+              child: ListView.builder(
+                itemCount: 1,
+                itemBuilder: (context, index) {
+                  return _buildContainerC(
+                    index: index,
+                    nameCategorie: widget.nameCategorie,
+                    subtitle: "Guardar Favoritos >        ",
+                    icon: widget.icon,
+                  );
+                },
               ),
             ),
           ],
@@ -96,8 +95,8 @@ class WidgetDisplayFavoritesUserState
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          // selectOnly(index);
-          // toggleVisibility();
+          selectOnly(index);
+          toggleVisibility();
         },
         child: Ink(
           decoration: BoxDecoration(
@@ -165,7 +164,7 @@ class WidgetDisplayFavoritesUserState
                       ),
                       const Spacer(),
                       Column(
-                        mainAxisAlignment: MainAxisAlignment.center,                        
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           WidgetBottonSelect(
                             isSelected: isButtonSelectedList[index],

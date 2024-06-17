@@ -10,15 +10,12 @@ import 'package:refierelo_marketplace/widgets/widget_botton_select.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
 class WidgetCircleProduct extends StatefulWidget {
-  final String nameproduct; 
-  final dynamic imageProduct;    
-
-
+  final String nameproduct;
+  final dynamic imageProduct;
 
   const WidgetCircleProduct({
     required this.nameproduct,
     required this.imageProduct,
-  
     super.key,
   });
 
@@ -29,7 +26,6 @@ class WidgetCircleProduct extends StatefulWidget {
 class _WidgetCircleProductState extends State<WidgetCircleProduct> {
   bool _showMenu = false;
   Rect? rect;
-  
 
   @override
   Widget build(BuildContext context) {
@@ -39,16 +35,15 @@ class _WidgetCircleProductState extends State<WidgetCircleProduct> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           buildCircularContainer(
-            nameProduct: widget.nameproduct,           
+            nameProduct: widget.nameproduct,
           ),
         ],
       ),
     );
   }
 
-  
   Widget buildCircularContainer({
-    required String nameProduct,   
+    required String nameProduct,
   }) {
     return SizedBox(
       width: 80,
@@ -60,7 +55,7 @@ class _WidgetCircleProductState extends State<WidgetCircleProduct> {
             builder: (BuildContext context) {
               return WidgetDisplayProduct(
                 nameProduct: nameProduct,
-              ); 
+              );
             },
           );
         },
@@ -84,12 +79,13 @@ class _WidgetCircleProductState extends State<WidgetCircleProduct> {
             Padding(
               padding: const EdgeInsets.only(top: 5),
               child: widget.imageProduct != null
-                 ? ClipRRect(
+                  ? ClipRRect(
                       borderRadius: BorderRadius.circular(
                           MediaQuery.of(context).size.width),
                       child: Image.file(
                         widget.imageProduct,
-                        width: 60, // Ajusta el tamaño de la imagen según sea necesario
+                        width:
+                            60, // Ajusta el tamaño de la imagen según sea necesario
                         height: 60,
                         fit: BoxFit.cover,
                       ),
@@ -112,15 +108,16 @@ class _WidgetCircleProductState extends State<WidgetCircleProduct> {
                       ),
                     ),
             ),
-            if (widget.imageProduct == null) // Mostrar el icono solo si no hay una imagen seleccionada
-            const Positioned(
-              top: 26, // Ajusta la posición vertical del icono
-              child: Icon(
-                Icons.camera_alt,
-                color: Colors.white,
-                size: 25,
+            if (widget.imageProduct ==
+                null) // Mostrar el icono solo si no hay una imagen seleccionada
+              const Positioned(
+                top: 26, // Ajusta la posición vertical del icono
+                child: Icon(
+                  Icons.camera_alt,
+                  color: Colors.white,
+                  size: 25,
+                ),
               ),
-            ),
             const SimpleCircularProgressBar(
               fullProgressGradient: SweepGradient(
                 tileMode: TileMode.decal,
@@ -177,7 +174,7 @@ class WidgetDisplayMenuProductState extends State<WidgetDisplayMenuProduct> {
   @override
   void initState() {
     super.initState();
-    isButtonSelectedList = List.generate(2, (index) => false);
+    isButtonSelectedList = List.generate(3, (index) => false);
   }
 
   void selectOnly(int index) {
@@ -195,16 +192,15 @@ class WidgetDisplayMenuProductState extends State<WidgetDisplayMenuProduct> {
   }
 
   Future<void> pickImage(
-      BuildContext context, 
-      Function(String) setImagePath
-    ) async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+      BuildContext context, Function(String) setImagePath) async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    if (pickedFile != null) {  
-      String selectedImageProduct = pickedFile.path;          
+    if (pickedFile != null) {
+      String selectedImageProduct = pickedFile.path;
       setImagePath(selectedImageProduct);
 
-       Provider.of<ProductModel>(context, listen: false)
+      Provider.of<ProductModel>(context, listen: false)
           .updateSelectedImage(File(selectedImageProduct));
 
       // Abre WidgetProductEditImage después de seleccionar la imagen
@@ -225,7 +221,7 @@ class WidgetDisplayMenuProductState extends State<WidgetDisplayMenuProduct> {
     required String title,
     required String subtitle,
     required IconData icon,
-    required VoidCallback onTap,
+    required VoidCallback onTap,   
   }) {
     return Material(
       color: Colors.transparent,
@@ -295,61 +291,96 @@ class WidgetDisplayMenuProductState extends State<WidgetDisplayMenuProduct> {
     );
   }
 
+  void editProduct(BuildContext context, String productName) {
+    final productModel = Provider.of<ProductModel>(context, listen: false);
+    final selectedProduct = productModel.productList.firstWhere(
+      (product) => product == productName,
+      orElse: () => '',
+    );
+
+    // Verifica si se ha encontrado el producto seleccionado
+    if (selectedProduct.isNotEmpty) {
+      // Navega a la pantalla LoginProductRegistration con los datos necesarios
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginProductRegistration(),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+    final productList = Provider.of<ProductModel>(context, listen: false);
+      return Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
         ),
-      ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 9),
-              height: 5,
-              decoration: const BoxDecoration(
-                color: Color(0xFF666666),
-                borderRadius: BorderRadius.all(Radius.circular(20)),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 9),
+                height: 5,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF666666),
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                ),
+                width: MediaQuery.of(context).size.width * 0.12,
               ),
-              width: MediaQuery.of(context).size.width * 0.12,
-            ),
-            const SizedBox(height: 20.0),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Column(
-                children: [
-                  buildContainer(
-                    index: 0,
-                    title: 'Imagen de portada',
-                    subtitle: 'Agrear imagen >',
-                    icon: Icons.photo_filter_sharp,
-                    onTap: () {
-                      selectOnly(0);
-                      toggleVisibility();
-
-                      pickImage(context, (setImagePath) {});
-                    },
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.width * 0.03,
-                  ),
-                  buildContainer(
-                      index: 1,
-                      title: 'Borrar Producto',
-                      subtitle: 'Eliminar Contenido >',
-                      icon: Icons.delete_outline_outlined,
-                      onTap: () {}),
-                ],
+              const SizedBox(height: 20.0),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Column(
+                  children: [
+                    buildContainer(
+                      index: 0,
+                      title: 'Imagen de portada',
+                      subtitle: 'Agrear imagen >',
+                      icon: Icons.photo_filter_sharp,
+                      onTap: () {
+                        selectOnly(0);
+                        toggleVisibility();
+      
+                        pickImage(context, (setImagePath) {});
+                      },
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width * 0.03,
+                    ),
+                    buildContainer(
+                        index: 1,
+                        title: 'Editar producto',
+                        subtitle: 'Cambiar contenido >',
+                        icon: Icons.mobile_friendly_rounded,
+                        onTap: () {
+                          selectOnly(1);
+                          toggleVisibility();
+                            final productModel = Provider.of<ProductModel>(context, listen: false);
+                            final productName = productModel.productName;
+                          editProduct(context, productName );
+                        }),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width * 0.03,
+                    ),
+                    buildContainer(
+                        index: 2,
+                        title: 'Borrar Producto',
+                        subtitle: 'Eliminar Contenido >',
+                        icon: Icons.delete_outline_outlined,
+                        onTap: () {}),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+  
   }
 }
-
