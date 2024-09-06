@@ -86,24 +86,3 @@ class WidgetBottonSelectGreen extends StatelessWidget {
   }
 }
 
-void main() {
-  runApp(MaterialApp(
-    home: Scaffold(
-      appBar: AppBar(title: const Text('Botón Selección')),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            WidgetBottonSelect(
-              isSelected: false,
-            ),
-            SizedBox(height: 20),
-            WidgetBottonSelectGreen(
-              isSelected: false,
-            ),
-          ],
-        ),
-      ),
-    ),
-  ));
-}

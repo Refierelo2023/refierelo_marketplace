@@ -8,22 +8,22 @@ class WidgetBottonReferir extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // double buttonWidth = MediaQuery.of(context).size.width *0.25; // El 30% del ancho del dispositivo
     double buttonPaddingHorizontalPercentage = 0.019;
 
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(
-            context: context,
-            builder: (BuildContext context) {
-              return const WidgetDisplayReferir();
-            });
+          context: context,
+          builder: (BuildContext context) {
+            return const WidgetDisplayReferir();
+          },
+        );
       },
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: FractionallySizedBox(
           widthFactor: 0.8,
-          child: Container(            
+          child: Container(
             constraints: BoxConstraints(
               maxWidth: MediaQuery.of(context).size.width,
             ),
@@ -34,16 +34,11 @@ class WidgetBottonReferir extends StatelessWidget {
                   buttonPaddingHorizontalPercentage,
             ),
             decoration: BoxDecoration(
+              color: Colors.transparent, // Fondo transparente
               borderRadius: BorderRadius.circular(10),
-              gradient: const LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [
-                  Color(0xFF003366),
-                  Color(0xFF02b5e7),
-                  // Color(0xFFce8f21),
-                  // Color(0xFFf8e43e),
-                ],
+              border: Border.all(
+                color: Colors.white, // Borde blanco
+                width: 1.0,
               ),
             ),
             child: const Row(
@@ -56,7 +51,7 @@ class WidgetBottonReferir extends StatelessWidget {
                 ),
                 SizedBox(width: 5),
                 CustomFontAileronRegularWhite(
-                  text: "Referir",                  
+                  text: "Referir",
                 ),
               ],
             ),
@@ -66,6 +61,7 @@ class WidgetBottonReferir extends StatelessWidget {
     );
   }
 }
+
 
 class WidgetDisplayReferir extends StatefulWidget {
   const WidgetDisplayReferir({super.key});

@@ -3,7 +3,6 @@ import 'dart:math';
 // import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:path/path.dart' as path;
-import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,6 +16,7 @@ import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/data/screens/otp/components/btn_next.dart';
 import 'package:refierelo_marketplace/models/medio_pagos.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
+import 'package:refierelo_marketplace/data/screens/Dialogs/dialog_register.dart';
 // import 'package:http/http.dart' as http;
 
 class UserDataModelUser {
@@ -78,12 +78,10 @@ class UserDataProviderUser extends ChangeNotifier {
 
 class RegisterForm extends StatefulWidget {
   final String msisdn;
-  final UserProfile user;
 
   const RegisterForm({
     super.key,
     required this.msisdn,
-    required this.user,
   });
 
   @override
@@ -91,9 +89,11 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
+  // final TextEditingController photoURLController = TextEditingController();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController identificacionController = TextEditingController();
+  final TextEditingController identificacionController =
+      TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController presentacionController = TextEditingController();
   final TextEditingController celularController = TextEditingController();
@@ -102,9 +102,11 @@ class _RegisterFormState extends State<RegisterForm> {
   final TextEditingController ciudadController = TextEditingController();
   final TextEditingController paisController = TextEditingController();
   final TextEditingController pagosController = TextEditingController();
-  final TextEditingController entidadFinancieraController = TextEditingController();
+  final TextEditingController entidadFinancieraController =
+      TextEditingController();
   final TextEditingController clave1Controller = TextEditingController();
   final TextEditingController clave2Controller = TextEditingController();
+  final TextEditingController photoURLController = TextEditingController();
   final ImagePicker _imagePicker = ImagePicker();
   PickedFile? _pickedImage;
 
@@ -118,7 +120,8 @@ class _RegisterFormState extends State<RegisterForm> {
   String dropdownValue = 'Daviplata';
   String msisdn = '';
   String sessionString = '';
-  static const _chars ='AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  static const _chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   final Random _rnd = Random();
 
   final _formKey = GlobalKey<FormState>();
@@ -128,13 +131,19 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   void initState() {
-    // ignore:todo
-    // TODO: implement initState
     super.initState();
     msisdn = widget.msisdn;
     sessionString = getRandomString(30);
     print(sessionString);
     ValidationBuilder.setLocale('es');
+
+    final userDataGoogle = Provider.of<UserDataGoogle>(context, listen: false);
+
+    firstNameController.text = userDataGoogle.firstName;
+    lastNameController.text = userDataGoogle.lastName;
+    celularController.text = userDataGoogle.phoneNumber;
+    emailController.text = userDataGoogle.email;
+    photoURLController.text = userDataGoogle.photoURL;
 
     final userData =
         Provider.of<UserDataProviderUser>(context, listen: false).userData;
@@ -220,7 +229,6 @@ class _RegisterFormState extends State<RegisterForm> {
         print('Respuesta del servidor: ${response.data}');
       } else {
         print('Error al enviar el webhook: ${response.statusCode}');
-        
       }
     } catch (e) {
       print('Error al enviar el webhook: $e');
@@ -333,178 +341,198 @@ class _RegisterFormState extends State<RegisterForm> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF5F6F9),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        toolbarHeight: 30,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          color: const Color(0xFFffffff),
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) => const InsertNumberScreen(),
-              ),
-            );
-          },
+    return Consumer<UserDataGoogle>(builder: (context, userDataGoogle, child) {
+      firstNameController.text = userDataGoogle.firstName;
+      lastNameController.text = userDataGoogle.lastName;
+      celularController.text = userDataGoogle.phoneNumber;
+      emailController.text = userDataGoogle.email;
+      photoURLController.text = userDataGoogle.photoURL;
+
+      return Scaffold(
+        backgroundColor: const Color(0xFFF5F6F9),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          toolbarHeight: 30,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            color: const Color(0xFFffffff),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const InsertNumberScreen(),
+                ),
+              );
+            },
+          ),
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Center(
-                    child: CustomFontAileronBold2(
-                      text: 'Datos de tu perfil',
-                    ),
-                  ),
-                  SizedBox(height: size.height * 0.02),
-                  InkWell(
-                    onTap: () async {
-                      await _pickImage();
-                    },
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          width: 120,
-                          height: 120,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: _pickedImage != null
-                                ? DecorationImage(
-                                    image: FileImage(File(_pickedImage!.path)),
-                                    fit: BoxFit.cover,
-                                  )
-                                : const DecorationImage(
-                                    image: AssetImage(
-                                      'assets/images/images_login/perfil.png',
-                                    ) as ImageProvider<Object>,
-                                    fit: BoxFit.cover,
-                                  ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 10,
-                          right: 0,
-                          child: GestureDetector(
-                            onTap: () async {
-                              await _pickImage();
-                            },
-                            child: const Icon(Icons.camera_alt),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: size.height * 0.015),
-                  CustomInput(
-                    placeholder: 'Nombres',
-                    controller: firstNameController,
-                    validator: ValidationBuilder().required().build(),
-                  ),
-                  SizedBox(height: size.height * 0.015),
-                  CustomInput(
-                    placeholder: 'Apellidos',
-                    controller: lastNameController,
-                    validator: ValidationBuilder().required().build(),
-                  ),
-                  SizedBox(height: size.height * 0.015),
-                  CustomInput(
-                    placeholder: 'identificación',
-                    texto: false,
-                    controller: identificacionController,
-                    tipo: TextInputType.number,
-                  ),             
-                  SizedBox(height: size.height * 0.015),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: Container(
-                      width: size.width * 0.93,
-                      height: size.height * 0.06,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15),
+        body: Padding(
+          padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+          child: SafeArea(
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Center(
+                      child: CustomFontAileronBold2(
+                        text: 'Datos de tu perfil',
                       ),
-                      child: DropdownButtonHideUnderline(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: DropdownButton<String>(
-                            value: _selectedGender, // Usamos el valor seleccionado del estado
-                            isExpanded: true,
-                            hint: Text(
-                              'Sexo',
-                              style: const CustomFontAileronRegular(text: "").getTextStyle(context)                             
+                    ),
+                    SizedBox(height: size.height * 0.02),
+                    InkWell(
+                      onTap: () async {
+                        await _pickImage();
+                      },
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                            width: 120,
+                            height: 120,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: _pickedImage != null
+                                  ? DecorationImage(
+                                      image:
+                                          FileImage(File(_pickedImage!.path)),
+                                      fit: BoxFit.cover,
+                                    )
+                                    :userDataGoogle.photoURL.isNotEmpty
+                                    ?DecorationImage(
+                                      image:NetworkImage(userDataGoogle.photoURL),
+                                      fit: BoxFit.cover, 
+                                      )
+                                  : const DecorationImage(
+                                      image: AssetImage(
+                                        'assets/images/images_login/perfil.png',
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                _selectedGender = newValue!;
-                                genderController.text = newValue; // Actualizamos el estado con la opción seleccionada
-                              });
-                            },
-                            items: <String>['Masculino', 'Femenino', 'Binario']
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child:Text(
-                                  value,
-                                  style: const CustomFontAileronRegular(text: "").getTextStyle(context),
-                                ),
-                              );
-                            }).toList(),
+                          ),
+                          Positioned(
+                            bottom: 10,
+                            right: 0,
+                            child: GestureDetector(
+                              onTap: () async {
+                                await _pickImage();
+                              },
+                              child: const Icon(Icons.camera_alt),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: size.height * 0.015),
+                    CustomInput(
+                      placeholder: 'Nombres',
+                      controller: firstNameController,
+                      validator: ValidationBuilder().required().build(),
+                    ),
+                    SizedBox(height: size.height * 0.015),
+                    CustomInput(
+                      placeholder: 'Apellidos',
+                      controller: lastNameController,
+                      validator: ValidationBuilder().required().build(),
+                    ),
+                    SizedBox(height: size.height * 0.015),
+                    CustomInput(
+                      placeholder: 'identificación',
+                      texto: false,
+                      controller: identificacionController,
+                      tipo: TextInputType.number,
+                    ),
+                    SizedBox(height: size.height * 0.015),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: Container(
+                        width: size.width * 0.93,
+                        height: size.height * 0.06,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: DropdownButton<String>(
+                              value:
+                                  _selectedGender, // Usamos el valor seleccionado del estado
+                              isExpanded: true,
+                              hint: Text('Sexo',
+                                  style:
+                                      const CustomFontAileronRegular(text: "")
+                                          .getTextStyle(context)),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  _selectedGender = newValue!;
+                                  genderController.text =
+                                      newValue; // Actualizamos el estado con la opción seleccionada
+                                });
+                              },
+                              items: <String>[
+                                'Masculino',
+                                'Femenino',
+                                'Binario'
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    value,
+                                    style:
+                                        const CustomFontAileronRegular(text: "")
+                                            .getTextStyle(context),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: size.height * 0.015),
-                  CustomInput(
-                      placeholder: 'Presentación',                  
+                    SizedBox(height: size.height * 0.015),
+                    CustomInput(
+                      placeholder: 'Presentación',
                       controller: presentacionController,
                       validator: ValidationBuilder().required().build(),
                     ),
-                  SizedBox(height: size.height * 0.015),
-                  CustomInput(
-                    placeholder: "Celular",
-                    texto: false,
-                    controller: celularController,
-                    tipo: TextInputType.number,
-                  ),
-                  SizedBox(height: size.height * 0.015),
-                  CustomInput(
-                    placeholder: 'Mail',
-                    controller: emailController,
-                    validator: ValidationBuilder().required().build(),
-                  ),
-                  SizedBox(height: size.height * 0.015),
-                  CustomInput(
-                    placeholder: 'Fecha de Nacimiento',
-                    controller: fechaNacController,
-                    isDisabled: true,
-                    tipo: TextInputType.datetime,
-                    validator: ValidationBuilder().required().build(),
-                    onTap: (() async {
-                      var pickedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime(2100));
-                      if (pickedDate != null) {
-                        setState(() {
-                          fechaNacController.text =
-                              DateFormat('yyyy-MM-dd').format(pickedDate);
-                        });
-                      }
-                    }),
-                  ),
-                  SizedBox(height: size.height * 0.015),
-                  Row(
+                    SizedBox(height: size.height * 0.015),
+                    CustomInput(
+                      placeholder: "Celular",
+                      texto: false,
+                      controller: celularController,
+                      tipo: TextInputType.number,
+                    ),
+                    SizedBox(height: size.height * 0.015),
+                    CustomInput(
+                      placeholder: 'Mail',
+                      controller: emailController,
+                      validator: ValidationBuilder().required().build(),
+                    ),
+                    SizedBox(height: size.height * 0.015),
+                    CustomInput(
+                      placeholder: 'Fecha de Nacimiento',
+                      controller: fechaNacController,
+                      isDisabled: true,
+                      tipo: TextInputType.datetime,
+                      validator: ValidationBuilder().required().build(),
+                      onTap: (() async {
+                        var pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2100));
+                        if (pickedDate != null) {
+                          setState(() {
+                            fechaNacController.text =
+                                DateFormat('yyyy-MM-dd').format(pickedDate);
+                          });
+                        }
+                      }),
+                    ),
+                    SizedBox(height: size.height * 0.015),
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
@@ -523,218 +551,222 @@ class _RegisterFormState extends State<RegisterForm> {
                         ),
                       ],
                     ),
-                  // Lista desplegable
-                  SizedBox(height: size.height * 0.015),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: Container(
-                      width: size.width * 0.93,
-                      height: size.height * 0.06,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: DropdownButtonHideUnderline(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: DropdownButton(
-                            value: idMediopago == '' ? null : idMediopago,
-                            isExpanded: true,
-                            hint: const CustomFontAileronRegular(
-                              text: 'Medio para recibir pagos',
+                    // Lista desplegable
+                    SizedBox(height: size.height * 0.015),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: Container(
+                        width: size.width * 0.93,
+                        height: size.height * 0.06,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15)),
+                        child: DropdownButtonHideUnderline(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: DropdownButton(
+                              value: idMediopago == '' ? null : idMediopago,
+                              isExpanded: true,
+                              hint: const CustomFontAileronRegular(
+                                text: 'Medio para recibir pagos',
+                              ),
+                              items: mediosPagos.map((item) {
+                                return DropdownMenuItem(
+                                    value: item.id,
+                                    child: CustomFontAileronRegular(
+                                      text: (item.nombre),
+                                    ));
+                              }).toList(),
+                              onChanged: (val) {
+                                setState(() {
+                                  idMediopago = val.toString();
+                                  pagosController.text = mediosPagos
+                                      .firstWhere((element) =>
+                                          element.id == idMediopago)
+                                      .nombre;
+                                });
+                              },
                             ),
-                            items: mediosPagos.map((item) {
-                              return DropdownMenuItem(
-                                  value: item.id,
-                                  child: CustomFontAileronRegular(
-                                    text: (item.nombre),
-                                  ));
-                            }).toList(),
-                            onChanged: (val) {
-                              setState(() {
-                                idMediopago = val.toString();
-                                pagosController.text = mediosPagos
-                                    .firstWhere(
-                                        (element) => element.id == idMediopago)
-                                    .nombre;
-                              });
-                            },
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: size.height * 0.015),
-                  CustomInput(
-                    placeholder:'Entidad financiera',
-                    controller: entidadFinancieraController,
-                    validator: ValidationBuilder().required().build(),
-                  ),
-                  SizedBox(height: size.height * 0.015),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Flexible(
-                        fit: FlexFit.tight,
-                        flex: 5,
-                        child: CustomInput(
-                          placeholder:'clave 4 digitos',
-                          texto: false,
-                          ocultarTexto: true,
-                          controller: clave1Controller,
-                          validator: ValidationBuilder().required().build(),
-                          tipo: TextInputType.number,
+                    SizedBox(height: size.height * 0.015),
+                    CustomInput(
+                      placeholder: 'Entidad financiera',
+                      controller: entidadFinancieraController,
+                      validator: ValidationBuilder().required().build(),
+                    ),
+                    SizedBox(height: size.height * 0.015),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          fit: FlexFit.tight,
+                          flex: 5,
+                          child: CustomInput(
+                            placeholder: 'clave 4 digitos',
+                            texto: false,
+                            ocultarTexto: true,
+                            controller: clave1Controller,
+                            validator: ValidationBuilder().required().build(),
+                            tipo: TextInputType.number,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: size.height * 0.015),
-                      Flexible(
-                        fit: FlexFit.tight,
-                        flex: 5,
-                        child: CustomInput(
-                          placeholder:'Confirmala',
-                          texto: false,
-                          ocultarTexto: true,
-                          controller: clave2Controller,
-                          validator: ValidationBuilder().required().build(),
-                          tipo: TextInputType.number,
+                        SizedBox(height: size.height * 0.015),
+                        Flexible(
+                          fit: FlexFit.tight,
+                          flex: 5,
+                          child: CustomInput(
+                            placeholder: 'Confirmala',
+                            texto: false,
+                            ocultarTexto: true,
+                            controller: clave2Controller,
+                            validator: ValidationBuilder().required().build(),
+                            tipo: TextInputType.number,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: size.height * 0.03),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [TermsCheck()],
-                      ),
-                      Column(
-                        children: [
-                          RichText(
-                            textAlign: TextAlign.justify,
-                            text: TextSpan(
-                              text: 'Al crear una cuenta aseguras haber ',
-                              style: const CustomFontAileronRegular(
-                                text: " ",
-                              ).getTextStyle(context),
-                              children: [
-                                TextSpan(
-                                  text: 'leído y estar \nde acuerdo con los',
-                                  style: const CustomFontAileronRegular(
-                                    text: " ",
-                                  ).getTextStyle(context),
-                                ),
-                                TextSpan(
-                                  text: ' Terminos y condiciones ',
-                                  style: const CustomFontAileronRegularTur(
-                                    text: " ",
-                                  ).getTextStyle(context),
-                                ),
-                                TextSpan(
-                                  text: 'y con\nla',
-                                  style: const CustomFontAileronRegular(
-                                    text: " ",
-                                  ).getTextStyle(context),
-                                ),
-                                TextSpan(
-                                  text: ' Politica',
-                                  style: const CustomFontAileronRegularTur(
-                                    text: " ",
-                                  ).getTextStyle(context),
-                                ),
-                                TextSpan(
-                                  text: 'de privacidad',
-                                  style: const CustomFontAileronRegularTur(
-                                    text: " ",
-                                  ).getTextStyle(context),
-                                ),
-                              ],
+                      ],
+                    ),
+                    SizedBox(height: size.height * 0.03),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [TermsCheck()],
+                        ),
+                        Column(
+                          children: [
+                            RichText(
+                              textAlign: TextAlign.justify,
+                              text: TextSpan(
+                                text: 'Al crear una cuenta aseguras haber ',
+                                style: const CustomFontAileronRegular(
+                                  text: " ",
+                                ).getTextStyle(context),
+                                children: [
+                                  TextSpan(
+                                    text: 'leído y estar \nde acuerdo con los',
+                                    style: const CustomFontAileronRegular(
+                                      text: " ",
+                                    ).getTextStyle(context),
+                                  ),
+                                  TextSpan(
+                                    text: ' Terminos y condiciones ',
+                                    style: const CustomFontAileronRegularTur(
+                                      text: " ",
+                                    ).getTextStyle(context),
+                                  ),
+                                  TextSpan(
+                                    text: 'y con\nla',
+                                    style: const CustomFontAileronRegular(
+                                      text: " ",
+                                    ).getTextStyle(context),
+                                  ),
+                                  TextSpan(
+                                    text: ' Politica',
+                                    style: const CustomFontAileronRegularTur(
+                                      text: " ",
+                                    ).getTextStyle(context),
+                                  ),
+                                  TextSpan(
+                                    text: 'de privacidad',
+                                    style: const CustomFontAileronRegularTur(
+                                      text: " ",
+                                    ).getTextStyle(context),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  SizedBox(height: size.height * 0.03),
-                  BtnNext(
-                      press: () async {
-                        if (!_formKey.currentState!.validate()) {
-                          return;
-                        }
-                        if (idMediopago == '') {
-                          Fluttertoast.showToast(
-                              msg: 'Seleccione un medio de pago',
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: Colors.red,
-                              textColor: Colors.white,
-                              fontSize: 16.0);
-                          return;
-                        }
-                        if (clave1Controller.text != clave2Controller.text) {
-                          Fluttertoast.showToast(
-                              msg: 'Las claves no coinciden',
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: Colors.red,
-                              textColor: Colors.white,
-                              fontSize: 16.0);
-                          return;
-                        }
-                        Provider.of<UserDataProviderUser>(context,
-                                listen: false)
-                            .updateUserData(
-                          UserDataModelUser(
-                            firstName: firstNameController.text,
-                            lastName: lastNameController.text,
-                            identificacion: identificacionController.text,
-                            gender: identificacionController.text,
-                            presentacion: presentacionController.text ,
-                            celular: celularController.text,
-                            email: emailController.text,
-                            fechaNac: fechaNacController.text,
-                            ciudad: ciudadController.text,
-                            pais: paisController.text,
-                            pagos: pagosController.text,
-                            entidadFinanciera: entidadFinancieraController.text,
-                            clave1: clave1Controller.text,
-                            clave2: clave2Controller.text,
-                          ),
-                        );
-                        // Imprimir valores antes de enviar el webhook
-                        print('name: ${firstNameController.text}');
-                        print('last_name: ${lastNameController.text}');
-                        print('num_document: ${identificacionController.text}');
-                        print('photo_user: ${_pickedImage!.path}');
-                        print('gender: ${genderController.text}');
-                        print('telephone_number: ${celularController.text}');
-                        print('email: ${emailController.text}');
-                        print('birthdate: ${fechaNacController.text}');
-                        print('country: ${ciudadController.text}');
-                        print('city: ${ciudadController.text}');
-                        print('payment_method: ${pagosController.text}');
-                        print('financial_entity: ${entidadFinancieraController.text}');
-                        print('password: ${clave1Controller.text}');
-                        print('Confirmar: ${clave2Controller.text}');
-                        enviarWebhook();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const MainScreen(),
-                          ),
-                        );
-                      },
-                      title: 'Crear cuenta'),
-                  SizedBox(height: size.height * 0.02),
-                ],
+                          ],
+                        )
+                      ],
+                    ),
+                    SizedBox(height: size.height * 0.03),
+                    BtnNext(
+                        press: () async {
+                          if (!_formKey.currentState!.validate()) {
+                            return;
+                          }
+                          if (idMediopago == '') {
+                            Fluttertoast.showToast(
+                                msg: 'Seleccione un medio de pago',
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                            return;
+                          }
+                          if (clave1Controller.text != clave2Controller.text) {
+                            Fluttertoast.showToast(
+                                msg: 'Las claves no coinciden',
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                            return;
+                          }
+                          Provider.of<UserDataProviderUser>(context,
+                                  listen: false)
+                              .updateUserData(
+                            UserDataModelUser(
+                              firstName: firstNameController.text,
+                              lastName: lastNameController.text,
+                              identificacion: identificacionController.text,
+                              gender: identificacionController.text,
+                              presentacion: presentacionController.text,
+                              celular: celularController.text,
+                              email: emailController.text,
+                              fechaNac: fechaNacController.text,
+                              ciudad: ciudadController.text,
+                              pais: paisController.text,
+                              pagos: pagosController.text,
+                              entidadFinanciera:
+                                  entidadFinancieraController.text,
+                              clave1: clave1Controller.text,
+                              clave2: clave2Controller.text,
+                            ),
+                          );
+                          // Imprimir valores antes de enviar el webhook
+                          print('name: ${firstNameController.text}');
+                          print('last_name: ${lastNameController.text}');
+                          print(
+                              'num_document: ${identificacionController.text}');
+                          print('photo_user: ${_pickedImage!.path}');
+                          print('gender: ${genderController.text}');
+                          print('telephone_number: ${celularController.text}');
+                          print('email: ${emailController.text}');
+                          print('birthdate: ${fechaNacController.text}');
+                          print('country: ${ciudadController.text}');
+                          print('city: ${ciudadController.text}');
+                          print('payment_method: ${pagosController.text}');
+                          print(
+                              'financial_entity: ${entidadFinancieraController.text}');
+                          print('password: ${clave1Controller.text}');
+                          print('Confirmar: ${clave2Controller.text}');
+                          enviarWebhook();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  const MainScreen(),
+                            ),
+                          );
+                        },
+                        title: 'Guardar'),
+                    SizedBox(height: size.height * 0.02),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

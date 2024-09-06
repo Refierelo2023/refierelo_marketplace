@@ -6,7 +6,7 @@ import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 import 'package:refierelo_marketplace/widgets/search_box.dart';
 import 'package:refierelo_marketplace/widgets/widget_botton_select.dart';
 import 'login_list_categories.dart';
-import 'package:http/http.dart' as http;
+
 
 class LoginScreensCategories extends StatefulWidget {
   const LoginScreensCategories({super.key});
@@ -44,23 +44,23 @@ class LoginScreensCategoriesState extends State<LoginScreensCategories> {
     });
   }
 
-  void enviarWebhook(String selectedCategory) {
-  final url = Uri.parse("http://5.189.161.131:5000/webhook");
-  final data = {
-    'Categoria': selectedCategory,
-    // ... otras propiedades del formulario
-  };
+//   void enviarWebhook(String selectedCategory) {
+//   final url = Uri.parse("http://5.189.161.131:5000/webhook");
+//   final data = {
+//     'Categoria': selectedCategory,
+//     // ... otras propiedades del formulario
+//   };
 
-  http.post(url, body: data).then((respuesta) {
-    if (respuesta.statusCode == 200) {
-      print('Webhook enviado con éxito');
-    } else {
-      print('Error al enviar el webhook: ${respuesta.statusCode}');
-    }
-  }).catchError((error) {
-    print('Error al enviar el webhook: $error');
-  });
-}
+//   http.post(url, body: data).then((respuesta) {
+//     if (respuesta.statusCode == 200) {
+//       print('Webhook enviado con éxito');
+//     } else {
+//       print('Error al enviar el webhook: ${respuesta.statusCode}');
+//     }
+//   }).catchError((error) {
+//     print('Error al enviar el webhook: $error');
+//   });
+// }
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +138,7 @@ class LoginScreensCategoriesState extends State<LoginScreensCategories> {
               title: "Continuar ",
               press: () {
                  if (selectedCategory.isNotEmpty){
-                   enviarWebhook(selectedCategory);
+                  //  enviarWebhook(selectedCategory);
                    Navigator.push(
                     context,
                     MaterialPageRoute(

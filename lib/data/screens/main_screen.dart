@@ -3,6 +3,8 @@
 import 'package:badges/badges.dart' as badge_package;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:refierelo_marketplace/ClipsViews/clips_views.dart';
+import 'package:refierelo_marketplace/ClipsViews/clips_views_scroll.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/reward_dialog.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/welcome_dialog.dart';
 import 'package:refierelo_marketplace/data/screens/home/components/sidebar.dart';
@@ -10,13 +12,13 @@ import 'package:refierelo_marketplace/data/screens/screen_reward_user/widget_tab
 import 'package:refierelo_marketplace/data/screens/screens_home__view/screens_home_view.dart';
 import 'package:refierelo_marketplace/data/screens/screens_profile.dart/profile_screens.dart';
 import 'package:refierelo_marketplace/data/screens/display_refiere_aqui/display_refiere_aqui.dart';
-import 'package:refierelo_marketplace/data/screens/screens_profile_user/profile_screen_user.dart';
 import 'package:refierelo_marketplace/data/screens/search_screens/search_screens.dart';
 import 'package:refierelo_marketplace/providers/referente_provider.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 
 
 class MainScreen extends StatefulWidget {
+  static const String routename = "MainScreen";
   const MainScreen({super.key});
 
   @override
@@ -30,9 +32,8 @@ class _MainScreenState extends State<MainScreen> {
     const ScreensHomeView(),
     const SearchScreens(),
     const Spacer(),
+    const ClipsViewsScroll(),
     const ProfileScreens(selectedImageProduct: null,),
-    const ProfileScreensUser(
-      categoryIcons: {},)
   ];
 
   final List<String> _imagePaths = [
@@ -262,7 +263,7 @@ class MainScreenTop extends StatelessWidget implements PreferredSizeWidget {
                                   .referenteGlobal
                                   ?.puntos
                                   .toString() ??
-                              '1.000',
+                              '100',
                           style: const TextStyle(
                             fontSize: 19,
                             fontWeight: FontWeight.bold,

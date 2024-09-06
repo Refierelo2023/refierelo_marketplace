@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/nps/tab_bar_nps.dart';
 
 class RegistrationCostumerNps extends StatefulWidget {
@@ -69,6 +70,61 @@ class RegistrationCostumerNpsState extends State<RegistrationCostumerNps> {
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
                   color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildButton2 (BuildContext context) {
+    double buttonWidth = MediaQuery.of(context).size.width * 0.25;
+    double buttonPaddingHorizontalPercentage = 0.020;
+
+    return GestureDetector(
+      onTap: () {   
+         Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MainScreen()), // Navega al widget MainScreen
+        );    
+      },
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: FractionallySizedBox(
+          widthFactor: 0.6,
+          child: Container(            
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width,
+            ),
+            padding: EdgeInsets.symmetric(
+              vertical: MediaQuery.of(context).size.width *
+                  buttonPaddingHorizontalPercentage,
+              horizontal: MediaQuery.of(context).size.width *
+                  buttonPaddingHorizontalPercentage,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              gradient: const LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+                  Color(0xFFffffff),
+                  Color(0xFFffffff),
+                ],
+              ),
+            ),
+            child: SizedBox(
+              width: buttonWidth,
+              child: const Text(
+                'En otro momento',
+                style: TextStyle(
+                  fontFamily: 'Aileron',
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -190,6 +246,8 @@ class RegistrationCostumerNpsState extends State<RegistrationCostumerNps> {
                       // ),
                       const SizedBox(height: 20),
                       _buildButton(context),
+                      const SizedBox(height: 20),
+                      _buildButton2(context),
                     ],
                   ),
                 ),

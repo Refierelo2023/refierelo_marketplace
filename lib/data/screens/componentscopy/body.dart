@@ -5,7 +5,7 @@ import 'package:refierelo_marketplace/data/screens/Register/register_screen.dart
 import 'package:refierelo_marketplace/data/screens/componentscopy/btn_welcome.dart';
 import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
-import 'package:http/http.dart' as http;
+
 
 
 class Body extends StatelessWidget {

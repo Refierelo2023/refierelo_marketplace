@@ -1,13 +1,54 @@
-import 'package:auth0_flutter/auth0_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:form_validator/form_validator.dart';
+import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/data/screens/Register/components/custom_input.dart';
 import 'package:refierelo_marketplace/data/screens/main_screen.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
 
+class UserDataGoogle extends ChangeNotifier {
+  String firstName = '';
+  String lastName = '';
+  String phoneNumber = '';
+  String photoURL = '';
+  String email = '';
+
+
+  // Getter para obtener los datos como un objeto Map
+  Map<String, dynamic> get userData => {
+        'firstName': firstName,
+        'lastName': lastName,
+        'phoneNumber': phoneNumber,
+        'photoURL': photoURL,
+        'email': email,
+      };
+  void updateData({
+    required String firstName,
+    required String lastName,
+    required String phoneNumber,
+    required String photoURL,
+    required String email,
+   
+  }) {
+
+    print('Updating user data:');
+    print('First Name: $firstName');
+    print('Last Name: $lastName');
+    print('Phone Number: $phoneNumber');
+    print('Photo URL: $photoURL');
+    print('email: $email');  
+
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.phoneNumber = phoneNumber;
+    this.photoURL = photoURL;
+    this.email = email;   
+    notifyListeners();
+  }
+}
+
 class DialogRegister extends StatefulWidget {
   final VoidCallback pressContinue;
-  final UserProfile user;
+  final User user;
 
   const DialogRegister({
     super.key,
@@ -25,18 +66,26 @@ class _DialogRegisterState extends State<DialogRegister> {
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController photoURLController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
+
 
   @override
   void initState() {
     super.initState();
-    firstNameController.text = widget.user.givenName ?? '';
-    lastNameController.text = widget.user.familyName ?? '';
-    // Puedes continuar con otros campos según sea necesario
+    // Inicializa los controladores con la información del usuario
+    firstNameController.text = widget.user.displayName ?? '';
+    lastNameController.text = '';
+    phoneNumberController.text = widget.user.phoneNumber ?? '';
+    emailController.text = widget.user.email ?? '';
+    photoURLController.text = widget.user.photoURL ?? '';
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final userData = Provider.of<UserDataGoogle>(context);
 
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
@@ -44,36 +93,35 @@ class _DialogRegisterState extends State<DialogRegister> {
       backgroundColor: Colors.transparent,
       child: Stack(
         children: [
-          Container(
-            decoration: const BoxDecoration(
-              color: Colors.transparent,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Stack(
-                children: [
-                  Container(
-                    height: size.height * 0.49,
-                    width: size.width,
-                    padding: EdgeInsets.zero,
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [Color(0xff003366), Color(0xff02B5E7)],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
+          SingleChildScrollView(
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.transparent,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Stack(
+                  children: [
+                    Container(
+                      width: size.width,
+                      padding: EdgeInsets.zero,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xff003366), Color(0xff02B5E7)],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(top: 20, left: 10, right: 10),
-                      child: SingleChildScrollView(
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(top: 20, left: 10, right: 10),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             RichText(
-                              textAlign: TextAlign.justify,
+                              textAlign: TextAlign.center,
                               text: TextSpan(
                                 text: 'Nos gustaría confirmar tu información\n',
                                 style: const CustomFontAileronSemiBoldWhite(
@@ -96,23 +144,58 @@ class _DialogRegisterState extends State<DialogRegister> {
                               ),
                             ),
                             SizedBox(height: size.height * 0.02),
+                            Container(
+                              width: 100,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: photoURLController.text.isNotEmpty
+                                    ? DecorationImage(
+                                        image: NetworkImage(
+                                            photoURLController.text),
+                                        fit: BoxFit.cover,
+                                      )
+                                    : const DecorationImage(
+                                        image: AssetImage(
+                                          'assets/images/images_login/perfil.png',
+                                        ),
+                                        fit: BoxFit.cover,
+                                      ),
+                              ),
+                            ),
+                            SizedBox(height: size.height * 0.02),
                             CustomInput(
                               placeholder: 'Nombres',
                               controller: firstNameController,
-                              validator: ValidationBuilder().required().build(),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return "Ingresa tu nombre";
+                                }
+                                return null;
+                              },
                             ),
                             SizedBox(height: size.height * 0.02),
                             CustomInput(
                               placeholder: 'Apellidos',
                               controller: lastNameController,
-                              validator: ValidationBuilder().required().build(),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return "Ingresa tus apellidos";
+                                }
+                                return null;
+                              },
                             ),
                             SizedBox(height: size.height * 0.02),
                             CustomInput(
                               placeholder: "Celular",
-                              controller: phoneNumberController,
-                              texto: false,
+                              controller: phoneNumberController,                              
                               tipo: TextInputType.number,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return "Ingresa tu número de celular";
+                                }
+                                return null;
+                              },
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
@@ -125,9 +208,8 @@ class _DialogRegisterState extends State<DialogRegister> {
                                   Column(
                                     children: [
                                       Container(
-                                        width: 16, // ajusta según sea necesario
-                                        height:
-                                            16, // ajusta según sea necesario
+                                        width: 16,
+                                        height: 16,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(4),
@@ -211,15 +293,21 @@ class _DialogRegisterState extends State<DialogRegister> {
                               children: [
                                 GestureDetector(
                                   onTap: () async {
-                                   {
-                                      Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const MainScreen(),
-                                        ), 
-                                        (route) => false,
-                                      );
-                                    }
+                                    userData.updateData(
+                                      firstName: firstNameController.text,
+                                      lastName: lastNameController.text,
+                                      phoneNumber: phoneNumberController.text,
+                                      photoURL: photoURLController.text,
+                                      email: emailController.text,
+                                    );
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const MainScreen(),
+                                      ),
+                                      (route) => false,
+                                    );
                                   },
                                   child: Material(
                                     borderRadius: BorderRadius.circular(10),
@@ -251,14 +339,13 @@ class _DialogRegisterState extends State<DialogRegister> {
                                 ),
                               ],
                             ),
-
-                            SizedBox(height: size.height * 0.01),
+                            SizedBox(height: size.height * 0.02),
                           ],
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

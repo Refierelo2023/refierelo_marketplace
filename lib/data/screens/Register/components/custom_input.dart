@@ -7,17 +7,17 @@ class CustomInput extends StatefulWidget {
   final String placeholder;
   final TextEditingController? controller;
   final Widget? title;
-  bool texto;
-  bool ocultarTexto;
-  bool isDisabled;
-  bool rounded;
-  TextInputType? tipo;
-  Function()? onTap;
-  dynamic validator;
-  Color colorTitle;
-  Alignment alignTitle;
-  bool showTitle;
-  FocusNode? focusNode;
+  final bool texto;
+  final bool ocultarTexto;
+  final bool isDisabled;
+  final bool rounded;
+  final TextInputType? tipo;
+  final Function()? onTap;
+  final dynamic validator;
+  final Color colorTitle;
+  final Alignment alignTitle;
+  final bool showTitle;
+  final FocusNode? focusNode;
 
   CustomInput(
       {super.key,
@@ -81,7 +81,7 @@ class _CustomInputState extends State<CustomInput> {
             focusNode: widget.focusNode,            
             autovalidateMode: AutovalidateMode.onUserInteraction,
             inputFormatters: [
-              FilteringTextInputFormatter.deny(RegExp(r'^[ ]'))
+               FilteringTextInputFormatter.deny(RegExp(r'^[ ]'))              
             ],
             obscureText: widget.ocultarTexto == true && isObscure,
             decoration: InputDecoration(
@@ -102,8 +102,6 @@ class _CustomInputState extends State<CustomInput> {
                 labelStyle: CustomFontAileronRegular(
                   text: widget.placeholder,
                   ).getTextStyle(context),
-                // border:
-                // border: InputBorder.none,
                 errorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: const BorderSide(color: Colors.red)),
@@ -128,10 +126,8 @@ class _CustomInputState extends State<CustomInput> {
                   ),
             style: const TextStyle(fontSize: 14),
             cursorColor: const Color(0xFFFFFFFF),
-            // obscureText: widget.ocultarTexto == true && isObscure==true,
             onTap: () {
               if (widget.texto) {
-                // Borra el texto cuando se selecciona el campo
                 _textEditingController!.clear();
               }
               widget.onTap?.call();

@@ -161,7 +161,7 @@ class WidgetDisplayProductState extends State<WidgetDisplayProduct> {
                       selectedCategories: [],
                 ).buildProfileWidget(
                     imagePath: "assets/images/usuario3/logo.png",
-                    story: "assets/video/story_feed/v1.mp4",
+                    story: "assets/video/story_feed/tbone.mp4",
                     nameprofile: "KFC",
                     categorie: "Restaurante",
                     screenWidth: MediaQuery.of(context).size.width,

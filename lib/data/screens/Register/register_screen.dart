@@ -3,7 +3,7 @@ import 'package:refierelo_marketplace/data/screens/Register/options_register_scr
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_screens.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_type_company.dart';
 import 'package:refierelo_marketplace/widgets/custom_aileron_fonts.dart';
-import 'package:http/http.dart' as http;
+
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});

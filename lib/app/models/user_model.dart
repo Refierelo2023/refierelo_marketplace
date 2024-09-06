@@ -1,8 +1,8 @@
-class User {
+class UserModel {
   final String name;
   final String profileImageUrl;
 
-  const User({
+  const UserModel({
     required this.name, 
     required this.profileImageUrl});
 }

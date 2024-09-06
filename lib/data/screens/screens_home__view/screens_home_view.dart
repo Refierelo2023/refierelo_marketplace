@@ -8,7 +8,7 @@ import 'package:refierelo_marketplace/data/screens/screens_home__view/screens_an
 import 'package:refierelo_marketplace/widgets/story_feed/widgets_story_feed.dart';
 import 'package:refierelo_marketplace/widgets/story_feed/widgets_user_story.dart';
 
-class ScreensHomeView extends StatefulWidget {
+class ScreensHomeView extends StatefulWidget {  
   const ScreensHomeView({super.key});
 
   @override
@@ -59,8 +59,7 @@ class _ScreensHomeViewState extends State<ScreensHomeView>
       children: [
         Scaffold(
           backgroundColor: Colors.white,
-          body: Column(
-            children: [
+          body: Column(children: [
             SizedBox(
                 height: 70.w,
                 child: ListView.builder(
@@ -68,7 +67,7 @@ class _ScreensHomeViewState extends State<ScreensHomeView>
                     padding: EdgeInsets.symmetric(horizontal: 5.w),
                     itemBuilder: (context, index) {
                       return WidgetsUserStory(
-                        setRectPoint: (reactPoint) {                          
+                        setRectPoint: (reactPoint) {
                           setState(() {
                             rect = reactPoint;
                           });
@@ -77,32 +76,30 @@ class _ScreensHomeViewState extends State<ScreensHomeView>
                         index: index,
                         onStoryItemTap: onStoryItemTap,
                       );
-                    }
-                  )
-                ),                
-              ]              
-            ),            
-          ),
+                    })),
+          ]),
+        ),
         rippleAnimationOverlay(),
         Positioned(
-            top: 70.w,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: const IndexedStack(
-              index: 0,
-              children: [
-                ScreensAnnouncements(),
-              ],
-            ),
+          top: 70.w,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: const IndexedStack(
+            index: 0,
+            children: [
+              ScreensAnnouncements(),
+            ],
           ),
+        ),
       ],
     );
   }
+
   Widget rippleAnimationOverlay() {
     if (rect == null) {
       return const Offstage();
-    }    
+    }
     return Overlay(
       initialEntries: [
         OverlayEntry(

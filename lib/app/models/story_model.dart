@@ -6,7 +6,7 @@ class Story {
   String? localFilePath;  // Nueva propiedad para almacenar la ruta local
   String? url;  // URL para imágenes externas (opcional)
   MediaType media;
-  User user;
+  UserModel user;
   Duration duration;
 
   Story({

@@ -50,7 +50,7 @@ class _WidgetsUserStoryState extends State<WidgetsUserStory>
             const CircleAvatar(
               radius: 30.0,
               backgroundImage: NetworkImage(
-                  "https://aldasbrand.com/wp-content/uploads/2022/05/BODYTECH-1-1536x865.jpg"),
+                  "https://i.postimg.cc/pTQjR6tJ/Captura-de-Pantalla-2024-08-28-a-la-s-2-29-21-a-m.png"),
             ),
             // diseño story Circulo degradado/////////////////////////
             Container(

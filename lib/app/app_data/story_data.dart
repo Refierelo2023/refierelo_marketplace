@@ -1,7 +1,7 @@
 import '../models/story_model.dart';
 import '../models/user_model.dart';
 
-User user = const User(
+UserModel user = const UserModel(
   name: 'Sin uso',
   profileImageUrl:
       'https://www.lavanguardia.com/files/content_image_desktop_filter/uploads/2018/07/25/5fa43c9755611.jpeg',
@@ -15,7 +15,7 @@ List<Story> stories = [
     duration: const Duration(seconds: 5),
   ),
   Story(
-    url: 'assets/video/story_feed/v1.mp4',
+    url: 'assets/video/story_feed/tbone.mp4',
     media: MediaType.video,
     user: user,
     duration: const Duration(seconds: 5),
@@ -47,48 +47,48 @@ void updateStories(String imageUrl) {
 
 List<UserStoryList> storyListUser = [
   UserStoryList(
-      user: const User(
+      user: const UserModel(
         name: 'Cine Colombia',
         profileImageUrl:
             'https://secreditos.org.co/wp-content/uploads/309-3098892_algunos-de-nuestros-clientes-cine-colombia-logo-vector-1-e1646843331371.png',
       ),
       story: stories),
   UserStoryList(
-      user: const User(
+      user: const UserModel(
         name: 'Bodytech',
         profileImageUrl:
             'https://secreditos.org.co/wp-content/uploads/Logo-Bodytech-2021-01.png',
       ),
       story: stories),
   UserStoryList(
-      user: const User(
+      user: const UserModel(
         name: 'Kfc',
         profileImageUrl: 'https://www.svgrepo.com/show/303451/kfc-2-logo.svg',
       ),
       story: stories),
   UserStoryList(
-      user: const User(
+      user: const UserModel(
         name: 'Negocio 4',
         profileImageUrl:
             'http://m.gettywallpapers.com/wp-content/uploads/2021/03/Cool-HD-Wallpaper.jpg',
       ),
       story: stories),
   UserStoryList(
-      user: const User(
+      user: const UserModel(
         name: 'Negocio 5',
         profileImageUrl:
             'http://m.gettywallpapers.com/wp-content/uploads/2021/03/Cool-HD-Wallpaper.jpg',
       ),
       story: stories),
   UserStoryList(
-      user: const User(
+      user: const UserModel(
         name: 'Negocio 6',
         profileImageUrl:
             'http://m.gettywallpapers.com/wp-content/uploads/2021/03/Cool-HD-Wallpaper.jpg',
       ),
       story: stories),
   UserStoryList(
-      user: const User(
+      user: const UserModel(
         name: 'Emprendedor 7',
         profileImageUrl:
             'http://m.gettywallpapers.com/wp-content/uploads/2021/03/Cool-HD-Wallpaper.jpg',
@@ -98,7 +98,7 @@ List<UserStoryList> storyListUser = [
 
 class UserStoryList {
   List<Story> story;
-  User user;
+  UserModel user;
 
   UserStoryList({required this.story, required this.user});
 }

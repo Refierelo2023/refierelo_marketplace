@@ -76,6 +76,10 @@ dependencies:
   multi_image_picker_view: ^1.0.0
   path: ^1.8.3
   dio: ^5.4.3+1
+  firebase_auth: ^4.17.8
+  flutter_launcher_icons: ^0.13.1
+  firebase_core: ^2.27.0
+  
  
  
   
@@ -91,8 +95,16 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^2.1.8
+  change_app_package_name: ^1.2.0
   flutter_test:
     sdk: flutter
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo3.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21  
+
 
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -125,6 +137,7 @@ flutter:
     - lib/main.dart    
     - assets/images/logo1.png
     - assets/images/logo2.png
+    - assets/images/logo3.png
     - assets/images/images_login/casa.png
     - assets/images/images_login/cohete.png
     - assets/images/images_login/estrellas01.png
@@ -143,6 +156,7 @@ flutter:
     - assets/images/images_productos/cineconbito.png
     - assets/video/story_feed/v1.mp4
     - assets/video/story_feed/V2.mp4
+    - assets/video/story_feed/tbone.mp4
     - assets/video/story_feed/A002_C018_0922BW_001.mp4
     - assets/images/images_main_screen_top/puntos.png
     - assets/images/images_login/casa1.png
@@ -254,6 +268,7 @@ flutter:
     - assets/images/images_icons/starwhite100.png
     - assets/images/images_icons/images.png
     - assets/images/images_icons/product.png
+    
    
 
     

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/data/screens/screens_login.dart/login_product_registration.dart';
@@ -13,69 +12,75 @@ class WidgetBottonComprar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double buttonWidth = MediaQuery.of(context).size.width * 0.3; // El 25% del ancho del dispositivo
-    double buttonPaddingHorizontalPercentage = 0.020;
+    double buttonWidth = MediaQuery.of(context).size.width * 0.3;   
 
-    final productModel = Provider.of<ProductModel>(context, listen: false);// Modelo de datos LoginProductRegistration
-
-    return GestureDetector(
-      onTap: () {
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          builder: (BuildContext context) {
-            return WidgetDisplayComprar(
-              imagePaths: productModel.selectedImageProductMap.values.map((file) => file.path).toList(),
+    return Consumer<ProductModel>(
+      builder: (context, productModel, child) {
+        return GestureDetector(
+          onTap: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (BuildContext context) {
+                // Verificar si el modelo todavía está disponible
+                if (!context
+                    .read<ProductModel>()
+                    .selectedImageProductMap
+                    .isEmpty) {
+                  return WidgetDisplayComprar(
+                    imagePaths: productModel.selectedImageProductMap.values
+                        .map((file) => file.path)
+                        .toList(),
+                  );
+                } else {
+                  return Center(child: Text('No hay imágenes disponibles.'));
+                }
+              },
             );
           },
-        );
-      },
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: FractionallySizedBox(
-          widthFactor: 0.8,
-          child: Container(
-            constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width * 0,
-            ),
-            padding: EdgeInsets.symmetric(
-              vertical: MediaQuery.of(context).size.width *
-                  buttonPaddingHorizontalPercentage,
-              horizontal: MediaQuery.of(context).size.width *
-                  buttonPaddingHorizontalPercentage,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              gradient: const LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [
-                  Color(0xFF003366),
-                  Color(0xFF02b5e7),
-                ],
+          child: MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: FractionallySizedBox(
+              widthFactor: 0.8,
+              child: Container(
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.3,
+                ),
+                padding: EdgeInsets.symmetric(
+                  vertical: MediaQuery.of(context).size.width * 0.020,
+                  horizontal: MediaQuery.of(context).size.width * 0.020,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 1.0,
+                  ),
+                ),
+                child: SizedBox(
+                  width: buttonWidth,
+                  child: const CustomFontAileronRegularWhite(
+                    text: "Comprar",
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               ),
             ),
-            child: SizedBox(
-              width: buttonWidth, // Ancho del botón
-              child: const CustomFontAileronRegularWhite(
-                  text: "Comprar",
-                  textAlign: TextAlign.center,                  
-                ),
-            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
 
 class WidgetDisplayComprar extends StatefulWidget {
-final List<String> imagePaths;
+  final List<String> imagePaths;
 
   const WidgetDisplayComprar({
     super.key,
     required this.imagePaths,
-    });
+  });
 
   @override
   WidgetDisplayComprarState createState() => WidgetDisplayComprarState();
@@ -98,7 +103,7 @@ class WidgetDisplayComprarState extends State<WidgetDisplayComprar> {
   void initState() {
     super.initState();
     isButtonSelectedList = List.generate(3, (index) => false);
-    pointsController.text = '1.200';
+    pointsController.text = '100';
     selectOnly(0);
   }
 
@@ -111,7 +116,8 @@ class WidgetDisplayComprarState extends State<WidgetDisplayComprar> {
 
   @override
   Widget build(BuildContext context) {
-    int pageCount = widget.imagePaths.length; // Obtener el número de páginas (imágenes)
+    int pageCount =
+        widget.imagePaths.length; // Obtener el número de páginas (imágenes)
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -162,7 +168,8 @@ class WidgetDisplayComprarState extends State<WidgetDisplayComprar> {
                             borderRadius: BorderRadius.all(
                                 Radius.circular(20)), // Bordes redondeados
                           ),
-                          width: MediaQuery.of(context).size.width *0.13, // Ancho de la línea
+                          width: MediaQuery.of(context).size.width *
+                              0.13, // Ancho de la línea
                         ),
                         Container(
                           margin: const EdgeInsets.symmetric(vertical: 2),
@@ -203,7 +210,7 @@ class WidgetDisplayComprarState extends State<WidgetDisplayComprar> {
                     Padding(
                       padding: EdgeInsets.only(left: 7),
                       child: CustomFontAileronBold2(
-                        text: "\$30.000",
+                        text: "\$90.000",
                         fontSize: 0.055,
                       ),
                     ),
@@ -211,7 +218,7 @@ class WidgetDisplayComprarState extends State<WidgetDisplayComprar> {
                       padding: EdgeInsets.only(right: 7),
                       child: Expanded(
                         child: CustomFontAileronBold2(
-                          text: "Tarjeta Black",
+                          text: "Entrecote",
                           textAlign: TextAlign.right,
                         ),
                       ),
@@ -253,7 +260,7 @@ class WidgetDisplayComprarState extends State<WidgetDisplayComprar> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-            
+
                 // const Padding(
                 //   padding: EdgeInsets.all(5.0),
                 //   child: CustomFontAileronRegular(
@@ -263,7 +270,7 @@ class WidgetDisplayComprarState extends State<WidgetDisplayComprar> {
                 //     maxLines: 2,
                 //   ),
                 // ),
-                 const SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 0),
                   child: Row(
@@ -494,19 +501,28 @@ class WidgetDisplayComprarState extends State<WidgetDisplayComprar> {
                                 text: TextSpan(
                                   text: 'Antes ',
                                   style: TextStyle(
-                                    color: const Color(0xFFA6A6A6), // Color del texto no tachado
-                                    fontSize: MediaQuery.of(context).size.width * 0.029, 
-                                    fontWeight: FontWeight.w400,// Ajusta según sea necesario
+                                    color: const Color(
+                                        0xFFA6A6A6), // Color del texto no tachado
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.029,
+                                    fontWeight: FontWeight
+                                        .w400, // Ajusta según sea necesario
                                   ),
-                                  children:[
+                                  children: [
                                     TextSpan(
-                                      text: '\$35.000',
-                                      style:  TextStyle(
-                                        color: const Color(0xFFA6A6A6), // Color del texto no tachado
-                                        fontSize:MediaQuery.of(context).size.width * 0.029, // Ajusta según sea necesario
-                                        decoration: TextDecoration.lineThrough, 
-                                        fontWeight: FontWeight.w400// Tachado
-                                      ),
+                                      text: '\$90.000',
+                                      style: TextStyle(
+                                          color: const Color(
+                                              0xFFA6A6A6), // Color del texto no tachado
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.029, // Ajusta según sea necesario
+                                          decoration:
+                                              TextDecoration.lineThrough,
+                                          fontWeight: FontWeight.w400 // Tachado
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -561,12 +577,12 @@ class WidgetDisplayComprarState extends State<WidgetDisplayComprar> {
           break;
         case 1:
           pointsIndicator = '';
-          priceIndicator = '\$30.000';
+          priceIndicator = '\$90.000';
           _isVisible = false;
           break;
         case 2:
           pointsIndicator = pointsController.text;
-          priceIndicator = '\$30.000';
+          priceIndicator = '\$90.000';
           _isVisible = true;
           break;
         default:

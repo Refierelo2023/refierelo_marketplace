@@ -78,7 +78,7 @@ class _RecompensasTabState extends State<RecompensasTab> {
                       children: [
                         Container(
                           height: size.height * 0.27,
-                          width: size.width * 0.9,
+                          width: size.width * 0.95,
                           margin: EdgeInsets.symmetric(
                               horizontal: size.width * 0.02,
                               vertical: size.height * 0.02),
@@ -94,42 +94,44 @@ class _RecompensasTabState extends State<RecompensasTab> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const CustomFontAileronBold2White(
-                                    text: 'Recompensas',
-                                    textAlign: TextAlign.start,
-                                  ),
-                                  SizedBox(height: size.height * 0.04),
-                                  Text(
-                                    '${referente.referenteGlobal?.nombres} ${referente.referenteGlobal?.apellidos}',
-                                    style: const CustomFontAileronSemiBoldWhite(
-                                            text: " ")
-                                        .getTextStyle(context)
-                                        .copyWith(height: 1.5),
-                                  ),
-                                  SizedBox(height: size.height * 0.03),
-                                  Text(
-                                    'Tienes ${referente.referenteGlobal?.puntos} puntos',
-                                    style: const CustomFontAileronSemiBoldWhite(
-                                            text: " ")
-                                        .getTextStyle(context)
-                                        .copyWith(height: 1.5),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                  SizedBox(height: size.height * 0.01),
-                                  Text(
-                                    '1 Punto = \$25 COP',
-                                    style: const CustomFontAileronRegularWhite(
-                                      text: " ",
-                                      fontSize: 0.03,
-                                    )
-                                        .getTextStyle(context)
-                                        .copyWith(height: 1.5),
-                                  ),
-                                ],
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const CustomFontAileronBold2White(
+                                      text: 'Recompensas',
+                                      textAlign: TextAlign.start,
+                                    ),
+                                    SizedBox(height: size.height * 0.04),
+                                    Text(
+                                      'T-BONE',
+                                      style: const CustomFontAileronSemiBoldWhite(
+                                              text: " ")
+                                          .getTextStyle(context)
+                                          .copyWith(height: 1.5),
+                                    ),
+                                    SizedBox(height: size.height * 0.03),
+                                    Text(
+                                      'Tienes 100 puntos',
+                                      style: const CustomFontAileronSemiBoldTur(
+                                              text: " ")
+                                          .getTextStyle(context)
+                                          .copyWith(height: 1.5),
+                                      textAlign: TextAlign.start,                                    
+                                    ),
+                                    SizedBox(height: size.height * 0.01),
+                                    Text(
+                                      '1 Punto = \$25 COP',
+                                      style: const CustomFontAileronRegularWhite(
+                                        text: " ",
+                                        fontSize: 0.03,
+                                      )
+                                          .getTextStyle(context)
+                                          .copyWith(height: 1.5),
+                                    ),
+                                  ],
+                                ),
                               ),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -179,7 +181,7 @@ class _RecompensasTabState extends State<RecompensasTab> {
                                       Text(
                                         referente.referenteGlobal?.puntos
                                                 .toString() ??
-                                            "0",
+                                            "100",
                                         style: const TextStyle(
                                           color: Colors.green,
                                           fontWeight: FontWeight.bold,

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:refierelo_marketplace/app/models/user_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:refierelo_marketplace/app/models/user_model.dart';
 
 
 class WidgetsUserInfo extends StatelessWidget {
   const WidgetsUserInfo({super.key, required this.user});
-  final User user;
+  final UserModel user;
 
   @override
   Widget build(BuildContext context) {

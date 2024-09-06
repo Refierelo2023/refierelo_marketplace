@@ -197,9 +197,8 @@ class DisplaySidebarVerticalState extends State<DisplaySidebarVertical> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => RegisterForm(
-                  msisdn: '',
-                  user: _user!,
+                builder: (context) => RegisterForm(                  
+                  msisdn: '',                
                 ),
               ),
             );

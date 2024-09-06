@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:refierelo_marketplace/app/app_data/story_data.dart';
@@ -178,7 +176,7 @@ class ProfileScreensState extends State<ProfileScreens>
                             child: WidgetsUserStoryProfile(
                               backgroundImage:
                               const NetworkImage(
-                                  "https://i.pinimg.com/474x/6e/d0/b5/6ed0b51833ee7affe0dfd37a531b2431.jpg"),
+                                  "https://i.postimg.cc/pTQjR6tJ/Captura-de-Pantalla-2024-08-28-a-la-s-2-29-21-a-m.png"),
                               setRectPoint: (rectPoint) {
                                 setState(() {
                                   rect = rectPoint;
@@ -206,7 +204,7 @@ class ProfileScreensState extends State<ProfileScreens>
                               child: const Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  CustomFontAileronBold(text: "2.000"),
+                                  CustomFontAileronBold(text: "100"),
                                   CustomFontAileronRegular(
                                     text: "Recompensas",
                                   ),

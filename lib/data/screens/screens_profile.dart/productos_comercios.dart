@@ -60,7 +60,7 @@ class ProductosComercios extends StatelessWidget {
 
                 return buildProfileWidget(
                   imagePath: "assets/images/images_productos/black.png",
-                  story: "assets/video/story_feed/v1.mp4",
+                  story: "assets/video/story_feed/tbone.mp4",
                   nameprofile: "Cine Colombia",
                   categorie: "Entretenimiento",
                   price: formattedPrice,

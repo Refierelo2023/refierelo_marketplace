@@ -33,7 +33,7 @@ class _ViewScreenProductState extends State<ViewScreenProduct>
   void initState() {
     super.initState();
     _controller = VideoPlayerController.asset(
-      'assets/video/story_feed/v1.mp4',
+      'assets/video/story_feed/tbone.mp4',
     )..initialize().then((_) {
         setState(() {});
         _controller.play(); // Comienza la reproducción automáticamente

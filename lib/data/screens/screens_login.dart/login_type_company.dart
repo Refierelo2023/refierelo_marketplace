@@ -37,24 +37,24 @@ class LoginTypeCompanyState extends State<LoginTypeCompany> {
     });
   }
 
-  void enviarWebhook(int selectedIndex) {    
-    if (selectedIndex >= 0 && selectedIndex < palabras.length) {
-      final url = Uri.parse("http://5.189.161.131:5000/webhook");
-      final data = {'TipoEmpresa': palabras[selectedIndex]};
+  // void enviarWebhook(int selectedIndex) {    
+  //   if (selectedIndex >= 0 && selectedIndex < palabras.length) {
+  //     final url = Uri.parse("http://5.189.161.131:5000/webhook");
+  //     final data = {'TipoEmpresa': palabras[selectedIndex]};
 
-      http.post(url, body: data).then((respuesta) {
-        if (respuesta.statusCode == 200) {
-          print('Webhook enviado con éxito');
-        } else {
-          print('Error al enviar el webhook: ${respuesta.statusCode}');
-        }
-      }).catchError((error) {
-        print('Error al enviar el webhook: $error');
-      });
-    } else {
-      print('Error: Índice fuera de rango');
-    }
-  }
+  //     http.post(url, body: data).then((respuesta) {
+  //       if (respuesta.statusCode == 200) {
+  //         print('Webhook enviado con éxito');
+  //       } else {
+  //         print('Error al enviar el webhook: ${respuesta.statusCode}');
+  //       }
+  //     }).catchError((error) {
+  //       print('Error al enviar el webhook: $error');
+  //     });
+  //   } else {
+  //     print('Error: Índice fuera de rango');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +124,7 @@ class LoginTypeCompanyState extends State<LoginTypeCompany> {
             }
           }
           if (selectedIndex != -1) {
-            enviarWebhook(selectedIndex);
+            // enviarWebhook(selectedIndex);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const LoginScreensCategories()), // Ir a LoginScreensCategories

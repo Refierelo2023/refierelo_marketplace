@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1009649273389",
+    "project_id": "refierelo-a449c",
+    "storage_bucket": "refierelo-a449c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009649273389:android:b63aecfabf9b4369ed86a4",
+        "android_client_info": {
+          "package_name": "com.example.refierelo_marketplace"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1009649273389-tvr7rdaj954hro859vvsj72vv4pu7png.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXa0U9bNpGN0US6SB721Tj7klsUygswLI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1009649273389-tvr7rdaj954hro859vvsj72vv4pu7png.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1009649273389-v3d3tgjsnr9mrmvr071rb9dkol07ju1t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.refiereloMarketplace"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

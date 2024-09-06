@@ -297,9 +297,8 @@ class ProfileScreensUserState extends State<ProfileScreensUser>
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => RegisterForm(
+                                  builder: (context) => RegisterForm(                                                              
                                     msisdn: '',
-                                     user: _user ?? const UserProfile(sub: "")
                                   ),
                                 ),
                               );

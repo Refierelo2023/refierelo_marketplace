@@ -21,7 +21,7 @@ class CircleStory extends StatelessWidget {
         ),
         child: ClipOval(
           child: Image.network(
-            "https://secreditos.org.co/wp-content/uploads/309-3098892_algunos-de-nuestros-clientes-cine-colombia-logo-vector-1-e1646843331371.png",
+            "https://i.postimg.cc/yxn8rhXj/Captura-de-Pantalla-2024-08-28-a-la-s-2-29-21-a-m.png",
             fit: BoxFit.cover,
           ),
         ),
