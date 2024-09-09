@@ -173,19 +173,21 @@ class ProfileScreensState extends State<ProfileScreens>
                           Flexible(
                             fit: FlexFit.tight,
                             flex: 3,
-                            child: WidgetsUserStoryProfile(
-                              backgroundImage:
-                              const NetworkImage(
-                                  "https://i.postimg.cc/pTQjR6tJ/Captura-de-Pantalla-2024-08-28-a-la-s-2-29-21-a-m.png"),
-                              setRectPoint: (rectPoint) {
-                                setState(() {
-                                  rect = rectPoint;
-                                });
-                                int index = _stories.indexOf("");
-                                onStoryItemTap(rect, index);
-                              },
-                              index: 0,
-                              onStoryItemTap: onStoryItemTap,
+                            child: SizedBox(
+                              height: 100,
+                              child: WidgetsUserStoryProfile(
+                                backgroundImage:const NetworkImage(
+                                    "https://i.postimg.cc/pTQjR6tJ/Captura-de-Pantalla-2024-08-28-a-la-s-2-29-21-a-m.png"),
+                                setRectPoint: (rectPoint) {
+                                  setState(() {
+                                    rect = rectPoint;
+                                  });
+                                  int index = _stories.indexOf("");
+                                  onStoryItemTap(rect, index);
+                                },
+                                index: 0,
+                                onStoryItemTap: onStoryItemTap,
+                              ),
                             ),
                           ),
                           Flexible(

@@ -118,21 +118,21 @@ class _WidgetCircleProductState extends State<WidgetCircleProduct> {
                   size: 25,
                 ),
               ),
-            const SimpleCircularProgressBar(
-              fullProgressGradient: SweepGradient(
-                tileMode: TileMode.decal,
-                colors: [
-                  Color(0xFF02b5e7),
-                  Color(0xFF003366),
-                  Color(0xFF02b5e7),
-                ],
-              ),
-              size: 70,
-              progressStrokeWidth: 4,
-              backColor: Colors.transparent,
-              animationDuration: 1,
-              maxValue: 100,
-            ),
+            // const SimpleCircularProgressBar(
+            //   fullProgressGradient: SweepGradient(
+            //     tileMode: TileMode.decal,
+            //     colors: [
+            //       Color(0xFF02b5e7),
+            //       Color(0xFF003366),
+            //       Color(0xFF02b5e7),
+            //     ],
+            //   ),
+            //   size: 70,
+            //   progressStrokeWidth: 4,
+            //   backColor: Colors.transparent,
+            //   animationDuration: 1,
+            //   maxValue: 100,
+            // ),
             Positioned(
               bottom: 18,
               left: 0,

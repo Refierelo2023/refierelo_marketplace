@@ -68,25 +68,25 @@ class _WidgetsUserStoryState extends State<WidgetsUserStory>
                       size.width, size.height);
                   widget.setRectPoint(rect);
                 },
-                child: const SizedBox(
-                  width: 70,
-                  height: 70,
-                  child: SimpleCircularProgressBar(
-                    fullProgressGradient: SweepGradient(
-                      tileMode: TileMode.decal,
-                      colors: [
-                        Color(0xFF02b5e7),
-                        Color(0xFF003366),
-                        Color(0xFF02b5e7),
-                      ],
-                    ),
-                    size: 70,
-                    progressStrokeWidth: 4,
-                    backColor: Colors.white,
-                    animationDuration: 1,
-                    maxValue: 100,
-                  ),
-                ),
+                // child: const SizedBox(
+                //   width: 70,
+                //   height: 70,
+                //   child: SimpleCircularProgressBar(
+                //     fullProgressGradient: SweepGradient(
+                //       tileMode: TileMode.decal,
+                //       colors: [
+                //         Color(0xFF02b5e7),
+                //         Color(0xFF003366),
+                //         Color(0xFF02b5e7),
+                //       ],
+                //     ),
+                //     size: 70,
+                //     progressStrokeWidth: 4,
+                //     backColor: Colors.white,
+                //     animationDuration: 1,
+                //     maxValue: 100,
+                //   ),
+                // ),
               ),
             )
           ],
