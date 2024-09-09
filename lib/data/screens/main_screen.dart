@@ -3,7 +3,6 @@
 import 'package:badges/badges.dart' as badge_package;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:refierelo_marketplace/ClipsViews/clips_views.dart';
 import 'package:refierelo_marketplace/ClipsViews/clips_views_scroll.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/reward_dialog.dart';
 import 'package:refierelo_marketplace/data/screens/Dialogs/welcome_dialog.dart';

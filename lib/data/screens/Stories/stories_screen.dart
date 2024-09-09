@@ -198,6 +198,7 @@ class _StoriesScreenState extends State<StoriesScreen> {
 
                         String msgSend = '';
 
+                        // ignore: deprecated_member_use
                         Share.shareFiles([path], text: msgSend).then((value) {
                           print('then');
                         }).whenComplete(() {
@@ -206,6 +207,7 @@ class _StoriesScreenState extends State<StoriesScreen> {
                           print(error);
                           print(stackTrace);
                         });
+                        // ignore: deprecated_member_use
                         var result = await Share.shareFilesWithResult([path],
                             text: msgSend);
 
